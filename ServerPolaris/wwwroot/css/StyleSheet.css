@@ -1,0 +1,7 @@
+﻿@media (max-width: 721px) {
+    .padre {
+        display:flex;
+        flex-direction:column !important;
+    }
+
+}
