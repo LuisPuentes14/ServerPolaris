@@ -1,23 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ServerPolaris.Entity;
-using ServerPolaris.BLL.Interfaces;
 using ServerPolaris.AplicacionWeb.Utilidades.Response;
+using ServerPolaris.BLL.Interfaces;
+using ServerPolaris.Entity;
 using ServerPolaris.Models.ViewModels;
 
 namespace PolarisServer.AplicacionWeb.Controllers
 {
-    public class ClientesController : Controller
+    public class LogClienteController : Controller
     {
-
         private readonly IMapper _mapper;
-        private readonly IClienteService _ClienteServicio;
+        private readonly ILogClienteService _LogClienteServicio;
 
-
-        public ClientesController(IMapper mapper, IClienteService ClienteServicio)
+        public LogClienteController(IMapper mapper, ILogClienteService LogClienteServicio)
         {
             _mapper = mapper;
-            _ClienteServicio = ClienteServicio;
+            _LogClienteServicio = LogClienteServicio;
         }
 
         public IActionResult Index()
@@ -28,23 +26,23 @@ namespace PolarisServer.AplicacionWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> Lista()
         {
-            List<VMCliente> vmProductoLista = _mapper.Map<List<VMCliente>>(await _ClienteServicio.Lista());
+            List<VMLog> vmProductoLista = _mapper.Map<List<VMLog>>(await _LogClienteServicio.Lista());
 
             return StatusCode(StatusCodes.Status200OK, new { data = vmProductoLista });
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Crear( [FromBody] VMCliente modelo)
+        public async Task<IActionResult> Crear([FromBody] VMLog modelo)
         {
-            GenericResponse<VMCliente> gResponse = new GenericResponse<VMCliente>(); 
+            GenericResponse<VMLog> gResponse = new GenericResponse<VMLog>();
 
             try
-            {              
+            {
 
-                Cliente cliente_creado = await _ClienteServicio.Crear(_mapper.Map<Cliente>(modelo));
+                Log log_creado = await _LogClienteServicio.Crear(_mapper.Map<Log>(modelo));
 
-                modelo = _mapper.Map<VMCliente>(cliente_creado);
+                modelo = _mapper.Map<VMLog>(log_creado);
 
                 gResponse.Estado = true;
                 gResponse.Objeto = modelo;
@@ -60,16 +58,15 @@ namespace PolarisServer.AplicacionWeb.Controllers
 
         [HttpPut]
 
-        public async Task<IActionResult> Editar([FromBody] VMCliente modelo)
+        public async Task<IActionResult> Editar([FromBody] VMLog modelo)
         {
-            GenericResponse<VMCliente> gResponse = new GenericResponse<VMCliente>();
+            GenericResponse<VMLog> gResponse = new GenericResponse<VMLog>();
 
             try
-            {             
+            {
+                Log cliente_editado = await _LogClienteServicio.Editar(_mapper.Map<Log>(modelo));
 
-                Cliente cliente_editado = await _ClienteServicio.Editar(_mapper.Map<Cliente>(modelo));
-
-                modelo = _mapper.Map<VMCliente>(cliente_editado);
+                modelo = _mapper.Map<VMLog>(cliente_editado);
 
                 gResponse.Estado = true;
                 gResponse.Objeto = modelo;
@@ -85,14 +82,14 @@ namespace PolarisServer.AplicacionWeb.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> Eliminar(int idCliente)
+        public async Task<IActionResult> Eliminar(int idLog)
         {
 
             GenericResponse<string> gResponse = new GenericResponse<string>();
 
             try
             {
-                gResponse.Estado = await _ClienteServicio.Eliminar(idCliente);
+                gResponse.Estado = await _LogClienteServicio.Eliminar(idLog);
             }
             catch (Exception ex)
             {
@@ -102,5 +99,6 @@ namespace PolarisServer.AplicacionWeb.Controllers
             return StatusCode(StatusCodes.Status200OK, gResponse);
 
         }
+
     }
 }

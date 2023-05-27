@@ -1,25 +1,63 @@
 ﻿
 const MODELO_BASE = {
+    logId: 0,
     clienteId: 0,
-    clienteName: ""
+    clienteName: "",
+    logIdTipoLog: 0,
+    tipoLogDescripcion: "",
+    logPathFile:""
 }
-
 
 let tablaData;
 
 $(document).ready(function () {
 
+
+    fetch("/Clientes/Lista")
+        .then(response => {
+            return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(responseJson => {
+            if (responseJson.data.length > 0) {
+                responseJson.data.forEach((item) => {
+                    $("#cboCliente").append(
+                        $("<option>").val(item.clienteId).text(item.clienteName)
+                    )
+                })
+            }
+        })
+
+    fetch("/TipoLog/Lista")
+        .then(response => {
+            return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(responseJson => {
+            if (responseJson.data.length > 0) {
+                responseJson.data.forEach((item) => {
+                    $("#cboTipoLog").append(
+                        $("<option>").val(item.tipoLogId).text(item.tipoLogDescripcion)
+                    )
+                })
+            }
+        })
+
+
+
+
+
     tablaData = $('#tbdata').DataTable({
         responsive: true,
         "ajax": {
-            "url": '/Clientes/Lista',
+            "url": '/LogCliente/Lista',
             "type": "GET",
             "datatype": "json"
         },
         "columns": [
             //searchable permite al datable a realizar la busqueda
-            { "data": "clienteId"},
-            { "data": "clienteName" },        
+            { "data": "logId"},
+            { "data": "clienteName"},
+            { "data": "tipoLogDescripcion"},
+            { "data": "logPathFile" },        
 
             {
                 "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
@@ -51,10 +89,11 @@ $(document).ready(function () {
 
 
 function mostrarModal(modelo = MODELO_BASE) {
-    $("#txtId").val(modelo.clienteId)
-    $("#txtNombre").val(modelo.clienteName)
+    $("#txtId").val(modelo.logId)  
+    $("#cboCliente").val(modelo.clienteId == 0 ? $("#cboCliente option:first").val() : modelo.clienteId)
+    $("#cboTipoLog").val(modelo.logIdTipoLog == 0 ? $("#cboTipoLog option:first").val() : modelo.logIdTipoLog)
+    $("#txtRutaLog").val(modelo.logPathFile)  
    
-
     $("#modalData").modal("show")
 }
 
@@ -68,16 +107,27 @@ $("#btnNuevo").click(function () {
 
 $("#btnGuardar").click(function () {
 
-    if ($("#txtNombre").val().trim() == "") {
+    if ($("#txtRutaLog").val().trim() == "") {
 
-        toastr.warning("", "Debe completar el campo nombre")
-        $("#txtNombre").focus()
+        toastr.warning("", "Debe completar el campo Ruta log")
+        $("#txtRutaLog").focus()
         return;
     }
 
+    //logId: 0,
+    //    clienteId: 0,
+    //        clienteName: "",
+    //            logIdTipoLog: 0,
+    //                tipoLogDescripcion: "",
+    //                    logPathFile: ""
+
     const modelo = structuredClone(MODELO_BASE)
-    modelo["clienteId"] = parseInt($("#txtId").val())
-    modelo["clienteName"] = $("#txtNombre").val()
+    modelo["logId"] = parseInt($("#txtId").val())
+    modelo["clienteId"] = parseInt($("#cboCliente").val())
+    //modelo["clienteName"] = $("#txtNombre").val()
+    modelo["logIdTipoLog"] = $("#cboTipoLog").val()
+    //modelo["tipoLogDescripcion"] = $("#txtNombre").val()
+    modelo["logPathFile"] = $("#txtRutaLog").val()
 
     console.log(JSON.stringify(modelo))
 
@@ -86,9 +136,9 @@ $("#btnGuardar").click(function () {
 
     //$("#modalData").find("div.modal-content").LoadingOverlay("show");
 
-    if (modelo.clienteId == 0) {
+    if (modelo.logId == 0) {
 
-        fetch("/Clientes/Crear", {
+        fetch("/LogCliente/Crear", {
             method: "POST",
             headers: {"Content-Type":"application/json;charset=utf-8"},
             body: JSON.stringify(modelo)
@@ -103,14 +153,14 @@ $("#btnGuardar").click(function () {
 
                     tablaData.row.add(responseJson.objeto).draw(false)
                     $("#modalData").modal("hide")
-                    swal("Listo!", "El cliente fue creado", "success")
+                    swal("Listo!", "El log fue creado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
             })
     } else {
 
-        fetch("/Clientes/Editar", {
+        fetch("/LogCliente/Editar", {
             method: "PUT",
             headers: { "Content-Type": "application/json;charset=utf-8"},
             body: JSON.stringify(modelo)
@@ -126,7 +176,7 @@ $("#btnGuardar").click(function () {
                     tablaData.row(filaSeleccionada).data(responseJson.objeto).draw(false);
                     filaSeleccionada = null;
                     $("#modalData").modal("hide")
-                    swal("Listo!", "El cliente ha sido Editado", "success")
+                    swal("Listo!", "El log ha sido Editado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
@@ -148,6 +198,8 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
     }
 
     const data = tablaData.row(filaSeleccionada).data();
+
+   
 
     mostrarModal(data);
 })
@@ -171,7 +223,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 
     swal({
         title: "¿Estas seguro?",
-        text: `Eliminar el cliente "${data.clienteName}"`,
+        text: `Eliminar el log del cliente "${data.clienteName}" con la ruta "${data.logPathFile}"`,
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -188,7 +240,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
                 $(".showSweetAlert").LoadingOverlay("show");
 
 
-                fetch(`/Clientes/Eliminar?idCliente=${data.clienteId}`, {
+                fetch(`/TipoLog/Eliminar?idLog=${data.logId}`, {
                     method: "DELETE",
                 })
                     .then(response => {
@@ -200,7 +252,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
                         if (responseJson.estado) {
 
                             tablaData.row(fila).remove().draw()
-                            swal("Listo!", "El cliente fue Eliminada", "success")
+                            swal("Listo!", "El log fue Eliminada", "success")
                         } else {
                             swal("Lo sentimos", responseJson.mensaje, "error")
                         }

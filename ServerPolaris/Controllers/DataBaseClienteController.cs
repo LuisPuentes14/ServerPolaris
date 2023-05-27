@@ -2,7 +2,7 @@
 
 namespace PolarisServer.AplicacionWeb.Controllers
 {
-    public class DataBaseCliente : Controller
+    public class DataBaseClienteController : Controller
     {
         public IActionResult Index()
         {

@@ -1,5 +1,5 @@
-﻿namespace ServerPolaris.AplicacionWeb.Models.ViewModels
-{
+﻿namespace ServerPolaris.Models.ViewModels
+{ 
     public class VMServer
     {
         public string? MachineName { get; set; }

@@ -1,7 +1,8 @@
 ﻿
 using AutoMapper;
 using ServerPolaris.Entity;
-using ServerPolaris.AplicacionWeb.Models.ViewModels;
+using ServerPolaris.Models.ViewModels;
+using System.Globalization;
 
 namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 {
@@ -10,7 +11,30 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 
         public AutoMapperProfile()
         {
-            #region Server
+
+            #region Tipo log
+            CreateMap<VMTipoLog, TipoLog>().ReverseMap();
+            #endregion
+
+            #region Log
+            //Objeto Destino / Objeto origen
+            CreateMap<Log, VMLog>();
+               
+            //Objeto Destino / Objeto origen
+            CreateMap<VMLog, Log>().ReverseMap()
+                .ForMember(destino =>
+                   destino.ClienteName,
+                   opt => opt.MapFrom(origen => origen.Cliente.ClienteName)
+               )
+               .ForMember(destino =>
+                   destino.TipoLogDescripcion,
+                   opt => opt.MapFrom(origen => origen.LogIdTipoLogNavigation.TipoLogDescripcion)
+               );
+
+            #endregion
+
+
+            #region Cliente
             CreateMap<Cliente, VMCliente>().ReverseMap();
             CreateMap<VMCliente, Cliente>().ReverseMap();
             #endregion
