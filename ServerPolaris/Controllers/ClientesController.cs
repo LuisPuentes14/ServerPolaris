@@ -37,20 +37,19 @@ namespace PolarisServer.AplicacionWeb.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Crear( [FromForm] string modelo)
+        public async Task<IActionResult> Crear( [FromBody] VMCliente modelo)
         {
             GenericResponse<VMCliente> gResponse = new GenericResponse<VMCliente>(); 
 
             try
-            {
-                VMCliente vmProducto = JsonConvert.DeserializeObject<VMCliente>(modelo);                
+            {              
 
-                Cliente cliente_creado = await _ClienteServicio.Crear(_mapper.Map<Cliente>(vmProducto));
+                Cliente cliente_creado = await _ClienteServicio.Crear(_mapper.Map<Cliente>(modelo));
 
-                vmProducto = _mapper.Map<VMCliente>(cliente_creado);
+                modelo = _mapper.Map<VMCliente>(cliente_creado);
 
                 gResponse.Estado = true;
-                gResponse.Objeto = vmProducto;
+                gResponse.Objeto = modelo;
             }
             catch (Exception ex)
             {
@@ -63,20 +62,20 @@ namespace PolarisServer.AplicacionWeb.Controllers
 
         [HttpPut]
 
-        public async Task<IActionResult> Editar([FromForm] string modelo)
+        public async Task<IActionResult> Editar([FromBody] VMCliente modelo)
         {
             GenericResponse<VMCliente> gResponse = new GenericResponse<VMCliente>();
 
             try
             {
-                VMCliente vmCliente = JsonConvert.DeserializeObject<VMCliente>(modelo);            
+               // VMCliente vmCliente = JsonConvert.DeserializeObject<VMCliente>(modelo);            
 
-                Cliente cliente_editado = await _ClienteServicio.Editar(_mapper.Map<Cliente>(vmCliente));
+                Cliente cliente_editado = await _ClienteServicio.Editar(_mapper.Map<Cliente>(modelo));
 
-                vmCliente = _mapper.Map<VMCliente>(cliente_editado);
+                modelo = _mapper.Map<VMCliente>(cliente_editado);
 
                 gResponse.Estado = true;
-                gResponse.Objeto = vmCliente;
+                gResponse.Objeto = modelo;
             }
             catch (Exception ex)
             {
@@ -89,14 +88,14 @@ namespace PolarisServer.AplicacionWeb.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> Eliminar(int idProducto)
+        public async Task<IActionResult> Eliminar(int idCliente)
         {
 
             GenericResponse<string> gResponse = new GenericResponse<string>();
 
             try
             {
-                gResponse.Estado = await _ClienteServicio.Eliminar(idProducto);
+                gResponse.Estado = await _ClienteServicio.Eliminar(idCliente);
             }
             catch (Exception ex)
             {

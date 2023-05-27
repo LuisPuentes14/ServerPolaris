@@ -19,6 +19,8 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="css/StyleSheet.css" rel="stylesheet">
+    <link href="~/vendor/toastr/toastr.min.css" rel="stylesheet">
+    <link href="~/vendor/sweetalert/sweetalert.css" rel="stylesheet">
     @await RenderSectionAsync("Estilos", required: false)
 
 </head>
@@ -442,6 +444,9 @@
     @*<script src="js/demo/chart-area-demo.js"></script>*@
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/chart-bar-demo.js"></script>
+     <script src="~/vendor/toastr/toastr.min.js"></script>
+    <script src="~/vendor/sweetalert/sweetalert.js"></script>
+     <script src="~/vendor/loadingoverlay/loadingoverlay.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

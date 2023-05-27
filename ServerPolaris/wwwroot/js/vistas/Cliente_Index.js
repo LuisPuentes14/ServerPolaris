@@ -1,7 +1,7 @@
 ﻿
 const MODELO_BASE = {
-    ClienteId: 0,
-    ClienteName: ""
+    clienteId: 0,
+    clienteName: ""
 }
 
 
@@ -18,8 +18,8 @@ $(document).ready(function () {
         },
         "columns": [
             //searchable permite al datable a realizar la busqueda
-            { "data": "ClienteId"},
-            { "data": "ClienteName" },         
+            { "data": "clienteId"},
+            { "data": "clienteName" },        
 
             {
                 "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
@@ -51,8 +51,8 @@ $(document).ready(function () {
 
 
 function mostrarModal(modelo = MODELO_BASE) {
-    $("#txtId").val(modelo.ClienteId)
-    $("#txtNombre").val(modelo.ClienteName)
+    $("#txtId").val(modelo.clienteId)
+    $("#txtNombre").val(modelo.clienteName)
    
 
     $("#modalData").modal("show")
@@ -76,13 +76,17 @@ $("#btnGuardar").click(function () {
     }
 
     const modelo = structuredClone(MODELO_BASE)
-    modelo["ClienteId"] = parseInt($("#txtId").val())
-    modelo["ClienteName"] = $("#txtNombre").val()
+    modelo["clienteId"] = parseInt($("#txtId").val())
+    modelo["clienteName"] = $("#txtNombre").val()
+
+    console.log(JSON.stringify(modelo))
+
+    
   
 
     //$("#modalData").find("div.modal-content").LoadingOverlay("show");
 
-    if (modelo.ClienteId == 0) {
+    if (modelo.clienteId == 0) {
 
         fetch("/Clientes/Crear", {
             method: "POST",
@@ -90,7 +94,7 @@ $("#btnGuardar").click(function () {
             body: JSON.stringify(modelo)
         })
             .then(response => {
-              //  $("#modalData").find("div.modal-content").LoadingOverlay("hide");
+                $("#modalData").find("div.modal-content").LoadingOverlay("hide");
                 return response.ok ? response.json() : Promise.reject(response);
             })
             .then(responseJson => {
@@ -99,7 +103,7 @@ $("#btnGuardar").click(function () {
 
                     tablaData.row.add(responseJson.objeto).draw(false)
                     $("#modalData").modal("hide")
-                    swal("Listo!", "La Categoria fue creado", "success")
+                    swal("Listo!", "El cliente fue creado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
@@ -122,7 +126,7 @@ $("#btnGuardar").click(function () {
                     tablaData.row(filaSeleccionada).data(responseJson.objeto).draw(false);
                     filaSeleccionada = null;
                     $("#modalData").modal("hide")
-                    swal("Listo!", "La Categoria ha sido Editado", "success")
+                    swal("Listo!", "El cliente ha sido Editado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
