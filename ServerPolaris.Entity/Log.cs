@@ -9,8 +9,8 @@ namespace ServerPolaris.Entity
         public long ClienteId { get; set; }
         public long LogIdTipoLog { get; set; }
         public string LogPathFile { get; set; } = null!;
-        public DateTime LogCreateDate { get; set; }
-        public DateTime LogUpdateDate { get; set; }
+        public DateTime? LogCreateDate { get; set; }
+        public DateTime? LogUpdateDate { get; set; }
 
         public virtual Cliente Cliente { get; set; } = null!;
         public virtual TipoLog LogIdTipoLogNavigation { get; set; } = null!;

@@ -37,6 +37,7 @@ namespace ServerPolaris.IOC
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<ILogClienteService, LogClienteService>(); 
             services.AddScoped<ITipoLogService, TipoLogService>(); 
+            services.AddScoped<IDataBaseService, DataBaseService>(); 
 
         }
     }

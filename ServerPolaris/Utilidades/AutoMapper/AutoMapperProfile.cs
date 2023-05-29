@@ -12,6 +12,17 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
         public AutoMapperProfile()
         {
 
+            #region Data Base
+            //Objeto Destino / Objeto origen
+            CreateMap<DataBase, VMDataBase>();
+
+            CreateMap<VMDataBase, DataBase>().ReverseMap()
+                .ForMember(destino =>
+                   destino.ClienteName,
+                   opt => opt.MapFrom(origen => origen.Cliente.ClienteName)
+               );
+            #endregion
+
             #region Tipo log
             CreateMap<VMTipoLog, TipoLog>().ReverseMap();
             #endregion
