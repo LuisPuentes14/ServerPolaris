@@ -1,11 +1,12 @@
 ﻿
 const MODELO_BASE = {
-    logId: 0,
+    dataBaseId: 0,
     clienteId: 0,
-    clienteName: "",
-    logIdTipoLog: 0,
-    tipoLogDescripcion: "",
-    logPathFile: ""
+    dataBaseInstance: "",
+    dataBaseName: "",
+    dataBaseUser: "",
+    dataBasePassword: "",
+    clienteName:""
 }
 
 let tablaData;
@@ -27,37 +28,21 @@ $(document).ready(function () {
             }
         })
 
-    fetch("/TipoLog/Lista")
-        .then(response => {
-            return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(responseJson => {
-            if (responseJson.data.length > 0) {
-                responseJson.data.forEach((item) => {
-                    $("#cboTipoLog").append(
-                        $("<option>").val(item.tipoLogId).text(item.tipoLogDescripcion)
-                    )
-                })
-            }
-        })
-
-
-
-
-
     tablaData = $('#tbdata').DataTable({
         responsive: true,
         "ajax": {
-            "url": '/LogCliente/Lista',
+            "url": '/DataBaseCliente/Lista',
             "type": "GET",
             "datatype": "json"
         },
         "columns": [
             //searchable permite al datable a realizar la busqueda
-            { "data": "logId" },
+            { "data": "dataBaseId" },
             { "data": "clienteName" },
-            { "data": "tipoLogDescripcion" },
-            { "data": "logPathFile" },
+            { "data": "dataBaseInstance" },
+            { "data": "dataBaseName" },
+            { "data": "dataBaseUser" },
+            { "data": "dataBasePassword" },
 
             {
                 "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
@@ -89,10 +74,13 @@ $(document).ready(function () {
 
 
 function mostrarModal(modelo = MODELO_BASE) {
-    $("#txtId").val(modelo.logId)
-    $("#cboCliente").val(modelo.clienteId == 0 ? $("#cboCliente option:first").val() : modelo.clienteId)
-    $("#cboTipoLog").val(modelo.logIdTipoLog == 0 ? $("#cboTipoLog option:first").val() : modelo.logIdTipoLog)
-    $("#txtRutaLog").val(modelo.logPathFile)
+    $("#txtId").val(modelo.dataBaseId)
+    $("#cboCliente").val(modelo.clienteId == 0 ? $("#cboCliente option:first").val() : modelo.clienteId)    
+    $("#txtInstancia").val(modelo.dataBaseInstance)
+    $("#txtNombre").val(modelo.dataBaseName)
+    $("#txtUsuario").val(modelo.dataBaseUser)
+    $("#txtPassword").val(modelo.dataBasePassword)
+   /* $("#txtRutaLog").val(modelo.clienteName)*/
 
     $("#modalData").modal("show")
 }
@@ -107,30 +95,45 @@ $("#btnNuevo").click(function () {
 
 $("#btnGuardar").click(function () {
 
-    if ($("#txtRutaLog").val().trim() == "") {
-
-        toastr.warning("", "Debe completar el campo Ruta log")
-        $("#txtRutaLog").focus()
+    if ($("#txtInstancia").val().trim() == "") {
+        toastr.warning("", "Debe completar el campo de instancia")
+        $("#txtInstancia").focus()
         return;
     }
 
+    if ($("#txtNombre").val().trim() == "") {
+        toastr.warning("", "Debe completar el campo Nombre")
+        $("#txtNombre").focus()
+        return;
+    }
 
+    if ($("#txtUsuario").val().trim() == "") {
+        toastr.warning("", "Debe completar el campo usuario")
+        $("#txtUsuario").focus()
+        return;
+    }
+
+    if ($("#txtPassword").val().trim() == "") {
+        toastr.warning("", "Debe completar el campo contraseña")
+        $("#txtPassword").focus()
+        return;
+    }
 
     const modelo = structuredClone(MODELO_BASE)
-    modelo["logId"] = parseInt($("#txtId").val())
+    modelo["dataBaseId"] = parseInt($("#txtId").val())
     modelo["clienteId"] = parseInt($("#cboCliente").val())
-    //modelo["clienteName"] = $("#txtNombre").val()
-    modelo["logIdTipoLog"] = $("#cboTipoLog").val()
-    //modelo["tipoLogDescripcion"] = $("#txtNombre").val()
-    modelo["logPathFile"] = $("#txtRutaLog").val()
+    modelo["dataBaseInstance"] = $("#txtInstancia").val()
+    modelo["dataBaseName"] = $("#txtNombre").val()
+    modelo["dataBaseUser"] = $("#txtUsuario").val()
+    modelo["dataBasePassword"] = $("#txtPassword").val()
 
     console.log(JSON.stringify(modelo))
 
     $("#modalData").find("div.modal-content").LoadingOverlay("show");
 
-    if (modelo.logId == 0) {
+    if (modelo.dataBaseId == 0) {
 
-        fetch("/LogCliente/Crear", {
+        fetch("/DataBaseCliente/Crear", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
@@ -152,7 +155,7 @@ $("#btnGuardar").click(function () {
             })
     } else {
 
-        fetch("/LogCliente/Editar", {
+        fetch("/DataBaseCliente/Editar", {
             method: "PUT",
             headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
@@ -215,7 +218,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 
     swal({
         title: "¿Estas seguro?",
-        text: `Eliminar el log del cliente "${data.clienteName}" con la ruta "${data.logPathFile}"`,
+        text: `Eliminar la base de datos "${data.dataBaseName}" del cliente "${data.clienteName}" `,
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -232,7 +235,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
                 $(".showSweetAlert").LoadingOverlay("show");
 
 
-                fetch(`/LogCliente/Eliminar?idLog=${data.logId}`, {
+                fetch(`/DataBaseCliente/Eliminar?idDb=${data.dataBaseId}`, {
                     method: "DELETE",
                 })
                     .then(response => {

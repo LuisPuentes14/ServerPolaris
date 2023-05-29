@@ -85,14 +85,14 @@ namespace PolarisServer.AplicacionWeb.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> Eliminar(int idCliente)
+        public async Task<IActionResult> Eliminar(int idDb)
         {
 
             GenericResponse<string> gResponse = new GenericResponse<string>();
 
             try
             {
-                gResponse.Estado = await _DataBaseService.Eliminar(idCliente);
+                gResponse.Estado = await _DataBaseService.Eliminar(idDb);
             }
             catch (Exception ex)
             {

@@ -38,7 +38,7 @@ namespace ServerPolaris.BLL.Implementacion
                 DataBase db_creado = await _repositorio.Crear(entidad);
 
                 if (db_creado.ClienteId == 0)
-                    throw new TaskCanceledException("No se pudo crear el cliente");
+                    throw new TaskCanceledException("No se pudo crear la base de datos");
 
                 IQueryable<DataBase> query = await _repositorio.Consultar(d => d.DataBaseId == db_creado.DataBaseId);
 
@@ -72,7 +72,7 @@ namespace ServerPolaris.BLL.Implementacion
                 bool respuesta = await _repositorio.Editar(db_para_editar);
 
                 if (!respuesta)
-                    throw new TaskCanceledException("No se pudo editar el log.");
+                    throw new TaskCanceledException("No se pudo editar la base de datos.");
 
                 DataBase log_editado = queryLog.Include(l => l.Cliente).First();
 
@@ -92,7 +92,7 @@ namespace ServerPolaris.BLL.Implementacion
                 DataBase db_encontrado = await _repositorio.Obtener(d => d.DataBaseId == idDb);
 
                 if (db_encontrado == null)
-                    throw new TaskCanceledException("El log no existe.");
+                    throw new TaskCanceledException("La base de datos no existe no existe.");
 
                 bool respuesta = await _repositorio.Eliminar(db_encontrado);
 
