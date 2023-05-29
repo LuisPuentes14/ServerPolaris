@@ -22,23 +22,23 @@ namespace ServerPolaris.IOC
                 options.UseSqlServer(Configuration.GetConnectionString("CadenaSQL"));
             });
 
-            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));          
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 
             // polaris Service
             services.AddScoped<ICPUService, CPUService>();
-            services.AddScoped<ICPURepositoy,CPURepository>();
-            services.AddScoped<IHardDiskRepository, HardDiskRepository>(); 
+            services.AddScoped<ICPURepositoy, CPURepository>();
+            services.AddScoped<IHardDiskRepository, HardDiskRepository>();
             services.AddScoped<IHardDiskService, HardDiskService>();
             services.AddScoped<IRamRepository, RamRepository>();
-            services.AddScoped<IRamService, RamService>(); 
-            services.AddScoped<IServerRepository, ServerRepository>(); 
+            services.AddScoped<IRamService, RamService>();
+            services.AddScoped<IServerRepository, ServerRepository>();
             services.AddScoped<IServerService, ServerService>();
             services.AddScoped<IClienteService, ClienteService>();
-            services.AddScoped<ILogClienteService, LogClienteService>(); 
-            services.AddScoped<ITipoLogService, TipoLogService>(); 
-            services.AddScoped<IDataBaseService, DataBaseService>(); 
-
+            services.AddScoped<ILogClienteService, LogClienteService>();
+            services.AddScoped<ITipoLogService, TipoLogService>();
+            services.AddScoped<IDataBaseService, DataBaseService>();
+            services.AddScoped<IIndexRepository, IndexRepository>();
         }
     }
 }

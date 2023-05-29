@@ -46,7 +46,8 @@ $(document).ready(function () {
 
             {
                 "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>',
+                    '<button class="btn btn-danger btn-eliminar btn-sm mr-2"><i class="fas fa-trash-alt"></i></button>' + 
+                    '<button class="btn btn-warning btn-view btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>',
                 "orderable": false,
                 "searchable": false,
                 "width": "80px"
@@ -257,4 +258,40 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
         }
     )
 
+})
+
+
+$("#tbdata tbody").on("click", ".btn-view", function () {
+
+    if ($(this).closest("tr").hasClass("child")) {
+        filaSeleccionada = $(this).closest("tr").prev();
+    } else {
+        filaSeleccionada = $(this).closest("tr");
+
+    }
+
+    const data = tablaData.row(filaSeleccionada).data();
+
+
+    fetch(`/DataBaseClienteView/Index`, {
+        method: "POST",
+    })
+        .then(response => {
+            $(".showSweetAlert").LoadingOverlay("hide");
+            return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(responseJson => {
+
+            //if (responseJson.estado) {
+
+            //    tablaData.row(fila).remove().draw()
+            //    swal("Listo!", "El log fue Eliminada", "success")
+            //} else {
+            //    swal("Lo sentimos", responseJson.mensaje, "error")
+            //}
+        })
+
+   // @Url.Action("Index", "DataBaseClienteView");
+
+    //mostrarModal(data);
 })
