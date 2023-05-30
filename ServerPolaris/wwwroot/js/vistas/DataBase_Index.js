@@ -272,26 +272,6 @@ $("#tbdata tbody").on("click", ".btn-view", function () {
 
     const data = tablaData.row(filaSeleccionada).data();
 
-
-    fetch(`/DataBaseClienteView/Index`, {
-        method: "POST",
-    })
-        .then(response => {
-            $(".showSweetAlert").LoadingOverlay("hide");
-            return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(responseJson => {
-
-            //if (responseJson.estado) {
-
-            //    tablaData.row(fila).remove().draw()
-            //    swal("Listo!", "El log fue Eliminada", "success")
-            //} else {
-            //    swal("Lo sentimos", responseJson.mensaje, "error")
-            //}
-        })
-
-   // @Url.Action("Index", "DataBaseClienteView");
-
-    //mostrarModal(data);
+    window.location.href = '/DataBaseClienteView/ViewDataBase?idDb=' + data.dataBaseId
+   
 })

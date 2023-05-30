@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using ServerPolaris.BLL.Interfaces;
 using ServerPolaris.Models.ViewModels;
 
@@ -20,25 +21,13 @@ namespace ServerPolaris.Controllers
         }
 
      
-        public IActionResult Index()
-        {            
+        public IActionResult ViewDataBase(int idDb)
+        {
+          
             return View();
         }
 
-        public async Task<IActionResult> IndexAsync(int idDb)
-        {
-            List<VMDataBase> vmProductoLista = _mapper.Map<List<VMDataBase>>(await _DataBaseService.Lista());
 
-            //return StatusCode(StatusCodes.Status200OK, new { data = vmProductoLista });
-            return View();
-        }
-
-        public async Task<IActionResult> ListaMissingIndex()
-        {
-            List<VMDataBase> vmProductoLista = _mapper.Map<List<VMDataBase>>(await _DataBaseService.Lista());
-
-            return StatusCode(StatusCodes.Status200OK, new { data = vmProductoLista });
-        }
 
 
     }
