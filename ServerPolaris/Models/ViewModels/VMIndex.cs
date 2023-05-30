@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServerPolaris.Entity
+﻿namespace ServerPolaris.Models.ViewModels
 {
-    public class Index
+    public class VMIndex
     {
         public string DBName { get; set; }
         public string DatabaseShemaTable { get; set; }
@@ -15,6 +9,5 @@ namespace ServerPolaris.Entity
         public string IncludedColums { get; set; }
         public string AvgUserImpact { get; set; }
         public string CreateCmd { get; set; }
-
     }
 }

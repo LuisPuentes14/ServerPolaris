@@ -1,4 +1,5 @@
-﻿using ServerPolaris.DAL.Interfaces;
+﻿using ServerPolaris.BLL.Interfaces;
+using ServerPolaris.DAL.Interfaces;
 using ServerPolaris.Entity;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ServerPolaris.BLL.Implementacion
 {
-    public class IndexService
+    public class IndexService: IIndexService
     {
         private readonly IIndexRepository _repositorio;
         
@@ -17,9 +18,9 @@ namespace ServerPolaris.BLL.Implementacion
             this._repositorio = _repositorio;
         }
 
-        public async Task<List<ServerPolaris.Entity.Index>> GetInfoIndex()
+        public async Task<List<ServerPolaris.Entity.Index>> GetInfoIndex(string conexion)
         {
-            List<ServerPolaris.Entity.Index> listIndex = await _repositorio.GetInfoIndex();
+            List<ServerPolaris.Entity.Index> listIndex = await _repositorio.GetInfoIndex(conexion);
             return listIndex;
         }
 

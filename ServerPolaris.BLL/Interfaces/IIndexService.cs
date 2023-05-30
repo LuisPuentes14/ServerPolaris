@@ -8,6 +8,6 @@ namespace ServerPolaris.BLL.Interfaces
 {
     public interface IIndexService
     {
-        Task<List<ServerPolaris.Entity.Index>> GetInfoIndex();
+        Task<List<ServerPolaris.Entity.Index>> GetInfoIndex(string conexion);
     }
 }

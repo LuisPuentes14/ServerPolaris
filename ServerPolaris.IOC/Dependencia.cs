@@ -38,7 +38,8 @@ namespace ServerPolaris.IOC
             services.AddScoped<ILogClienteService, LogClienteService>();
             services.AddScoped<ITipoLogService, TipoLogService>();
             services.AddScoped<IDataBaseService, DataBaseService>();
-            services.AddScoped<IIndexRepository, IndexRepository>();
+            services.AddScoped<IIndexRepository, IndexRepository>(); 
+            services.AddScoped<IIndexService, IndexService>(); 
         }
     }
 }

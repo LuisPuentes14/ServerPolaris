@@ -8,6 +8,6 @@ namespace ServerPolaris.DAL.Interfaces
 {
     public interface IIndexRepository
     {
-        Task<List<ServerPolaris.Entity.Index>> GetInfoIndex();
+        Task<List<ServerPolaris.Entity.Index>> GetInfoIndex(string conexion);
     }
 }
