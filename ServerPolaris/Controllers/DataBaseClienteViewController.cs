@@ -7,6 +7,7 @@ using ServerPolaris.BLL.Implementacion;
 using ServerPolaris.BLL.Interfaces;
 using ServerPolaris.Models.ViewModels;
 using ServerPolaris.Utilidades.Tools;
+using System.Collections.Generic;
 using System.Text.Json;
 
 namespace ServerPolaris.Controllers
@@ -16,15 +17,28 @@ namespace ServerPolaris.Controllers
         private readonly IMapper _mapper;
         private readonly IDataBaseService _DataBaseService;
         private readonly IIndexService _IndexService;
+        private readonly IFilesDataBaseService _FilesDataBaseService;
 
-        public DataBaseClienteViewController(IMapper mapper, IDataBaseService DataBaseService, IIndexService IndexService)
+        public DataBaseClienteViewController(IMapper mapper,
+            IDataBaseService DataBaseService,
+            IIndexService IndexService,
+            IFilesDataBaseService FilesDataBaseService)
         {
             _mapper = mapper;
             _DataBaseService = DataBaseService;
             _IndexService = IndexService;
+            _FilesDataBaseService = FilesDataBaseService;
         }
 
-     
+
+        public async Task<IActionResult> ValidateConexion(int idDb)
+        {
+                      
+
+            return Ok();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> ViewDataBase(int idDb)
         {
             //Se obtiene la informacion del id de la base de datos
@@ -35,26 +49,33 @@ namespace ServerPolaris.Controllers
             //Obtenemos la información de conexion a la base de datos
             VMConexion vMConexion = _mapper.Map<VMConexion>(vMDataBase);
 
-            HttpContext.Session.SetString("ServerPolarisSession", JsonSerializer.Serialize(vMConexion));        
-
-          //  var name = HttpContext.Session.GetString("_name");
-            //var age = HttpContext.Session.GetInt32("Prueba_2").ToString();
+            HttpContext.Session.SetString("ServerPolarisSession", JsonSerializer.Serialize(vMConexion));                  
 
             return View();
         }
 
-        public async Task<IActionResult> getInfoIndex()
-        {
-            GenericResponse<VMIndex> gResponse = new GenericResponse<VMIndex>();
-
+        [HttpGet]
+        public async Task<IActionResult> getInfoFiles()
+        {        
             var ServerPolarisSession = HttpContext.Session.GetString("ServerPolarisSession");
 
             string conexion = Tools.getConexion(JsonSerializer.Deserialize<VMConexion>(ServerPolarisSession));
 
-            gResponse.ListaObjeto =  _mapper.Map<List<VMIndex>>(await _IndexService.GetInfoIndex(conexion));
+            List <VMFilesDataBase> vMFilesDataBase =  _mapper.Map<List<VMFilesDataBase>>(await _FilesDataBaseService.GetInfoFilesDataBase(conexion));
 
+            return StatusCode(StatusCodes.Status200OK, new { data = vMFilesDataBase });
+        }
 
-            return StatusCode(StatusCodes.Status200OK, new { data = gResponse.ListaObjeto });
+        [HttpGet]
+        public async Task<IActionResult>  getInfoIndex()
+        {
+            var ServerPolarisSession = HttpContext.Session.GetString("ServerPolarisSession");
+
+            string conexion = Tools.getConexion(JsonSerializer.Deserialize<VMConexion>(ServerPolarisSession));
+
+            List<VMIndex> vMIndices  = _mapper.Map<List< VMIndex >> (await _IndexService.GetInfoIndex(conexion));
+
+            return StatusCode(StatusCodes.Status200OK, new { data = vMIndices });
         }
 
 

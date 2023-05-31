@@ -14,14 +14,8 @@ namespace ServerPolaris.DAL.Implementacion
 {
     public class IndexRepository: IIndexRepository
     {
-        //private readonly PolarisServerStringContext _contexto;
-
-        //public IndexRepository(PolarisServerStringContext context)
-        //{
-        //    this._contexto = context;
-
-        //}
-        public async Task<List<ServerPolaris.Entity.Index>> GetInfoIndex(String conexion)
+     
+        public async Task<List<ServerPolaris.Entity.Index>> GetInfoIndex(string conexion)
         {
             List<ServerPolaris.Entity.Index> ListCpu = new List<ServerPolaris.Entity.Index>();
 

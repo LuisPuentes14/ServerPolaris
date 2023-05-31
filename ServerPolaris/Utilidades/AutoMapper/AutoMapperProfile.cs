@@ -11,6 +11,14 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 
         public AutoMapperProfile()
         {
+
+            #region Files data base
+            //Objeto Destino / Objeto origen
+            CreateMap<VMFilesDataBase, FilesDataBase>();
+            CreateMap<FilesDataBase, VMFilesDataBase>();
+            #endregion
+
+
             #region indice
             //Objeto Destino / Objeto origen
             CreateMap<VMIndex, ServerPolaris.Entity.Index>();

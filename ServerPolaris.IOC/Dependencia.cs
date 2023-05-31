@@ -40,6 +40,8 @@ namespace ServerPolaris.IOC
             services.AddScoped<IDataBaseService, DataBaseService>();
             services.AddScoped<IIndexRepository, IndexRepository>(); 
             services.AddScoped<IIndexService, IndexService>(); 
+            services.AddScoped<IFileDataBaseRepository, FilesDataBaseRepository>();
+            services.AddScoped<IFilesDataBaseService, FilesDataBaseService>();
         }
     }
 }
