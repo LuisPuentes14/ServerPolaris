@@ -5,6 +5,7 @@ using RestSharp;
 using ServerPolaris.AplicacionWeb.Utilidades.Response;
 using ServerPolaris.BLL.Implementacion;
 using ServerPolaris.BLL.Interfaces;
+using ServerPolaris.Entity;
 using ServerPolaris.Models.ViewModels;
 using ServerPolaris.Utilidades.Tools;
 using System.Collections.Generic;
@@ -18,16 +19,19 @@ namespace ServerPolaris.Controllers
         private readonly IDataBaseService _DataBaseService;
         private readonly IIndexService _IndexService;
         private readonly IFilesDataBaseService _FilesDataBaseService;
+        private readonly ITablesService _TablesService;
 
         public DataBaseClienteViewController(IMapper mapper,
             IDataBaseService DataBaseService,
             IIndexService IndexService,
-            IFilesDataBaseService FilesDataBaseService)
+            IFilesDataBaseService FilesDataBaseService,
+            ITablesService tablesService)
         {
             _mapper = mapper;
             _DataBaseService = DataBaseService;
             _IndexService = IndexService;
             _FilesDataBaseService = FilesDataBaseService;
+            _TablesService = tablesService;
         }
 
 
@@ -52,6 +56,18 @@ namespace ServerPolaris.Controllers
             HttpContext.Session.SetString("ServerPolarisSession", JsonSerializer.Serialize(vMConexion));                  
 
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> getInfoTables()
+        {
+            var ServerPolarisSession = HttpContext.Session.GetString("ServerPolarisSession");
+
+            string conexion = Tools.getConexion(JsonSerializer.Deserialize<VMConexion>(ServerPolarisSession));
+
+            List<VMTables> vMTables = _mapper.Map<List<VMTables>>(await _TablesService.GetInfoTables(conexion));
+
+            return StatusCode(StatusCodes.Status200OK, new { data = vMTables });
         }
 
         [HttpGet]

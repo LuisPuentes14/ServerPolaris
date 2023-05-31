@@ -12,6 +12,13 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
         public AutoMapperProfile()
         {
 
+            #region Tables
+            //Objeto Destino / Objeto origen
+            CreateMap<VMTables, Tables>();
+            CreateMap<Tables, VMTables>();
+            #endregion
+
+
             #region Files data base
             //Objeto Destino / Objeto origen
             CreateMap<VMFilesDataBase, FilesDataBase>();

@@ -4,7 +4,51 @@ let tablaData;
 let tablaData1;
 
 $(document).ready(function () {
-   
+
+
+    tablaData1 = $('#tbdata2').DataTable({
+        responsive: true,
+        "ajax": {
+            "url": '/DataBaseClienteView/getInfoTables',
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            //searchable permite al datable a realizar la busqueda
+            { "data": "schema" },
+            { "data": "nameTable" },
+            { "data": "rows" },
+            { "data": "sizeMB" },
+        ],
+        order: [[0, "desc"]],
+
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+        },
+    });
+
+
+
+
+    tablaData1 = $('#tbdata1').DataTable({
+        responsive: true,
+        "ajax": {
+            "url": '/DataBaseClienteView/getInfoFiles',
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            //searchable permite al datable a realizar la busqueda
+            { "data": "dataBaseName" },
+            { "data": "fileSizeMB" },
+            { "data": "physicalNeme" }
+        ],
+        order: [[0, "desc"]],
+
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+        },
+    });
 
     tablaData = $('#tbdata').DataTable({
         responsive: true,
@@ -43,25 +87,7 @@ $(document).ready(function () {
         },
     });
 
-    tablaData1 = $('#tbdata1').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/DataBaseClienteView/getInfoFiles',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "dataBaseName" },
-            { "data": "fileSizeMB" },
-            { "data": "physicalNeme" }       
-        ],
-        order: [[0, "desc"]],
-        
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+   
 
 })
 
