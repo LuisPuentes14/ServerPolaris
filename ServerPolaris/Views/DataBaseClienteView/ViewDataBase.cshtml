@@ -11,43 +11,51 @@
     <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/buttons.dataTables.min.css">
 }
 
+<div class="row">
+    <div class="col-sm-3">
+        <a class="btn btn-success" id="btnNuevo" href="@Url.Action("Index","DataBaseClienteConuslta")"> Ejecutar consulta</a>
+    </div>
+</div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 bg-second-primary">
-            <h6 class="m-0 font-weight-bold text-black">Archivos de la base de datos</h6>
-        </div>
-        <div class="card-body">
-            
-            <hr />
-            <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-bordered" id="tbdata1" cellspacing="0" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>DB Nombre</th>
-                                <th>Tamaño de archivo MB</th>
-                                <th>Ruta del archivo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Descripcion 1</td>
-                                <td>Descripcion 1</td>
+<br />
+<hr />
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-second-primary">
+        <h6 class="m-0 font-weight-bold text-black">Archivos de la base de datos</h6>
+    </div>
+    <div class="card-body">
+
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered" id="tbdata1" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>DB Nombre</th>
+                            <th>Tamaño de archivo MB</th>
+                            <th>Ruta del archivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
 
 
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Descripcion 2</td>
-                                <td>Descripcion 2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 <div class="card shadow mb-4">
     <div class="card-header py-3 bg-second-primary">
         <h6 class="m-0 font-weight-bold text-black">Tablas de la base de datos</h6>
@@ -63,7 +71,7 @@
                             <th>Shema</th>
                             <th>Table</th>
                             <th>Filas</th>
-                            <th>Tamaño MB</th>                            
+                            <th>Tamaño MB</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,14 +79,14 @@
                             <td>1</td>
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
-                            <td>Descripcion 1</td>                          
+                            <td>Descripcion 1</td>
 
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
-                            <td>Descripcion 2</td>                            
+                            <td>Descripcion 2</td>
                         </tr>
                     </tbody>
                 </table>
@@ -87,58 +95,58 @@
     </div>
 </div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 bg-second-primary">
-            <h6 class="m-0 font-weight-bold text-black">Lista indices recomendados</h6>
-        </div>
-        <div class="card-body">
-            
-            <hr />
-            <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-bordered" id="tbdata" cellspacing="0" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>DB Nombre</th>
-                                <th>DataBase | Shema | Table</th>
-                                <th>Igualdad columnas</th>
-                                <th>Desigualdad columnas</th>
-                                <th>Columnas incluidas</th>
-                                <th>Promedio impacto</th>
-                                <th>Comando</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Descripcion 1</td>
-                                <td>Descripcion 1</td>
-                                <td>Descripcion 1</td>
-                                <td>Descripcion 1</td>
-                                <td>Descripcion 1</td>
-                                <td>Descripcion 1</td>
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-second-primary">
+        <h6 class="m-0 font-weight-bold text-black">Lista indices recomendados</h6>
+    </div>
+    <div class="card-body">
 
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Descripcion 2</td>
-                                <td>Descripcion 2</td>
-                                <td>Descripcion 2</td>
-                                <td>Descripcion 2</td>
-                                <td>Descripcion 2</td>
-                                <td>Descripcion 2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered" id="tbdata" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>DB Nombre</th>
+                            <th>DataBase | Shema | Table</th>
+                            <th>Igualdad columnas</th>
+                            <th>Desigualdad columnas</th>
+                            <th>Columnas incluidas</th>
+                            <th>Promedio impacto</th>
+                            <th>Comando</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
 
 
 
-    @section Scripts{
+@section Scripts{
 
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>

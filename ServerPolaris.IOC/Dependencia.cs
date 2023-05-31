@@ -44,6 +44,8 @@ namespace ServerPolaris.IOC
             services.AddScoped<IFilesDataBaseService, FilesDataBaseService>();
             services.AddScoped<ITablesRepository, TablesRepository>();
             services.AddScoped<ITablesService, TablesService>(); 
+            services.AddScoped<IQueryRepository, QueryRepository>(); 
+            services.AddScoped<IQueryService, QueryService>(); 
         }
     }
 }
