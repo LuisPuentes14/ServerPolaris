@@ -52,10 +52,10 @@ namespace ServerPolaris.DAL.Implementacion
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+              
             }
 
 
