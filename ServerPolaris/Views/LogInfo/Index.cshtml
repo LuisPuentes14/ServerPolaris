@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@section Estilos{
+    <link rel="stylesheet" href="~/css/all.min.css" />
+}
+
+<h1 style="text-align: center;">Logs de clientes</h1>
+
+    <div class="container-lg pt-3">
+
+        <div class="col text-center">
+            <a name="descarga" title="Descargar" value="descarga" id="button-addon2">
+                <img img class="icono-l" src="../img/log/descargar03.png" />
+            </a>
+            <a id="stop" title="Stop" onclick="off()" style="cursor:pointer;">
+                <img class="icono-l" src="../img/log/parada04.png" />
+            </a>
+            <a id="play"
+               onclick="on()" title="Play" value="Play">
+                <img img class="icono-l" src="../img/log/boton-de-play02.png" style="cursor:pointer;" />
+            </a>
+            <a id="remove" title="Borrar" onclick="remove()" value="remove" style="cursor:pointer;">
+                <img img class="icono-l" src="../img/log/bote-de-basura01.png" />
+            </a>
+        </div>
+    </div>
+<div>
+    <input type="hidden" id="rutaLog" value="@ViewData["ruta"]" />
+</div>
+
+    <div class="body">
+        <div class="st-form-line">
+            <div id="divu">
+                <div id="list" class="marck"></div>
+            </div>
+        </div>
+    </div>
+@section Scripts{
+    <script src="~/js/vistas/LogInfo_Index.js"></script>
+}
