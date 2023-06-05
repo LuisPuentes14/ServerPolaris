@@ -3,6 +3,7 @@ using AutoMapper;
 using ServerPolaris.Entity;
 using ServerPolaris.Models.ViewModels;
 using System.Globalization;
+using System.Net.Sockets;
 
 namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 {
@@ -11,6 +12,14 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 
         public AutoMapperProfile()
         {
+
+            #region Usuario
+            //Objeto Destino / Objeto origen
+            CreateMap<VMUsuario, Usuario>();
+            CreateMap<Usuario, VMUsuario>();
+            #endregion
+
+
 
             #region Perfil
             //Objeto Destino / Objeto origen

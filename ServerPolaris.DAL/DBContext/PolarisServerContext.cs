@@ -17,10 +17,18 @@ namespace ServerPolaris.DAL.DBContext
         {
         }
 
-        public virtual DbSet<Cliente> Clientes { get; set; } = null!;
-        public virtual DbSet<DataBase> Databases { get; set; } = null!;
-        public virtual DbSet<Log> Logs { get; set; } = null!;
-        public virtual DbSet<TipoLog> TipoLogs { get; set; } = null!;
+        public virtual DbSet<Cliente> Clientes { get; set; }
+        public virtual DbSet<DataBase> Databases { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<ModulosWeb> ModulosWebs { get; set; }
+        public virtual DbSet<Perfil> Perfils { get; set; }
+        public virtual DbSet<PerfilUsuario> PerfilUsuarios { get; set; }
+        public virtual DbSet<PermisosPerfilModulo> PermisosPerfilModulos { get; set; }
+        public virtual DbSet<TipoEstadoUsuario> TipoEstadoUsuarios { get; set; }
+        public virtual DbSet<TipoLog> TipoLogs { get; set; }
+        public virtual DbSet<TipoModulo> TipoModulos { get; set; }
+        public virtual DbSet<Usuario> Usuarios { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
