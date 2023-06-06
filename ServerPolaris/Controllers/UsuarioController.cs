@@ -59,7 +59,6 @@ namespace ServerPolaris.Controllers
         }
 
         [HttpPut]
-
         public async Task<IActionResult> Editar([FromBody] VMUsuario modelo)
         {
             GenericResponse<VMUsuario> gResponse = new GenericResponse<VMUsuario>();

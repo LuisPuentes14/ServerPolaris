@@ -2,7 +2,7 @@
 {
     public class VMUsuario
     {
-        public long usuLogin { get; set; }
+        public long UsuId { get; set; }
 
         public string? UsuNombre { get; set; }
 

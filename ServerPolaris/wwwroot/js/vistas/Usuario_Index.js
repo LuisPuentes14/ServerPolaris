@@ -140,7 +140,7 @@ $("#btnGuardar").click(function () {
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["usuId"] = parseInt($("#txtId").val())
-    modelo["usuLogin"] = parseInt($("#txtUsuario").val())
+    modelo["usuLogin"] = $("#txtUsuario").val()
     modelo["usuNombre"] = $("#txtNombre").val()
     modelo["usuEmail"] = $("#txtEmail").val()
     modelo["estadoId"] = $("#cboestado").val()
@@ -168,7 +168,7 @@ $("#btnGuardar").click(function () {
 
     $("#modalData").find("div.modal-content").LoadingOverlay("show");
 
-    if (modelo.logId == 0) {
+    if (modelo.usuId == 0) {
 
         fetch("/Usuario/Crear", {
             method: "POST",
