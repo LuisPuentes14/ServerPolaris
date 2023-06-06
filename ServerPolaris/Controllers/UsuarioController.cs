@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ServerPolaris.AplicacionWeb.Utilidades.Response;
+using ServerPolaris.BLL.Implementacion;
 using ServerPolaris.BLL.Interfaces;
 using ServerPolaris.DAL.Interfaces;
 using ServerPolaris.Entity;
 using ServerPolaris.Models.ViewModels;
+using ServerPolaris.Utilidades.Tools;
+using System.ComponentModel;
 
 namespace ServerPolaris.Controllers
 {
@@ -28,7 +31,7 @@ namespace ServerPolaris.Controllers
         [HttpGet]
         public async Task<IActionResult> Lista()
         {
-            List<object> usuarioLista = await _UsarioServicio.Lista();
+            List<UsuarioPerfils> usuarioLista = await _UsarioServicio.Lista();
 
             return StatusCode(StatusCodes.Status200OK, new { data = usuarioLista });
         }
@@ -41,8 +44,9 @@ namespace ServerPolaris.Controllers
 
             try
             {
+                modelo.UsuPassword = Tools.getMD5SHA1(modelo.UsuPassword);
 
-                Usuario usario_creado = await _UsarioServicio.Crear(_mapper.Map<Usuario>(modelo));
+                UsuarioPerfils usario_creado = await _UsarioServicio.Crear(_mapper.Map<UsuarioPerfils>(modelo));
 
                 modelo = _mapper.Map<VMUsuario>(usario_creado);
 
@@ -65,7 +69,11 @@ namespace ServerPolaris.Controllers
 
             try
             {
-                Usuario usuario_editado = await _UsarioServicio.Editar(_mapper.Map<Usuario>(modelo));
+                if (modelo.isUpdatePassword) {
+                    modelo.UsuPassword = Tools.getMD5SHA1(modelo.UsuPassword);
+                }
+
+                UsuarioPerfils usuario_editado = await _UsarioServicio.Editar(_mapper.Map<UsuarioPerfils>(modelo));
 
                 modelo = _mapper.Map<VMUsuario>(usuario_editado);
 

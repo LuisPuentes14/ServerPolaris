@@ -4,8 +4,9 @@ const MODELO_BASE = {
     usuLogin: "",
     usuNombre: "",
     usuEmail: "",
-    roles: [{
-        id: 0,
+    usuPassword: "",
+    perfils: [{
+        perfilId: 0,
         descripcion: ""
     }],
     estadoId: 1
@@ -46,7 +47,7 @@ $(document).ready(function () {
             { "data": "usuNombre" },
             { "data": "usuEmail" },
             {
-                "data": "roles", render: function (data) {
+                "data": "perfils", render: function (data) {
 
                     let roles = "";
                     for (let i = 0; i < data.length; i++) {
@@ -97,7 +98,7 @@ $(document).ready(function () {
 function mostrarModal(modelo = MODELO_BASE) {
 
     let options = $("#id_ds_field_groups ").find("option");
-    for (let i = 0; i < options.length; i++) {
+    for (let i = 0; i < options.length; i++) {       
         $("#id_ds_field_groups option[value='" + options[i].value + "']").remove();
     }
 
@@ -107,11 +108,11 @@ function mostrarModal(modelo = MODELO_BASE) {
     $("#txtEmail").val(modelo.usuEmail)
     $("#cboestado").val(modelo.estadoId)
 
-    for (let i = 0; i < modelo.roles.length; i++) {
+    for (let i = 0; i < modelo.perfils.length; i++) {
 
-        if (modelo.roles[i].id != 0) {
+        if (modelo.perfils[i].perfilId != 0) {
             $("#id_ds_field_groups").append(
-                $("<option>").val(modelo.roles[i].id).text(modelo.roles[i].descripcion)
+                $("<option>").val(modelo.perfils[i].perfilId).text(modelo.perfils[i].descripcion)
             )
         }
     }
@@ -124,6 +125,13 @@ function mostrarModal(modelo = MODELO_BASE) {
 $("#btnNuevo").click(function () {
 
     console.log($("#id_sc_field_groups").find("option"))
+    let options = $("#id_sc_field_groups").find("option")
+
+    for (let i = 0; i < options.length; i++) {
+        console.log(options[i])
+        options[i].style.color = ""
+        options[i].disabled = false;
+    }
     mostrarModal()
 })
 
@@ -144,6 +152,7 @@ $("#btnGuardar").click(function () {
     modelo["usuNombre"] = $("#txtNombre").val()
     modelo["usuEmail"] = $("#txtEmail").val()
     modelo["estadoId"] = $("#cboestado").val()
+    modelo["usuPassword"] = $("#txtPassword").val()
 
 
 
@@ -154,12 +163,12 @@ $("#btnGuardar").click(function () {
         options[i].value
 
         roles[i] = {
-            id: options[i].value,
+            perfilId: options[i].value,
             descripcion: options[i].text
         }
         
     }      
-    modelo["roles"] = roles
+    modelo["perfils"] = roles
 
     console.log(modelo)
 
@@ -185,7 +194,7 @@ $("#btnGuardar").click(function () {
 
                     tablaData.row.add(responseJson.objeto).draw(false)
                     $("#modalData").modal("hide")
-                    swal("Listo!", "El log fue creado", "success")
+                    swal("Listo!", "El usuario fue creado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
@@ -207,7 +216,7 @@ $("#btnGuardar").click(function () {
                     tablaData.row(filaSeleccionada).data(responseJson.objeto).draw(false);
                     filaSeleccionada = null;
                     $("#modalData").modal("hide")
-                    swal("Listo!", "El log ha sido Editado", "success")
+                    swal("Listo!", "El usuario ha sido Editado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
@@ -229,7 +238,11 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
 
     const data = tablaData.row(filaSeleccionada).data();
 
+    console.log(data)
+
     setValueSelect("groups_orig", data);
+
+
 
     mostrarModal(data);
 })
@@ -251,7 +264,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 
     swal({
         title: "¿Estas seguro?",
-        text: `Eliminar el log del cliente "${data.clienteName}" con la ruta "${data.logPathFile}"`,
+        text: `Eliminar el usuario "${data.usuNombre}"`,
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -268,7 +281,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
                 $(".showSweetAlert").LoadingOverlay("show");
 
 
-                fetch(`/LogCliente/Eliminar?idLog=${data.logId}`, {
+                fetch(`/Usuario/Eliminar?idUsuario=${data.usuId}`, {
                     method: "DELETE",
                 })
                     .then(response => {
@@ -280,7 +293,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
                         if (responseJson.estado) {
 
                             tablaData.row(fila).remove().draw()
-                            swal("Listo!", "El log fue Eliminada", "success")
+                            swal("Listo!", "El usuario fue Eliminada", "success")
                         } else {
                             swal("Lo sentimos", responseJson.mensaje, "error")
                         }
@@ -307,11 +320,11 @@ function setValueSelect(sOrig, modelo) {
 
     for (i = 0; i < oOrig.length; i++) {
 
-        for (let j = 0; j < modelo.roles.length; j++) {
+        for (let j = 0; j < modelo.perfils.length; j++) {
 
             let id = parseInt(oOrig.options[i].value)
 
-            if (modelo.roles[j].id == id) {
+            if (modelo.perfils[j].perfilId == id) {
                 oOrig.options[i].disabled = true;
             }
 

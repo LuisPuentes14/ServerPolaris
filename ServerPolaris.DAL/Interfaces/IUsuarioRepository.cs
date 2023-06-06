@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerPolaris.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace ServerPolaris.DAL.Interfaces
 {
     public interface IUsuarioRepository
     {
-        Task<List<object>> Lista();
+        Task<List<UsuarioPerfils>> Consultar();
+        Task<UsuarioPerfils> Obtener(long idUser);
+        Task<UsuarioPerfils> Crear(UsuarioPerfils usuarioPerfil);
+        Task<UsuarioPerfils> Editar(UsuarioPerfils usuarioPerfil);
+        Task<bool> Eliminar(long idUsuario);
     }
 }

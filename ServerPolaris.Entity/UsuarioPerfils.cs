@@ -1,8 +1,12 @@
-﻿using ServerPolaris.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ServerPolaris.Models.ViewModels
+namespace ServerPolaris.Entity
 {
-    public class VMUsuario
+    public class UsuarioPerfils
     {
         public long UsuId { get; set; }
 
@@ -18,5 +22,7 @@ namespace ServerPolaris.Models.ViewModels
         public long? EstadoId { get; set; }
 
         public bool isUpdatePassword { get; set; } = false;
+
+
     }
 }

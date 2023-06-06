@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using ServerPolaris.BLL.Implementacion;
 using ServerPolaris.Entity;
 using ServerPolaris.Models.ViewModels;
 using System.Globalization;
@@ -15,8 +16,8 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 
             #region Usuario
             //Objeto Destino / Objeto origen
-            CreateMap<VMUsuario, Usuario>();
-            CreateMap<Usuario, VMUsuario>();
+            CreateMap<VMUsuario, UsuarioPerfils>();
+            CreateMap<UsuarioPerfils, VMUsuario>();
             #endregion
 
 

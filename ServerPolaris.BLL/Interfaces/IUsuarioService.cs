@@ -9,9 +9,9 @@ namespace ServerPolaris.BLL.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<List<object>> Lista();
-        Task<Usuario> Crear(Usuario entidad);
-        Task<Usuario> Editar(Usuario entidad);
+        Task<List<UsuarioPerfils>> Lista();
+        Task<UsuarioPerfils> Crear(UsuarioPerfils entidad);
+        Task<UsuarioPerfils> Editar(UsuarioPerfils entidad);
         Task<bool> Eliminar(int idCliente);
     }
 }

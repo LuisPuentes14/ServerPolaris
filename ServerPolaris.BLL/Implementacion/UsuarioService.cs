@@ -20,13 +20,14 @@ namespace ServerPolaris.BLL.Implementacion
             _UsuarioRepository = UsuarioRepository;
         }
 
-        public async Task<List<object>> Lista()
+        public async Task<List<UsuarioPerfils>> Lista()
         {
-            List<object> query = await _UsuarioRepository.Lista();
+            List<UsuarioPerfils> query = await _UsuarioRepository.Consultar();
+          
             return query;
         }
 
-        public async Task<Usuario> Crear(Usuario entidad)
+        public async Task<UsuarioPerfils> Crear(UsuarioPerfils entidad)
         {
             Usuario usuario_existe = await _repositorio.Obtener(u => u.UsuEmail == entidad.UsuEmail);
 
@@ -36,14 +37,14 @@ namespace ServerPolaris.BLL.Implementacion
             try
             {
 
-                Usuario usuario_creado = await _repositorio.Crear(entidad);
+                UsuarioPerfils usuario_creado = await _UsuarioRepository.Crear(entidad);
 
                 if (usuario_creado.UsuId == 0)
-                    throw new TaskCanceledException("No se pudo crear el cliente");
+                    throw new TaskCanceledException("No se pudo crear el usuario");
 
-                IQueryable<Usuario> query = await _repositorio.Consultar(u => u.UsuId == usuario_creado.UsuId);
+                UsuarioPerfils query = await _UsuarioRepository.Obtener(usuario_creado.UsuId);
 
-                usuario_creado = query.First();
+                usuario_creado = query;
 
                 return usuario_creado;
 
@@ -55,26 +56,23 @@ namespace ServerPolaris.BLL.Implementacion
             }
         }
 
-        public async Task<Usuario> Editar(Usuario entidad)
+        public async Task<UsuarioPerfils> Editar(UsuarioPerfils entidad)
         {
 
             try
             {
                 IQueryable<Usuario> queryUsuario = await _repositorio.Consultar(u => u.UsuId == entidad.UsuId);
 
-                Usuario usuario_para_editar = queryUsuario.First();
+                if (queryUsuario == null)
+                    throw new TaskCanceledException("El usuario no existe.");
 
-                usuario_para_editar.UsuNombre = entidad.UsuNombre;
-                usuario_para_editar.UsuEmail = entidad.UsuEmail;
-                usuario_para_editar.UsuPassword = entidad.UsuPassword;
-                usuario_para_editar.EstadoId = entidad.EstadoId;
 
-                bool respuesta = await _repositorio.Editar(usuario_para_editar);
+                UsuarioPerfils respuesta = await _UsuarioRepository.Editar(entidad);
 
-                if (!respuesta)
+                if (respuesta.UsuId == 0)
                     throw new TaskCanceledException("No se pudo editar el producto.");
 
-                Usuario usuario_editado = queryUsuario.First();
+                UsuarioPerfils usuario_editado = respuesta;
 
                 return usuario_editado;
             }
@@ -92,9 +90,9 @@ namespace ServerPolaris.BLL.Implementacion
                 Usuario usuario_encontrado = await _repositorio.Obtener(u => u.UsuId == idUsuario);
 
                 if (usuario_encontrado == null)
-                    throw new TaskCanceledException("El producto no existe.");
+                    throw new TaskCanceledException("El usuario no existe.");
 
-                bool respuesta = await _repositorio.Eliminar(usuario_encontrado);
+                bool respuesta = await _UsuarioRepository.Eliminar(idUsuario);
 
                 return true;
             }
