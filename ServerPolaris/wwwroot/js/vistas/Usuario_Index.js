@@ -9,7 +9,8 @@ const MODELO_BASE = {
         perfilId: 0,
         descripcion: ""
     }],
-    estadoId: 1
+    estadoId: 1,
+    isUpdatePassword : false
 }
 
 let tablaData;
@@ -75,18 +76,6 @@ $(document).ready(function () {
             }
         ],
         order: [[0, "desc"]],
-        // dom: "Bfrtip",
-        //buttons: [
-        //    {
-        //        text: 'Exportar Excel',
-        //        extend: 'excelHtml5',
-        //        title: '',
-        //        filename: 'Reporte Categorias',
-        //        exportOptions: {
-        //            columns: [1, 2]
-        //        }
-        //    }, 'pageLength'
-        //],
         language: {
             url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
         },
@@ -98,7 +87,7 @@ $(document).ready(function () {
 function mostrarModal(modelo = MODELO_BASE) {
 
     let options = $("#id_ds_field_groups ").find("option");
-    for (let i = 0; i < options.length; i++) {       
+    for (let i = 0; i < options.length; i++) {
         $("#id_ds_field_groups option[value='" + options[i].value + "']").remove();
     }
 
@@ -107,6 +96,9 @@ function mostrarModal(modelo = MODELO_BASE) {
     $("#txtNombre").val(modelo.usuNombre)
     $("#txtEmail").val(modelo.usuEmail)
     $("#cboestado").val(modelo.estadoId)
+    $("#txtPassword").val(modelo.usuPassword)
+    $('#exampleCheck1').prop('checked', false)
+
 
     for (let i = 0; i < modelo.perfils.length; i++) {
 
@@ -132,6 +124,12 @@ $("#btnNuevo").click(function () {
         options[i].style.color = ""
         options[i].disabled = false;
     }
+
+    $("#txtPassword").css('display', 'inline');
+    $("#labelPassword").css('display', 'inline');
+
+    $("#sectionPassword").css('display', 'none');
+
     mostrarModal()
 })
 
@@ -139,12 +137,65 @@ $("#btnNuevo").click(function () {
 
 $("#btnGuardar").click(function () {
 
-    //if ($("#txtRutaLog").val().trim() == "") {
+    if ($("#txtUsuario").val().trim() == "") {
 
-    //    toastr.warning("", "Debe completar el campo Ruta log")
-    //    $("#txtRutaLog").focus()
-    //    return;
-    //}
+        toastr.warning("", "Debe completar el campo Usuario")
+        $("#txtUsuario").focus()
+        return;
+    }
+
+    if ($("#txtNombre").val().trim() == "") {
+        toastr.warning("", "Debe completar el campo Nombre")
+        $("#txtUsuario").focus()
+        return;
+    }
+
+    if ($("#txtEmail").val().trim() == "") {
+        toastr.warning("", "Debe completar el campo Correo")
+        $("#txtEmail").focus()
+        return;
+    }
+
+      
+
+    if ($('#sectionPassword').css('display') === 'none') {
+       
+        if ($("#txtPassword").val().trim() == "") {
+            toastr.warning("", "Debe agregar una contraseña")
+            $("#txtPassword").focus()
+            return;
+        }
+
+    }
+
+    if ($('#exampleCheck1').prop('checked')) {
+       
+        if ($("#txtPassword").val().trim() == "") {
+            toastr.warning("", "Debe agregar una contraseña")
+            $("#txtPassword").focus()
+            return;
+        }
+
+
+    }
+
+    
+
+    let perfiles = $("#id_ds_field_groups").find("option");
+
+    if (perfiles.length == 0) {
+        toastr.warning("", "Debe agregar almenos un perfil")
+        $("#id_ds_field_groups").focus()
+        return;
+    }
+
+    //$("#txtId").val(modelo.usuId)
+    //$("#txtUsuario").val(modelo.usuLogin)
+    //$("#txtNombre").val(modelo.usuNombre)
+    //$("#txtEmail").val(modelo.usuEmail)
+    //$("#cboestado").val(modelo.estadoId)
+    //$("#txtPassword").val(modelo.usuPassword)
+    //$('#exampleCheck1').prop('checked', false)
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["usuId"] = parseInt($("#txtId").val())
@@ -153,12 +204,13 @@ $("#btnGuardar").click(function () {
     modelo["usuEmail"] = $("#txtEmail").val()
     modelo["estadoId"] = $("#cboestado").val()
     modelo["usuPassword"] = $("#txtPassword").val()
+    modelo["isUpdatePassword"] = $('#exampleCheck1').prop('checked')
 
 
 
     let roles = [];
 
-    let options = $("#id_ds_field_groups ").find("option");
+    let options = $("#id_ds_field_groups").find("option");
     for (let i = 0; i < options.length; i++) {
         options[i].value
 
@@ -166,8 +218,8 @@ $("#btnGuardar").click(function () {
             perfilId: options[i].value,
             descripcion: options[i].text
         }
-        
-    }      
+
+    }
     modelo["perfils"] = roles
 
     console.log(modelo)
@@ -200,6 +252,9 @@ $("#btnGuardar").click(function () {
                 }
             })
     } else {
+
+       
+
         fetch("/Usuario/Editar", {
             method: "PUT",
             headers: { "Content-Type": "application/json;charset=utf-8" },
@@ -236,6 +291,10 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
         filaSeleccionada = $(this).closest("tr");
     }
 
+    $("#sectionPassword").css('display', 'inline');
+    $("#txtPassword").css('display', 'none');
+    $("#labelPassword").css('display', 'none');
+
     const data = tablaData.row(filaSeleccionada).data();
 
     console.log(data)
@@ -247,6 +306,24 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
     mostrarModal(data);
 })
 
+
+$("#exampleCheck1").on("click", function () {
+
+
+    if ($('#exampleCheck1').prop('checked')) {
+
+        $("#txtPassword").css('display', 'inline');
+        $("#labelPassword").css('display', 'inline');
+
+    } else {
+
+        $("#txtPassword").css('display', 'none');
+        $("#labelPassword").css('display', 'none');
+    }
+
+
+
+})
 
 $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 

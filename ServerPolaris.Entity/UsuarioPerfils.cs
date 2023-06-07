@@ -16,7 +16,7 @@ namespace ServerPolaris.Entity
 
         public string? UsuLogin { get; set; }
 
-        public string? UsuPassword { get; set; }
+        public string? UsuPassword { get; set; } = "";
         public List<Perfil> Perfils { get; set; } = new List<Perfil>();
 
         public long? EstadoId { get; set; }
