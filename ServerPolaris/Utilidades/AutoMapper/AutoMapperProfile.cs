@@ -14,6 +14,14 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
         public AutoMapperProfile()
         {
 
+
+            #region tipo modulo
+            //Objeto Destino / Objeto origen
+            CreateMap<VMTipoModulo, TipoModulo>();
+            CreateMap<TipoModulo, VMTipoModulo>();
+              
+            #endregion
+
             #region Modulos Web
             //Objeto Destino / Objeto origen
             CreateMap<VMModulosWeb, ModulosWeb>(); 

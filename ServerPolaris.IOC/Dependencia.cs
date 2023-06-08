@@ -50,6 +50,7 @@ namespace ServerPolaris.IOC
             services.AddScoped<IUsuarioService, UsuarioService>(); 
             services.AddScoped<IUsuarioRepository, UsuarioRepository>(); 
             services.AddScoped<IModulosWebService, ModulosWebService>();  
+            services.AddScoped<ITipoModuloService, TipoModuloService>(); 
         }
     }
 }

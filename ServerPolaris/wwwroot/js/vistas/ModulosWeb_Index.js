@@ -1,41 +1,44 @@
 ﻿
 const MODELO_BASE = {
-    usuId: 0,
-    usuLogin: "",
-    usuNombre: "",
-    usuEmail: "",
-    usuPassword: "",
-    perfils: [{
-        perfilId: 0,
-        descripcion: ""
-    }],
-    estadoId: 1,
-    isUpdatePassword: false
+    modId: 0,
+    modIdPadre: 0,
+    modIdHijo: null,
+    modNombre: "",
+    modUrl: "",
+    idTipoModulo: 0,
+    descripcionTipoModulo: ""
+
 }
 
 let oldIdPadre;
 let oldIdModulo;
 let listObjOld = [];
 let countTranslation = 0;
+let tipoModulo = 0
 
 let tablaData;
 
 $(document).ready(function () {
 
 
-    //fetch("/Perfil/Lista")
+    $("#txtTipoModulo").val("1")
+    $("#txtidPadre").val("0")
+
+    //fetch("/TipoModulo/Lista")
     //    .then(response => {
     //        return response.ok ? response.json() : Promise.reject(response);
     //    })
     //    .then(responseJson => {
     //        if (responseJson.data.length > 0) {
     //            responseJson.data.forEach((item) => {
-    //                $("#id_sc_field_groups").append(
-    //                    $("<option>").val(item.perfilId).text(item.descripcion)
+    //                $("#cbotipomodulo").append(
+    //                    $("<option>").val(item.idTipoModulo).text(item.descripcion)
     //                )
     //            })
     //        }
     //    })
+
+
 
 
 
@@ -73,30 +76,32 @@ $(document).ready(function () {
 })
 
 
+
 function mostrarModal(modelo = MODELO_BASE) {
 
-    let options = $("#id_ds_field_groups ").find("option");
-    for (let i = 0; i < options.length; i++) {
-        $("#id_ds_field_groups option[value='" + options[i].value + "']").remove();
-    }
 
-    $("#txtId").val(modelo.usuId)
-    $("#txtUsuario").val(modelo.usuLogin)
-    $("#txtNombre").val(modelo.usuNombre)
-    $("#txtEmail").val(modelo.usuEmail)
-    $("#cboestado").val(modelo.estadoId)
-    $("#txtPassword").val(modelo.usuPassword)
-    $('#exampleCheck1').prop('checked', false)
+    //let options = $("#id_ds_field_groups ").find("option");
+    //for (let i = 0; i < options.length; i++) {
+    //    $("#id_ds_field_groups option[value='" + options[i].value + "']").remove();
+    //}
+
+    //$("#txtId").val(modelo.usuId)
+    //$("#txtUsuario").val(modelo.usuLogin)
+    //$("#txtNombre").val(modelo.usuNombre)
+    //$("#txtEmail").val(modelo.usuEmail)
+    //$("#cboestado").val(modelo.estadoId)
+    //$("#txtPassword").val(modelo.usuPassword)
+    //$('#exampleCheck1').prop('checked', false)
 
 
-    for (let i = 0; i < modelo.perfils.length; i++) {
+    //for (let i = 0; i < modelo.perfils.length; i++) {
 
-        if (modelo.perfils[i].perfilId != 0) {
-            $("#id_ds_field_groups").append(
-                $("<option>").val(modelo.perfils[i].perfilId).text(modelo.perfils[i].descripcion)
-            )
-        }
-    }
+    //    if (modelo.perfils[i].perfilId != 0) {
+    //        $("#id_ds_field_groups").append(
+    //            $("<option>").val(modelo.perfils[i].perfilId).text(modelo.perfils[i].descripcion)
+    //        )
+    //    }
+    //}
 
     $("#modalData").modal("show")
 }
@@ -341,7 +346,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 })
 
 $(".btn-volver").on("click", function () {
-    
+
     var tabla = $('#tbdata').DataTable();
     tabla.clear().draw();
 
@@ -350,8 +355,12 @@ $(".btn-volver").on("click", function () {
     });
 
     console.log(listObjOld)
-    
+
     countTranslation = listObjOld[0].id
+
+    $("#txtTipoModulo").val(listObjOld[0].oldIdModulo)
+    $("#txtidPadre").val(listObjOld[0].oldIdPadre)
+
 
     fetch("/ModuloWeb/Lista?tipoModulo=" + listObjOld[0].oldIdModulo + "&idPadre=" + listObjOld[0].oldIdPadre)
         .then(response => {
@@ -359,7 +368,7 @@ $(".btn-volver").on("click", function () {
         })
         .then(responseJson => {
             if (responseJson.data.length > 0) {
-               
+
                 getOldValues(responseJson.data)
 
                 console.log(responseJson.data)
@@ -367,24 +376,55 @@ $(".btn-volver").on("click", function () {
                     tabla.row.add(item).draw();
                     console.log(item)
                 })
+
+                listObjOld = listObjOld.filter(function (obj) {
+                    return obj.id !== listObjOld[0].id;
+                });
+
+                if (listObjOld.length == 0) {
+                    $('#volver').css('display', 'none');
+                }
+
+                console.log(listObjOld.length)
+
+                if (listObjOld.length != 0) {
+                    var elementos = document.querySelectorAll('.btn-submodulos');
+                    elementos.forEach(e => console.log(e.style.display = 'none'));
+
+                    const btn = document.querySelectorAll('.sorting_1');
+                    btn.forEach(e => {
+                        e.addEventListener('click', () => {
+                            setTimeout(() => {
+                                document.querySelectorAll('.dtr-data .btn-submodulos').forEach(e => e.style.display = "none");
+                            }, 0)
+                        })
+                    })
+
+                }
+
+
+
+
             }
         })
 
-    listObjOld = listObjOld.filter(function (obj) {
-        return obj.id !== listObjOld[0].id;
-    });
+    //listObjOld = listObjOld.filter(function (obj) {
+    //    return obj.id !== listObjOld[0].id;
+    //});
 
 
-    //
-    console.log()
-    if (listObjOld.length == 0) {
-        $('#volver').css('display', 'none');
-    }
-    
+
+    //if (listObjOld.length == 0) {
+    //    $('#volver').css('display', 'none');
+    //}
+
+
 
 })
 
 $("#tbdata tbody").on("click", ".btn-submodulos", function () {
+
+
 
     if ($(this).closest("tr").hasClass("child")) {
         filaSeleccionada = $(this).closest("tr").prev();
@@ -406,6 +446,9 @@ $("#tbdata tbody").on("click", ".btn-submodulos", function () {
         idPadre = data.modIdHijo;
     }
 
+    $("#txtTipoModulo").val("2")
+    $("#txtidPadre").val(idPadre)
+
     getOldValues(data)
 
     fetch("/ModuloWeb/Lista?tipoModulo=2&idPadre=" + idPadre)
@@ -416,6 +459,77 @@ $("#tbdata tbody").on("click", ".btn-submodulos", function () {
             if (responseJson.data.length > 0) {
                 responseJson.data.forEach((item) => {
                     tabla.row.add(item).draw();
+                })
+
+
+                var elementos = document.querySelectorAll('.btn-submodulos');
+                elementos.forEach(e => console.log(e.style.display = 'none'));
+
+                const btn = document.querySelectorAll('.sorting_1');
+                btn.forEach(e => {
+                    e.addEventListener('click', () => {
+                        setTimeout(() => {
+                            document.querySelectorAll('.dtr-data .btn-submodulos').forEach(e => e.style.display = "none");
+                        }, 0)
+                    })
+                })
+
+            }
+        })
+
+})
+
+
+$("#tbdata tbody").on("click", ".btn-botones", function () {
+
+
+
+    if ($(this).closest("tr").hasClass("child")) {
+        filaSeleccionada = $(this).closest("tr").prev();
+    } else {
+        filaSeleccionada = $(this).closest("tr");
+    }
+
+    const data = tablaData.row(filaSeleccionada).data();
+
+    var tabla = $('#tbdata').DataTable();
+    tabla.clear().draw();
+
+
+    var idPadre;
+
+    if (data.modIdHijo == null) {
+        idPadre = data.modIdPadre
+    } else {
+        idPadre = data.modIdHijo;
+    }
+
+    $("#txtTipoModulo").val("3")
+    $("#txtidPadre").val(idPadre)
+
+    getOldValues(data)
+
+    fetch("/ModuloWeb/Lista?tipoModulo=3&idPadre=" + idPadre)
+        .then(response => {
+            return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(responseJson => {
+            if (responseJson.data.length > 0) {
+                responseJson.data.forEach((item) => {
+                    tabla.row.add(item).draw();
+                })
+
+
+                var elementos = document.querySelectorAll('.btn-submodulos');
+                elementos.forEach(e => console.log(e.style.display = 'none'));
+
+                const btn = document.querySelectorAll('.sorting_1');
+                btn.forEach(e => {
+                    e.addEventListener('click', () => {
+                        setTimeout(() => {
+                            document.querySelectorAll('.dtr-data .btn-submodulos').forEach(e => e.style.display = "none");
+                        }, 0)
+                    })
                 })
             }
         })
@@ -434,7 +548,7 @@ function getOldValues(fila) {
             return response.ok ? response.json() : Promise.reject(response);
         })
         .then(responseJson => {
-            if (responseJson.data.length > 0) {                            
+            if (responseJson.data.length > 0) {
 
                 oldIdModulo = responseJson.data[0].idTipoModulo
 
@@ -454,7 +568,7 @@ function getOldValues(fila) {
 
                 $('#volver').css('display', 'inline');
 
-                console.log(listObjOld)            
+                console.log(listObjOld)
             }
         })
 
