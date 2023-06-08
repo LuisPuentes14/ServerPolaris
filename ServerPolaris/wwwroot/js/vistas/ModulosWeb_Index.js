@@ -10,8 +10,13 @@ const MODELO_BASE = {
         descripcion: ""
     }],
     estadoId: 1,
-    isUpdatePassword : false
+    isUpdatePassword: false
 }
+
+let oldIdPadre;
+let oldIdModulo;
+let listObjOld = [];
+let countTranslation = 0;
 
 let tablaData;
 
@@ -47,7 +52,7 @@ $(document).ready(function () {
             { "data": "modIdPadre" },
             { "data": "modNombre" },
             { "data": "modUrl" },
-            { "data": "descripcionTipoModulo" },            
+            { "data": "descripcionTipoModulo" },
 
             {
                 "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
@@ -140,10 +145,10 @@ $("#btnGuardar").click(function () {
         return;
     }
 
-      
+
 
     if ($('#sectionPassword').css('display') === 'none') {
-       
+
         if ($("#txtPassword").val().trim() == "") {
             toastr.warning("", "Debe agregar una contraseña")
             $("#txtPassword").focus()
@@ -153,7 +158,7 @@ $("#btnGuardar").click(function () {
     }
 
     if ($('#exampleCheck1').prop('checked')) {
-       
+
         if ($("#txtPassword").val().trim() == "") {
             toastr.warning("", "Debe agregar una contraseña")
             $("#txtPassword").focus()
@@ -163,7 +168,7 @@ $("#btnGuardar").click(function () {
 
     }
 
-    
+
 
     let perfiles = $("#id_ds_field_groups").find("option");
 
@@ -173,14 +178,6 @@ $("#btnGuardar").click(function () {
         return;
     }
 
-    //$("#txtId").val(modelo.usuId)
-    //$("#txtUsuario").val(modelo.usuLogin)
-    //$("#txtNombre").val(modelo.usuNombre)
-    //$("#txtEmail").val(modelo.usuEmail)
-    //$("#cboestado").val(modelo.estadoId)
-    //$("#txtPassword").val(modelo.usuPassword)
-    //$('#exampleCheck1').prop('checked', false)
-
     const modelo = structuredClone(MODELO_BASE)
     modelo["usuId"] = parseInt($("#txtId").val())
     modelo["usuLogin"] = $("#txtUsuario").val()
@@ -189,8 +186,6 @@ $("#btnGuardar").click(function () {
     modelo["estadoId"] = $("#cboestado").val()
     modelo["usuPassword"] = $("#txtPassword").val()
     modelo["isUpdatePassword"] = $('#exampleCheck1').prop('checked')
-
-
 
     let roles = [];
 
@@ -237,8 +232,6 @@ $("#btnGuardar").click(function () {
             })
     } else {
 
-       
-
         fetch("/Usuario/Editar", {
             method: "PUT",
             headers: { "Content-Type": "application/json;charset=utf-8" },
@@ -284,8 +277,6 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
     console.log(data)
 
     setValueSelect("groups_orig", data);
-
-
 
     mostrarModal(data);
 })
@@ -349,7 +340,51 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 
 })
 
-$("#tbdata tbody").on("click", ".btn-volver", function () {
+$(".btn-volver").on("click", function () {
+    
+    var tabla = $('#tbdata').DataTable();
+    tabla.clear().draw();
+
+    listObjOld.sort(function (a, b) {
+        return b.id - a.id;
+    });
+
+    console.log(listObjOld)
+    
+    countTranslation = listObjOld[0].id
+
+    fetch("/ModuloWeb/Lista?tipoModulo=" + listObjOld[0].oldIdModulo + "&idPadre=" + listObjOld[0].oldIdPadre)
+        .then(response => {
+            return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(responseJson => {
+            if (responseJson.data.length > 0) {
+               
+                getOldValues(responseJson.data)
+
+                console.log(responseJson.data)
+                responseJson.data.forEach((item) => {
+                    tabla.row.add(item).draw();
+                    console.log(item)
+                })
+            }
+        })
+
+    listObjOld = listObjOld.filter(function (obj) {
+        return obj.id !== listObjOld[0].id;
+    });
+
+
+    //
+    console.log()
+    if (listObjOld.length == 0) {
+        $('#volver').css('display', 'none');
+    }
+    
+
+})
+
+$("#tbdata tbody").on("click", ".btn-submodulos", function () {
 
     if ($(this).closest("tr").hasClass("child")) {
         filaSeleccionada = $(this).closest("tr").prev();
@@ -362,72 +397,67 @@ $("#tbdata tbody").on("click", ".btn-volver", function () {
     var tabla = $('#tbdata').DataTable();
     tabla.clear().draw();
 
-    console.log(data.modIdPadre)
-
-    fetch("/ModuloWeb/Lista?tipoModulo=2&idPadre=" + data.modIdPadre)
-        .then(response => {
-            return response.ok ? response.json() : Promise.reject(response);
-        })
-        .then(responseJson => {
-            if (responseJson.data.length > 0) {
-
-                /*tabla.row.add(responseJson.data).draw();*/
-
-                console.log(responseJson.data)
-                responseJson.data.forEach((item) => {
-                    tabla.row.add(item).draw();
-                    console.log(item)
-                })
-            }
-        })
-
-})
-
-
-
-$("#tbdata tbody").on("click", ".btn-submodulos", function () {
-
-    if ($(this).closest("tr").hasClass("child")) {
-        filaSeleccionada = $(this).closest("tr").prev();
-    } else {
-        filaSeleccionada = $(this).closest("tr");
-    } 
-
-    const data = tablaData.row(filaSeleccionada).data();
-
-    var tabla = $('#tbdata').DataTable();
-    tabla.clear().draw(); 
-
-    console.log(data.modIdPadre)
-    console.log(data.modIdHijo)
 
     var idPadre;
 
     if (data.modIdHijo == null) {
         idPadre = data.modIdPadre
     } else {
-        idPadre = data.modIdHijo
+        idPadre = data.modIdHijo;
     }
 
-    console.log(idPadre)
+    getOldValues(data)
 
-    fetch("/ModuloWeb/Lista?tipoModulo=2&idPadre=" + idPadre )
+    fetch("/ModuloWeb/Lista?tipoModulo=2&idPadre=" + idPadre)
         .then(response => {
             return response.ok ? response.json() : Promise.reject(response);
         })
         .then(responseJson => {
             if (responseJson.data.length > 0) {
-
-                /*tabla.row.add(responseJson.data).draw();*/
-
-                console.log(responseJson.data)
                 responseJson.data.forEach((item) => {
                     tabla.row.add(item).draw();
-                    console.log(item)
                 })
             }
         })
 
 })
+
+
+function getOldValues(fila) {
+
+    let tipo = fila.idTipoModulo
+    let id = fila.modIdPadre
+
+
+    fetch("/ModuloWeb/Lista?tipoModulo=" + tipo + "&idPadre=" + id)
+        .then(response => {
+            return response.ok ? response.json() : Promise.reject(response);
+        })
+        .then(responseJson => {
+            if (responseJson.data.length > 0) {                            
+
+                oldIdModulo = responseJson.data[0].idTipoModulo
+
+                if (responseJson.data[0].modIdHijo == null) {
+                    oldIdPadre = 0
+                } else {
+                    oldIdPadre = responseJson.data[0].modIdPadre
+                }
+
+                listObjOld[countTranslation] = {
+                    id: countTranslation,
+                    oldIdPadre: oldIdPadre,
+                    oldIdModulo: oldIdModulo
+                }
+
+                countTranslation++;
+
+                $('#volver').css('display', 'inline');
+
+                console.log(listObjOld)            
+            }
+        })
+
+}
 
 
