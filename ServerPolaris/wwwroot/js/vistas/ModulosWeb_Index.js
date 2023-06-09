@@ -284,8 +284,10 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
                 $(".showSweetAlert").LoadingOverlay("show");
 
 
-                fetch(`/Usuario/Eliminar?idUsuario=${data.usuId}`, {
+                fetch(`/ModuloWeb/Eliminar`, {
                     method: "DELETE",
+                    headers: { "Content-Type": "application/json;charset=utf-8" },
+                    body: JSON.stringify(data)
                 })
                     .then(response => {
                         $(".showSweetAlert").LoadingOverlay("hide");

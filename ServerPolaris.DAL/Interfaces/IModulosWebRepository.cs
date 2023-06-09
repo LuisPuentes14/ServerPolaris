@@ -11,6 +11,6 @@ namespace ServerPolaris.DAL.Interfaces
     {
 
         Task<ModulosWeb> Crear(ModulosWeb moduloWeb);
-        Task<ModulosWeb> Eliminar(ModulosWeb moduloWeb);
+        Task<bool> Eliminar(ModulosWeb moduloWeb);
     }
 }

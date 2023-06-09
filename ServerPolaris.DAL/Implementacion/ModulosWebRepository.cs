@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ServerPolaris.DAL.DBContext;
 using ServerPolaris.DAL.Interfaces;
@@ -14,7 +15,7 @@ namespace ServerPolaris.DAL.Implementacion
 {
     public class ModulosWebRepository : IModulosWebRepository
     {
-
+        private DataTable Table = new DataTable();
         readonly PolarisServerContext _context;
         public ModulosWebRepository(PolarisServerContext context)
         {
@@ -97,69 +98,85 @@ namespace ServerPolaris.DAL.Implementacion
             return obj;
         }
 
-        public async Task<ModulosWeb> Eliminar(ModulosWeb moduloWeb)
+        public async Task<bool> Eliminar(ModulosWeb moduloWeb)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Table.Columns.Add("modId", typeof(long));
+            Table.Columns.Add("modIdPadre", typeof(long));
+            Table.Columns.Add("modIdHijo", typeof(long?));
+            Table.Columns.Add("modNombre", typeof(string));
+            Table.Columns.Add("modUrl", typeof(string));
+            Table.Columns.Add("idTipoModulo", typeof(string));
+            Table.Columns.Add("modDescripcion", typeof(string));
+            Table.Columns.Add("modIcono", typeof(string));
+
+            var validatePadreQury = (_context.ModulosWebs.Where(m => m.ModIdHijo== moduloWeb.ModIdPadre)).ToList();
+
+            foreach (var item in validatePadreQury)
+            {
+
+                DataRow row = Table.NewRow();
+                row["modId"] = item.ModId;
+                row["modIdPadre"] = item.ModIdPadre;
+                row["modIdHijo"] = item.ModIdHijo;
+                Table.Rows.Add(row);
+
+            };
+
+            recorrerHijos(getHijo(moduloWeb.ModIdPadre));
+
+            var table = this.Table;
+
+
+            return true;
+
         }
 
 
+        public void recorrerHijos(List<ModulosWeb> obj)
+        {
 
-        //public void recorrerHijos(List<ModulosWeb> obj)
-        //{
+            foreach (var objecto in obj)
+            {
+                var hijos = getHijo(objecto.ModIdHijo);
 
-        //    foreach (var objecto in obj)
-        //    {
-        //        var hijos = getHijo(objecto.id_documento_hijo);
+                if (hijos.Count > 0)
+                {
+                    recorrerHijos(hijos);
+                }
+            }
 
-        //        if (hijos.Count > 0)
-        //        {
-        //            recorrerHijos(hijos);
-        //        }
-        //    }
+        }
 
-        //}
+        public List<ModulosWeb> getHijo(long? idHijo)
+        {
 
-        //public List<ModulosWeb> getHijo(Int64 x)
-        //{
+            var query = (_context.ModulosWebs.Where(m => m.ModIdPadre == idHijo)).ToList();
 
-        //    var query = (from documentoXcliente in _contextData.documentoXcliente
-        //                 where (documentoXcliente.id_documento_padre == x
-        //                 && documentoXcliente.id_cliente == cliente)
-        //                 select new
-        //                 {
-        //                     documentoXcliente.id_documento_padre,
-        //                     documentoXcliente.nombre_documento_padre,
-        //                     documentoXcliente.id_documento_hijo,
-        //                     documentoXcliente.nombre_documento_hijo
-        //                 }).ToList();
+            List<ModulosWeb> modulos = new List<ModulosWeb>();
 
-        //    List<CE_DocumentoXcliente> cE_DocumentoXcliente = new List<CE_DocumentoXcliente>();
+            foreach (var item in query)
+            {
 
-        //    foreach (var item in query)
-        //    {
+                DataRow row = Table.NewRow();
+                row["modId"] = item.ModId;
+                row["modIdPadre"] = item.ModIdPadre;
+                row["modIdHijo"] = item.ModIdHijo;
+               
+                Table.Rows.Add(row);
 
-        //        DataRow row = Table.NewRow();
-        //        row["id_documento_padre"] = item.id_documento_padre;
-        //        row["nombre_documento_padre"] = item.nombre_documento_padre;
-        //        row["id_documento_hijo"] = item.id_documento_hijo;
-        //        row["nombre_documento_hijo"] = item.nombre_documento_hijo;
-        //        Table.Rows.Add(row);
+                ModulosWeb obj = new ModulosWeb
+                {
+                    ModId = item.ModId,
+                    ModIdPadre = item.ModIdPadre,
+                    ModIdHijo = item.ModIdHijo
+                };
 
-        //        CE_DocumentoXcliente obj = new CE_DocumentoXcliente
-        //        {
-        //            id_documento_padre = item.id_documento_padre,
-        //            nombre_documento_padre = item.nombre_documento_padre,
-        //            id_documento_hijo = item.id_documento_hijo,
-        //            nombre_documento_hijo = item.nombre_documento_hijo
+                modulos.Add(obj);
+            };
 
+            return modulos;
 
-        //        };
-
-        //        cE_DocumentoXcliente.Add(obj);
-        //    };
-
-        //    return cE_DocumentoXcliente;
-
-        //}
+        }
     }
 }

@@ -75,6 +75,27 @@ namespace ServerPolaris.Controllers
             return StatusCode(StatusCodes.Status200OK, gResponse);
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> Eliminar([FromBody] VMModulosWeb modelo)
+        {
+            GenericResponse<string> gResponse = new GenericResponse<string>();
+
+          
+            try
+            {
+                ModulosWeb modulosWeb = _mapper.Map<ModulosWeb>(modelo);
+                gResponse.Estado = await _ModulosWebService.Eliminar(modulosWeb);
+            }
+            catch (Exception ex)
+            {
+                gResponse.Estado = true;
+                gResponse.Mensaje = ex.Message;
+            }
+            return StatusCode(StatusCodes.Status200OK, gResponse);
+
+            
+        }
+
 
     }
 }

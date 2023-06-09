@@ -12,6 +12,6 @@ namespace ServerPolaris.BLL.Interfaces
         Task<List<ModulosWeb>> Lista(int tipoModulo, long idPadre = 0);
         Task<ModulosWeb> Crear(ModulosWeb entidad);
         Task<ModulosWeb> Editar(ModulosWeb entidad);
-        Task<bool> Eliminar(int idPerfil);
+        Task<bool> Eliminar(ModulosWeb entidad);
     }
 }

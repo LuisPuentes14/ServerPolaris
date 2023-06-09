@@ -79,9 +79,21 @@ namespace ServerPolaris.BLL.Implementacion
             }
         }
 
-        public async Task<bool> Eliminar(int idPerfil)
+        public async Task<bool> Eliminar(ModulosWeb entidad)
         {
-            throw new NotImplementedException();
+            bool isDelte  = false;
+
+            ModulosWeb queryModulo = await _repositorio.Obtener(c => c.ModId == entidad.ModId );
+
+            if (queryModulo == null)
+            {
+                throw new NotImplementedException("El modulo no existe");
+            }
+
+
+            isDelte = await _modulosWebRepository.Eliminar(entidad);
+
+            return isDelte;
         }
 
         
