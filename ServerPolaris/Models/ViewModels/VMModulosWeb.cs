@@ -16,6 +16,10 @@ namespace ServerPolaris.Models.ViewModels
 
         public long IdTipoModulo { get; set; }
 
+        public string? ModDescripcion { get; set; }
+
+        public string? ModIcono { get; set; }
+
         public string? DescripcionTipoModulo { get; set; }
     }
 }

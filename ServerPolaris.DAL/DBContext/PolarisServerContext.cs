@@ -119,6 +119,14 @@ namespace ServerPolaris.DAL.DBContext
 
                 entity.Property(e => e.ModId).HasColumnName("mod_id");
                 entity.Property(e => e.IdTipoModulo).HasColumnName("id_tipo_modulo");
+                entity.Property(e => e.ModDescripcion)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("mod_descripcion");
+                entity.Property(e => e.ModIcono)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("mod_icono");
                 entity.Property(e => e.ModIdHijo).HasColumnName("mod_id_hijo");
                 entity.Property(e => e.ModIdPadre).HasColumnName("mod_id_padre");
                 entity.Property(e => e.ModNombre)

@@ -60,13 +60,15 @@ namespace ServerPolaris.BLL.Implementacion
 
                 Modulo_para_editar.ModNombre = entidad.ModNombre;
                 Modulo_para_editar.ModUrl = entidad.ModUrl;
+                Modulo_para_editar.ModDescripcion = entidad.ModDescripcion;
+                Modulo_para_editar.ModIcono = entidad.ModIcono;
 
                 bool respuesta = await _repositorio.Editar(Modulo_para_editar);
 
                 if (!respuesta)
                     throw new TaskCanceledException("No se pudo editar el producto.");
 
-                ModulosWeb producto_editado = queryModulo.First();
+                ModulosWeb producto_editado = queryModulo.Include(m => m.IdTipoModuloNavigation).First();
 
                 return producto_editado;
             }

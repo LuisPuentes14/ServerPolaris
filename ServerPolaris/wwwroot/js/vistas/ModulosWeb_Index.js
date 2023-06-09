@@ -5,6 +5,8 @@ const MODELO_BASE = {
     modIdHijo: null,
     modNombre: "",
     modUrl: "",
+    modDescripcion:"",
+    modIcono:"",
     idTipoModulo: 0,
     descripcionTipoModulo: ""
 
@@ -55,6 +57,8 @@ $(document).ready(function () {
             { "data": "modIdPadre" },
             { "data": "modNombre" },
             { "data": "modUrl" },
+            { "data": "modDescripcion" },
+            { "data": "modIcono" },
             { "data": "descripcionTipoModulo" },
 
             {
@@ -90,6 +94,8 @@ function mostrarModal(modelo = MODELO_BASE) {
     $("#txtId").val(modelo.modId)
     $("#txtNombre").val(modelo.modNombre)
     $("#txtUrl").val(modelo.modUrl)
+    $("#txtDescripcion").val(modelo.modDescripcion)
+    $("#txtIcono").val(modelo.modIcono)
     //$("#txtUsuario").val(modelo.usuLogin)
     //$("#txtNombre").val(modelo.usuNombre)
     //$("#txtEmail").val(modelo.usuEmail)
@@ -157,6 +163,8 @@ $("#btnGuardar").click(function () {
     modelo["modUrl"] = $("#txtUrl").val()
     modelo["modIdPadre"] = parseInt($("#txtidPadre").val())
     modelo["idTipoModulo"] = parseInt($("#txtTipoModulo").val())
+    modelo["modDescripcion"] = $("#txtDescripcion").val()
+    modelo["modIcono"] = $("#txtIcono").val()
 
 
 
