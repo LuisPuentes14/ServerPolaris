@@ -10,5 +10,8 @@ namespace ServerPolaris.BLL.Interfaces
     public interface IModulosWebService
     {
         Task<List<ModulosWeb>> Lista(int tipoModulo, long idPadre = 0);
+        Task<ModulosWeb> Crear(ModulosWeb entidad);
+        Task<ModulosWeb> Editar(ModulosWeb entidad);
+        Task<bool> Eliminar(int idPerfil);
     }
 }

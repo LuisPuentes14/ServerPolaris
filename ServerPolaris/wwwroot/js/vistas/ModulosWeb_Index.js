@@ -80,12 +80,16 @@ $(document).ready(function () {
 function mostrarModal(modelo = MODELO_BASE) {
 
 
+
+
     //let options = $("#id_ds_field_groups ").find("option");
     //for (let i = 0; i < options.length; i++) {
     //    $("#id_ds_field_groups option[value='" + options[i].value + "']").remove();
     //}
 
-    //$("#txtId").val(modelo.usuId)
+    $("#txtId").val(modelo.modId)
+    $("#txtNombre").val(modelo.modNombre)
+    $("#txtUrl").val(modelo.modUrl)
     //$("#txtUsuario").val(modelo.usuLogin)
     //$("#txtNombre").val(modelo.usuNombre)
     //$("#txtEmail").val(modelo.usuEmail)
@@ -131,80 +135,37 @@ $("#btnNuevo").click(function () {
 
 $("#btnGuardar").click(function () {
 
-    if ($("#txtUsuario").val().trim() == "") {
+    //if ($("#txtUsuario").val().trim() == "") {
 
-        toastr.warning("", "Debe completar el campo Usuario")
-        $("#txtUsuario").focus()
-        return;
-    }
+    //    toastr.warning("", "Debe completar el campo Usuario")
+    //    $("#txtUsuario").focus()
+    //    return;
+    //}
 
-    if ($("#txtNombre").val().trim() == "") {
-        toastr.warning("", "Debe completar el campo Nombre")
-        $("#txtUsuario").focus()
-        return;
-    }
+    //if ($("#txtNombre").val().trim() == "") {
+    //    toastr.warning("", "Debe completar el campo Nombre")
+    //    $("#txtUsuario").focus()
+    //    return;
+    //}
 
-    if ($("#txtEmail").val().trim() == "") {
-        toastr.warning("", "Debe completar el campo Correo")
-        $("#txtEmail").focus()
-        return;
-    }
-
-
-
-    if ($('#sectionPassword').css('display') === 'none') {
-
-        if ($("#txtPassword").val().trim() == "") {
-            toastr.warning("", "Debe agregar una contraseña")
-            $("#txtPassword").focus()
-            return;
-        }
-
-    }
-
-    if ($('#exampleCheck1').prop('checked')) {
-
-        if ($("#txtPassword").val().trim() == "") {
-            toastr.warning("", "Debe agregar una contraseña")
-            $("#txtPassword").focus()
-            return;
-        }
-
-
-    }
-
-
-
-    let perfiles = $("#id_ds_field_groups").find("option");
-
-    if (perfiles.length == 0) {
-        toastr.warning("", "Debe agregar almenos un perfil")
-        $("#id_ds_field_groups").focus()
-        return;
-    }
+    
+    //}
 
     const modelo = structuredClone(MODELO_BASE)
-    modelo["usuId"] = parseInt($("#txtId").val())
-    modelo["usuLogin"] = $("#txtUsuario").val()
-    modelo["usuNombre"] = $("#txtNombre").val()
-    modelo["usuEmail"] = $("#txtEmail").val()
-    modelo["estadoId"] = $("#cboestado").val()
-    modelo["usuPassword"] = $("#txtPassword").val()
-    modelo["isUpdatePassword"] = $('#exampleCheck1').prop('checked')
+    modelo["modId"] = parseInt($("#txtId").val())
+    modelo["modNombre"] = $("#txtNombre").val()
+    modelo["modUrl"] = $("#txtUrl").val()
+    modelo["modIdPadre"] = parseInt($("#txtidPadre").val())
+    modelo["idTipoModulo"] = parseInt($("#txtTipoModulo").val())
 
-    let roles = [];
 
-    let options = $("#id_ds_field_groups").find("option");
-    for (let i = 0; i < options.length; i++) {
-        options[i].value
 
-        roles[i] = {
-            perfilId: options[i].value,
-            descripcion: options[i].text
-        }
+    //modelo["usuEmail"] = $("#txtEmail").val()
+    //modelo["estadoId"] = $("#cboestado").val()
+    //modelo["usuPassword"] = $("#txtPassword").val()
+    //modelo["isUpdatePassword"] = $('#exampleCheck1').prop('checked')
 
-    }
-    modelo["perfils"] = roles
+   
 
     console.log(modelo)
 
@@ -213,9 +174,9 @@ $("#btnGuardar").click(function () {
 
     $("#modalData").find("div.modal-content").LoadingOverlay("show");
 
-    if (modelo.usuId == 0) {
+    if (modelo.modId == 0) {
 
-        fetch("/Usuario/Crear", {
+        fetch("/ModuloWeb/Crear", {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
@@ -237,7 +198,7 @@ $("#btnGuardar").click(function () {
             })
     } else {
 
-        fetch("/Usuario/Editar", {
+        fetch("/ModuloWeb/Editar", {
             method: "PUT",
             headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
@@ -271,17 +232,11 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
         filaSeleccionada = $(this).closest("tr").prev();
     } else {
         filaSeleccionada = $(this).closest("tr");
-    }
-
-    $("#sectionPassword").css('display', 'inline');
-    $("#txtPassword").css('display', 'none');
-    $("#labelPassword").css('display', 'none');
+    }   
 
     const data = tablaData.row(filaSeleccionada).data();
 
-    console.log(data)
-
-    setValueSelect("groups_orig", data);
+    console.log(data)    
 
     mostrarModal(data);
 })
