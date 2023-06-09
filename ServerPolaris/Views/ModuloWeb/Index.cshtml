@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="vendor/datatables/extensiones/css/buttons.dataTables.min.css">
 }
 
+<button class="btn btn-primary  btn-sm mr-2" id="" onclick="get()" style="display:none">prueba</button>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3 bg-second-primary">
         <h6 class="m-0 font-weight-bold text-black">Lista de modulos</h6>
@@ -35,7 +37,7 @@
                             <th>Id modulo principal</th>
                             <th>Nombre</th>
                             <th>Url</th>
-                            <th>Tipo</th>                           
+                            <th>Tipo</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -46,7 +48,7 @@
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
-                           
+
                             @*  <td><span class="badge badge-info">Activo</span></td>*@
                             <td>
                                 <button class="btn btn-primary btn-sm">
@@ -63,7 +65,7 @@
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
-                          
+
                             @*<td><span class="badge badge-danger">No Activo</span></td>*@
                             <td>
                                 <button class="btn btn-primary btn-sm">
@@ -98,18 +100,23 @@
                         <div class="col-sm-12">
                             <div class="form-row">
                                 <div class="form-group col-sm-6">
+
+                                    <label for="txtidPadre">idPadre</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtidPadre">
+
+                                    <label for="txtTipoModulo">tipo modulo</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtTipoModulo">
+
                                     <label for="txtNombre">Nombre</label>
                                     <input type="text" class="form-control form-control-sm" id="txtUsuario">
                                     <label for="txtUrl">Url</label>
-                                    <input type="text" class="form-control form-control-sm" id="txtNombre">                                   
-                                    
-                                        <label for="cbotipomodulo">Tipo Modulo</label>
-                                        <select class="form-control form-control-sm" id="cbotipomodulo">
-                                            <option value="1">Activo</option>
-                                            <option value="2">Desactivo</option>
-                                        </select>
+                                    <input type="text" class="form-control form-control-sm" id="txtNombre">
 
-                                                                      
+                                    <label for="cbotipomodulo">Tipo Modulo</label>
+                                    <select class="form-control form-control-sm" id="cbotipomodulo">
+                                    </select>
+
+
                                 </div>
                             </div>
                         </div>
