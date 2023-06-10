@@ -24,25 +24,7 @@ $(document).ready(function () {
 
 
     $("#txtTipoModulo").val("1")
-    $("#txtidPadre").val("0")
-
-    //fetch("/TipoModulo/Lista")
-    //    .then(response => {
-    //        return response.ok ? response.json() : Promise.reject(response);
-    //    })
-    //    .then(responseJson => {
-    //        if (responseJson.data.length > 0) {
-    //            responseJson.data.forEach((item) => {
-    //                $("#cbotipomodulo").append(
-    //                    $("<option>").val(item.idTipoModulo).text(item.descripcion)
-    //                )
-    //            })
-    //        }
-    //    })
-
-
-
-
+    $("#txtidPadre").val("0") 
 
     tablaData = $('#tbdata').DataTable({
         responsive: true,
@@ -83,35 +65,12 @@ $(document).ready(function () {
 
 function mostrarModal(modelo = MODELO_BASE) {
 
-
-
-
-    //let options = $("#id_ds_field_groups ").find("option");
-    //for (let i = 0; i < options.length; i++) {
-    //    $("#id_ds_field_groups option[value='" + options[i].value + "']").remove();
-    //}
-
     $("#txtId").val(modelo.modId)
     $("#txtNombre").val(modelo.modNombre)
     $("#txtUrl").val(modelo.modUrl)
     $("#txtDescripcion").val(modelo.modDescripcion)
     $("#txtIcono").val(modelo.modIcono)
-    //$("#txtUsuario").val(modelo.usuLogin)
-    //$("#txtNombre").val(modelo.usuNombre)
-    //$("#txtEmail").val(modelo.usuEmail)
-    //$("#cboestado").val(modelo.estadoId)
-    //$("#txtPassword").val(modelo.usuPassword)
-    //$('#exampleCheck1').prop('checked', false)
-
-
-    //for (let i = 0; i < modelo.perfils.length; i++) {
-
-    //    if (modelo.perfils[i].perfilId != 0) {
-    //        $("#id_ds_field_groups").append(
-    //            $("<option>").val(modelo.perfils[i].perfilId).text(modelo.perfils[i].descripcion)
-    //        )
-    //    }
-    //}
+   
 
     $("#modalData").modal("show")
 }
@@ -141,21 +100,31 @@ $("#btnNuevo").click(function () {
 
 $("#btnGuardar").click(function () {
 
-    //if ($("#txtUsuario").val().trim() == "") {
+    if ($("#txtNombre").val().trim() == "") {
 
-    //    toastr.warning("", "Debe completar el campo Usuario")
-    //    $("#txtUsuario").focus()
-    //    return;
-    //}
+        toastr.warning("", "Debe completar el campo Nombre")
+        $("#txtNombre").focus()
+        return;
+    }
 
-    //if ($("#txtNombre").val().trim() == "") {
-    //    toastr.warning("", "Debe completar el campo Nombre")
-    //    $("#txtUsuario").focus()
-    //    return;
-    //}
+    if ($("#txtUrl").val().trim() == "") {
+        toastr.warning("", "Debe completar el campo ")
+        $("#txtUrl").focus()
+        return;
+    }
 
-    
-    //}
+    if ($("#txtDescripcion").val().trim() == "") {
+        toastr.warning("", "Debe completar el Descripción ")
+        $("#txtDescripcion").focus()
+        return;
+    }
+
+    if ($("#txtIcono").val().trim() == "") {
+        toastr.warning("", "Debe completar el Icono ")
+        $("#txtIcono").focus()
+        return;
+    }   
+  
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["modId"] = parseInt($("#txtId").val())
@@ -164,20 +133,9 @@ $("#btnGuardar").click(function () {
     modelo["modIdPadre"] = parseInt($("#txtidPadre").val())
     modelo["idTipoModulo"] = parseInt($("#txtTipoModulo").val())
     modelo["modDescripcion"] = $("#txtDescripcion").val()
-    modelo["modIcono"] = $("#txtIcono").val()
-
-
-
-    //modelo["usuEmail"] = $("#txtEmail").val()
-    //modelo["estadoId"] = $("#cboestado").val()
-    //modelo["usuPassword"] = $("#txtPassword").val()
-    //modelo["isUpdatePassword"] = $('#exampleCheck1').prop('checked')
-
-   
+    modelo["modIcono"] = $("#txtIcono").val()   
 
     console.log(modelo)
-
-
     console.log(JSON.stringify(modelo))
 
     $("#modalData").find("div.modal-content").LoadingOverlay("show");
@@ -199,7 +157,7 @@ $("#btnGuardar").click(function () {
 
                     tablaData.row.add(responseJson.objeto).draw(false)
                     $("#modalData").modal("hide")
-                    swal("Listo!", "El usuario fue creado", "success")
+                    swal("Listo!", "El modulo web fue creado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
@@ -222,7 +180,7 @@ $("#btnGuardar").click(function () {
                     tablaData.row(filaSeleccionada).data(responseJson.objeto).draw(false);
                     filaSeleccionada = null;
                     $("#modalData").modal("hide")
-                    swal("Listo!", "El usuario ha sido Editado", "success")
+                    swal("Listo!", "El modulo web fue Editado", "success")
                 } else {
                     swal("Lo sentimos", responseJson.mensaje, "error")
                 }
@@ -267,7 +225,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 
     swal({
         title: "¿Estas seguro?",
-        text: `Eliminar el usuario "${data.usuNombre}"`,
+        text: `Eliminar el modulo "${data.modNombre}"`,
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
@@ -298,7 +256,7 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
                         if (responseJson.estado) {
 
                             tablaData.row(fila).remove().draw()
-                            swal("Listo!", "El usuario fue Eliminada", "success")
+                            swal("Listo!", "El el modulo fue Eliminada", "success")
                         } else {
                             swal("Lo sentimos", responseJson.mensaje, "error")
                         }
@@ -372,16 +330,6 @@ $(".btn-volver").on("click", function () {
 
             }
         })
-
-    //listObjOld = listObjOld.filter(function (obj) {
-    //    return obj.id !== listObjOld[0].id;
-    //});
-
-
-
-    //if (listObjOld.length == 0) {
-    //    $('#volver').css('display', 'none');
-    //}
 
 
 
