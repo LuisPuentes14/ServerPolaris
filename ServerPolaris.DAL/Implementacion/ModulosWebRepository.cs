@@ -31,7 +31,16 @@ namespace ServerPolaris.DAL.Implementacion
                 try
                 {
 
-                    var idModelo = _context.ModulosWebs.Max(m => m.ModId);
+                    long totalRegistros = _context.ModulosWebs.Count();
+
+                    long idModelo;
+                    if (totalRegistros == 0)
+                    {
+                        idModelo = 1;
+                    }
+                    else {
+                        idModelo = _context.ModulosWebs.Max(m => m.ModId);
+                    }                   
 
 
                     if (moduloWeb.IdTipoModulo == 1)
@@ -100,35 +109,79 @@ namespace ServerPolaris.DAL.Implementacion
 
         public async Task<bool> Eliminar(ModulosWeb moduloWeb)
         {
-            //throw new NotImplementedException();
-            Table.Columns.Add("modId", typeof(long));
-            Table.Columns.Add("modIdPadre", typeof(long));
-            Table.Columns.Add("modIdHijo", typeof(long?));
-            Table.Columns.Add("modNombre", typeof(string));
-            Table.Columns.Add("modUrl", typeof(string));
-            Table.Columns.Add("idTipoModulo", typeof(string));
-            Table.Columns.Add("modDescripcion", typeof(string));
-            Table.Columns.Add("modIcono", typeof(string));
 
-            var validatePadreQury = (_context.ModulosWebs.Where(m => m.ModIdHijo== moduloWeb.ModIdPadre)).ToList();
-
-            foreach (var item in validatePadreQury)
+            try
             {
 
-                DataRow row = Table.NewRow();
-                row["modId"] = item.ModId;
-                row["modIdPadre"] = item.ModIdPadre;
-                row["modIdHijo"] = item.ModIdHijo;
-                Table.Rows.Add(row);
+                Table.Columns.Add("modId", typeof(long));
+                Table.Columns.Add("modIdPadre", typeof(string));
+                Table.Columns.Add("modIdHijo", typeof(string));
+                Table.Columns.Add("modNombre", typeof(string));
+                Table.Columns.Add("modUrl", typeof(string));
+                Table.Columns.Add("idTipoModulo", typeof(string));
+                Table.Columns.Add("modDescripcion", typeof(string));
+                Table.Columns.Add("modIcono", typeof(string));
 
-            };
+                if (moduloWeb.ModIdHijo == null)
+                {
+                    recorrerHijos(getHijo(moduloWeb.ModIdPadre));
+                }
+                else
+                {
+                    DataRow row = Table.NewRow();
+                    row["modId"] = moduloWeb.ModId;
+                    row["modIdPadre"] = moduloWeb.ModIdPadre;
+                    row["modIdHijo"] = moduloWeb.ModIdHijo;
+                    Table.Rows.Add(row);
 
-            recorrerHijos(getHijo(moduloWeb.ModIdPadre));
+                    recorrerHijos(getHijo(moduloWeb.ModIdHijo));
+                }
 
-            var table = this.Table;
+               // var table = this.Table;
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (DataRow row in this.Table.Rows)
+                        {
+                            long idMod = Convert.ToInt64(row["modId"]);
 
+                            //var modulosPerfils = _context.PermisosPerfilModulos.Where(p => p.ModId == idMod)
 
-            return true;
+                            foreach (var modulosPerfil in _context.PermisosPerfilModulos.Where(p => p.ModId == idMod).ToList()) {
+                                _context.PermisosPerfilModulos.Remove(modulosPerfil);
+                                _context.SaveChanges();
+                            }                        
+
+                            _context.ModulosWebs.Remove(_context.ModulosWebs.Where(m => m.ModId == idMod).FirstOrDefault());
+                            _context.SaveChanges();                           
+                           
+                        }
+
+                        transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                        transaction.Rollback();
+
+                        throw;
+                    }
+                
+                }
+                   
+
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+          
 
         }
 
