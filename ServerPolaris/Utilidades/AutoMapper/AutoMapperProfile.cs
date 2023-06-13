@@ -14,6 +14,23 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
         public AutoMapperProfile()
         {
 
+            #region permisos perfil
+            //Objeto Destino / Objeto origen
+            CreateMap<VMPermisosPerfilModulo, PermisosPerfilModulo>();
+            CreateMap<PermisosPerfilModulo, VMPermisosPerfilModulo>().ForMember(destino =>
+                   destino.nombreModulo,
+                   opt => opt.MapFrom(origen => origen.Mod.ModNombre)
+               ).ForMember(destino =>
+                   destino.nombrePerfil,
+                   opt => opt.MapFrom(origen => origen.Perfil.Descripcion)
+               ).ForMember(destino =>
+                   destino.tipoModulo,
+                   opt => opt.MapFrom(origen => origen.Mod.IdTipoModuloNavigation.Descripcion)
+               ); 
+
+            #endregion
+
+
 
             #region tipo modulo
             //Objeto Destino / Objeto origen
