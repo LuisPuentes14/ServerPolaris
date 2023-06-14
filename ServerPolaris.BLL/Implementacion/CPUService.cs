@@ -7,18 +7,13 @@ namespace ServerPolaris.BLL.Implementacion
 {
     public class CPUService : ICPUService
     {
-        private readonly ICPURepositoy _repositorio;
-        private readonly IMenuService _IMenuService;
-        public CPUService(ICPURepositoy _repositorio, IMenuService IMenuService) { 
-            this._repositorio = _repositorio;
-            this._IMenuService = IMenuService;
+        private readonly ICPURepositoy _repositorio;     
+        public CPUService(ICPURepositoy _repositorio) { 
+            this._repositorio = _repositorio;            
         }
 
         public async Task<List<CPU>> GetInfoCPU()
-        {
-
-            List<Menu> list = await _IMenuService.Menu();
-
+        {        
             List<CPU> listCPU = await _repositorio.GetInfoCPU();
             return listCPU;
         }

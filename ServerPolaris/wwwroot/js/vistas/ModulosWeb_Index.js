@@ -40,7 +40,11 @@ $(document).ready(function () {
             { "data": "modNombre" },
             { "data": "modUrl" },
             { "data": "modDescripcion" },
-            { "data": "modIcono" },
+            {
+                "data": "modIcono", render: function(data) {
+                    return '<i class="'+data+'"></i>'
+                }
+            },
             { "data": "descripcionTipoModulo" },
 
             {

@@ -1,4 +1,4 @@
-﻿@*@using SistemaVenta.AplicacionWeb.Models.ViewModels;
+﻿@using ServerPolaris.Models.ViewModels;
 @model List<VMMenu>;
 
 @{
@@ -10,12 +10,12 @@
 @foreach (var menu in Model)
 {
 
-    if (menu.SubMenus.Count == 0)
+    if (menu.submodulos.Count == 0)
     {
         <li class="nav-item">
-            <a class="nav-link" href="@($"/{menu.Controlador}/{menu.PaginaAccion}")">
-                <i class="@menu.Icono"></i>
-                <span>@menu.Descripcion</span>
+            <a class="nav-link" href="@($"/{menu.ModUrl}")">
+                <i class="@menu.ModIcono"></i>
+                <span>@menu.ModNombre</span>
             </a>
         </li>
     }
@@ -24,16 +24,17 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="@($"#{menucollapse}{correlativo}")">
-                <i class="@menu.Icono"></i>
-                <span>@menu.Descripcion</span>
+                <i class="@menu.ModIcono"></i>
+                <span>@menu.ModNombre</span>
             </a>
 
             <div id="@($"{menucollapse}{correlativo}")" class="collapse" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    @foreach (var submenu in menu.SubMenus)
+                    @foreach (var submenu in menu.submodulos)
                     {
-                        <a class="collapse-item" href="@($"/{submenu.Controlador}/{submenu.PaginaAccion}")">
-                            @submenu.Descripcion
+                        <a class="collapse-item" href="@($"/{submenu.ModUrl}")">
+                            <i class="@submenu.ModIcono"></i>
+                            <span>@submenu.ModNombre</span>
                         </a>
                     }
                 </div>
@@ -41,4 +42,4 @@
         </li>
         correlativo = correlativo + 1;
     }
-}*@
+}

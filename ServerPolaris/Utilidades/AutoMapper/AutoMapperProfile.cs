@@ -14,6 +14,15 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
         public AutoMapperProfile()
         {
 
+            #region menu
+            //Objeto Destino / Objeto origen
+            CreateMap<VMMenu, Menu>();
+            CreateMap<Menu, VMMenu>();
+
+            #endregion
+
+
+
             #region permisos perfil
             //Objeto Destino / Objeto origen
             CreateMap<VMPermisosPerfilModulo, PermisosPerfilModulo>();

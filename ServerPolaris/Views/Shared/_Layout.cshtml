@@ -62,7 +62,7 @@
 
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            @*<li class="nav-item">
                 <a class="nav-link collapsed" href="@Url.Action("Index", "Clientes")">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Clientes</span>
@@ -80,7 +80,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="@Url.Action("Index", "LogCliente")">Clientes</a>
-                        @*<a class="collapse-item" href="cards.html">Cards</a>*@
+                       
                     </div>
                 </div>
             </li>
@@ -97,9 +97,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="@Url.Action("Index", "DataBaseCliente")">Clientes</a>
-                       @* <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>*@
+                       
                     </div>
                 </div>
             </li>
@@ -118,14 +116,12 @@
                         <a class="collapse-item" href="@Url.Action("Index", "Usuario")">Usuario</a>
                         <a class="collapse-item" href="@Url.Action("Index", "ModuloWeb")">Modulos Web</a>
                         <a class="collapse-item" href="@Url.Action("Index", "PermisosPerfil")">Permisos por perfil</a>
-                        @* <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>*@
+                        
                     </div>
                 </div>
-            </li>
+            </li>*@
 
-            @await Component.InvokeAsync("MenuUsuario");
+            @await Component.InvokeAsync("Menu");
 
             <!-- Divider -->
             @* <hr class="sidebar-divider">

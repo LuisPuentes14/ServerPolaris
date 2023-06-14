@@ -28,20 +28,22 @@ namespace ServerPolaris.BLL.Implementacion
 
             try
             {
+                List<long> perfilIds = new List<long> { 1, 3 };
+
+
                 var consulta = (from ppm in _contexto.PermisosPerfilModulos
                                 join mw in _contexto.ModulosWebs on ppm.ModId equals mw.ModId
-                                join p in _contexto.Perfils on ppm.PerfilId equals p.PerfilId
-                                join pu in _contexto.PerfilUsuarios on p.PerfilId equals pu.PerfilId
-                                join u in _contexto.Usuarios on pu.UsuId equals u.UsuId
-                                where u.UsuId == 10 && mw.IdTipoModulo == 1
+                                join p in _contexto.Perfils on ppm.PerfilId equals p.PerfilId                                
+                                where perfilIds.Contains(p.PerfilId) && mw.IdTipoModulo == 1
                                 select new
                                 {
+                                    mw.ModId,
                                     mw.ModIdPadre,
                                     mw.ModNombre,
                                     mw.ModUrl,
                                     mw.ModIcono
                                    
-                                }).Distinct().ToList();
+                                }).OrderBy(mw => mw.ModId).Distinct().ToList();
 
                 foreach (var item in consulta)
                 {
@@ -51,14 +53,17 @@ namespace ServerPolaris.BLL.Implementacion
                     menu.ModIcono = item.ModIcono;
                     menu.ModUrl = item.ModUrl;
 
-                    var consulta2 = (from sudmodulos in _contexto.ModulosWebs
+                    var consulta2 = (from ppm in _contexto.PermisosPerfilModulos
+                                     join sudmodulos in _contexto.ModulosWebs on ppm.ModId equals sudmodulos.ModId
+                                     join p in _contexto.Perfils on ppm.PerfilId equals p.PerfilId
                                      where sudmodulos.ModIdPadre == item.ModIdPadre && sudmodulos.IdTipoModulo == 2
                                      select new
                                      {
+                                         sudmodulos.ModId,
                                          sudmodulos.ModNombre,
                                          sudmodulos.ModUrl,
-                                         sudmodulos.ModIcono,
-                                     }).Distinct().ToList();
+                                         sudmodulos.ModIcono
+                                     }).OrderBy(sudmodulos=> sudmodulos.ModId).Distinct().ToList();
 
                     foreach (var item2 in consulta2)
                     {
