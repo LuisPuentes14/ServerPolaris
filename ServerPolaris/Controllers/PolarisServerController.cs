@@ -8,6 +8,7 @@ using ServerPolaris.Models.ViewModels;
 using ServerPolaris.Utilidades.Tools;
 using System.Security.Claims;
 using System.Text.Json;
+using ServerPolaris.BLL.Implementacion;
 
 namespace ServerPolaris.Controllers
 {
@@ -17,8 +18,9 @@ namespace ServerPolaris.Controllers
         private readonly IUsuarioService _usuarioServicio;
         private readonly IMapper _mapper;
 
-        public PolarisServerController(IUsuarioService usuarioServicio, IMapper mapper)
+        public PolarisServerController(IPermisosPerfilModuloService PermisosPerfilModuloService, IUsuarioService usuarioServicio, IMapper mapper)
         {
+            _PermisosPerfilModuloService = PermisosPerfilModuloService;
             _usuarioServicio = usuarioServicio;
             _mapper = mapper;
         }
@@ -26,14 +28,14 @@ namespace ServerPolaris.Controllers
 
         public IActionResult Login()
         {
-            ClaimsPrincipal c = HttpContext.User;
-            if (c.Identity != null)
-            {
-                if (c.Identity.IsAuthenticated)
-                {
-                    return RedirectToAction("Index", "DashBoard");
-                }
-            }
+            //ClaimsPrincipal c = HttpContext.User;
+            //if (c.Identity != null)
+            //{
+            //    if (c.Identity.IsAuthenticated)
+            //    {
+            //        return RedirectToAction("Index", "DashBoard");
+            //    }
+            //}
 
 
             return View();
@@ -60,7 +62,10 @@ namespace ServerPolaris.Controllers
                 rolesId.Add(perfilUsuario.PerfilId);
             }
 
+            
+            List<VMPermisosPerfilModulo> permisosperfil = _mapper.Map<List<VMPermisosPerfilModulo>>(await _PermisosPerfilModuloService.Lista());
 
+            permisosperfil = permisosperfil.Where(p=> rolesId.Contains(p.PerfilId)).ToList();
 
 
 

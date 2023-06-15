@@ -15,6 +15,7 @@ namespace ServerPolaris.Models.ViewModels
         public string nombreModulo { get; set; }
         public string nombrePerfil { get; set; }
         public string tipoModulo { get; set; }
+        public string UrlModulo { get; set; }
        
     }
 }

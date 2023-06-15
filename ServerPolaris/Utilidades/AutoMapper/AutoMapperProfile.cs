@@ -41,6 +41,9 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
                    destino.nombrePerfil,
                    opt => opt.MapFrom(origen => origen.Perfil.Descripcion)
                ).ForMember(destino =>
+                   destino.UrlModulo,
+                   opt => opt.MapFrom(origen => origen.Mod.ModUrl)
+               ).ForMember(destino =>
                    destino.tipoModulo,
                    opt => opt.MapFrom(origen => origen.Mod.IdTipoModuloNavigation.Descripcion)
                ); 

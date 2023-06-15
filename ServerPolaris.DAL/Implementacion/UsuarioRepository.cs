@@ -2,17 +2,13 @@
 using ServerPolaris.DAL.DBContext;
 using ServerPolaris.DAL.Interfaces;
 using ServerPolaris.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ServerPolaris.DAL.Implementacion
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        readonly PolarisServerContext _context;
+        private readonly PolarisServerContext _context;
         public UsuarioRepository(PolarisServerContext context)
         {
             _context = context;

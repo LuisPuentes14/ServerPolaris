@@ -43,7 +43,7 @@ namespace ServerPolaris.Controllers
 
             VMPerfil perfil = JsonSerializer.Deserialize<VMPerfil>(ServerPolarisSession);
 
-            List<VMPermisosPerfilModulo> vMPermisos = _mapper.Map<List<VMPermisosPerfilModulo>>( await _PermisosPerfilModuloService.Lista(perfil.PerfilId));
+            List<VMPermisosPerfilModulo> vMPermisos = _mapper.Map<List<VMPermisosPerfilModulo>>( await _PermisosPerfilModuloService.ObtenerPermisosPerfilModulo(perfil.PerfilId));
 
             return StatusCode(StatusCodes.Status200OK, new { data = vMPermisos });
         }
