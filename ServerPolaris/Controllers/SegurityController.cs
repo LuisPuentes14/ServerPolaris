@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerPolaris.AplicacionWeb.Utilidades.Response;
+using ServerPolaris.Models.ViewModels;
 
 namespace ServerPolaris.Controllers
 {
@@ -6,7 +8,17 @@ namespace ServerPolaris.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+
+            GenericResponse<VMServer> gResponse = new GenericResponse<VMServer>();
+            //List<VMServer> vmLista = _mapper.Map<List<VMServer>>(await _IServerService.GetInfoSever());
+
+            //gResponse.Estado = true;
+            //gResponse.ListaObjeto = vmLista;
+
+            return StatusCode(StatusCodes.Status200OK, gResponse);
+
+
+            
         }
     }
 }

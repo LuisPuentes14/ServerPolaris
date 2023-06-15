@@ -13,6 +13,7 @@ namespace ServerPolaris.Controllers
 {
     public class PolarisServerController : Controller
     {
+        private readonly IPermisosPerfilModuloService _PermisosPerfilModuloService;
         private readonly IUsuarioService _usuarioServicio;
         private readonly IMapper _mapper;
 
@@ -59,6 +60,10 @@ namespace ServerPolaris.Controllers
                 rolesId.Add(perfilUsuario.PerfilId);
             }
 
+
+
+
+
             List<Claim> claims = new List<Claim>() {
                 new Claim(ClaimTypes.Name,usuario_encontrado.UsuNombre),
                 new Claim(ClaimTypes.NameIdentifier, usuario_encontrado.UsuEmail),
@@ -72,7 +77,7 @@ namespace ServerPolaris.Controllers
             {
                 AllowRefresh = true, //permite el refrescado de la pagina
                 IsPersistent = true, // persiste la sesion y la saca del modelo   
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(1),
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
             };
 
             await HttpContext.SignInAsync(
@@ -85,6 +90,12 @@ namespace ServerPolaris.Controllers
 
 
 
+        }
+
+        public async Task<IActionResult> Salir()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //terminamos la sesion en la cual esta el usuario
+            return RedirectToAction("Login", "PolarisServer");
         }
 
 
