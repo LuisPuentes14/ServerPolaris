@@ -329,5 +329,13 @@ namespace ServerPolaris.DAL.Implementacion
 
             return idDelete;
         }
+
+        public async Task<Usuario> ValidarUsuario(Usuario modelo) {
+
+            Usuario usuario = _context.Usuarios.Include(u => u.PerfilUsuarios).FirstOrDefault(u => u.UsuLogin == modelo.UsuLogin && u.UsuPassword == modelo.UsuPassword);
+
+            return usuario;
+
+        }
     }
 }

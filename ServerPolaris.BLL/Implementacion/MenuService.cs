@@ -22,19 +22,19 @@ namespace ServerPolaris.BLL.Implementacion
         }
 
 
-        public async Task<List<Menu>> Menu()
+        public async Task<List<Menu>> Menu(List<long> perfilIds)
         {
             List<Menu> menus = new List<Menu>();
 
             try
             {
-                List<long> perfilIds = new List<long> { 1, 3 };
+                //List<long> perfilIds = new List<long> { 1, 3 };
 
 
                 var consulta = (from ppm in _contexto.PermisosPerfilModulos
                                 join mw in _contexto.ModulosWebs on ppm.ModId equals mw.ModId
                                 join p in _contexto.Perfils on ppm.PerfilId equals p.PerfilId                                
-                                where perfilIds.Contains(p.PerfilId) && mw.IdTipoModulo == 1
+                                where perfilIds.Contains(p.PerfilId) && mw.IdTipoModulo == 1 && ppm.PerAcceder == true
                                 select new
                                 {
                                     mw.ModId,
@@ -56,7 +56,7 @@ namespace ServerPolaris.BLL.Implementacion
                     var consulta2 = (from ppm in _contexto.PermisosPerfilModulos
                                      join sudmodulos in _contexto.ModulosWebs on ppm.ModId equals sudmodulos.ModId
                                      join p in _contexto.Perfils on ppm.PerfilId equals p.PerfilId
-                                     where sudmodulos.ModIdPadre == item.ModIdPadre && sudmodulos.IdTipoModulo == 2
+                                     where sudmodulos.ModIdPadre == item.ModIdPadre && sudmodulos.IdTipoModulo == 2 && ppm.PerAcceder == true
                                      select new
                                      {
                                          sudmodulos.ModId,

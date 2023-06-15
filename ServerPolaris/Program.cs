@@ -28,8 +28,9 @@ builder.Services.AddSingleton(new PolarisServerStringContext(builder.Configurati
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
     {
-        option.LoginPath = "/Acceso/Login";
-        option.ExpireTimeSpan = TimeSpan.FromMinutes(20); //tiempo expiración
+        option.LoginPath = "/PolarisServer/Login";
+        option.Cookie.Name = "PolarisServerAutenticacion";
+       // option.ExpireTimeSpan = TimeSpan.FromMinutes(20); //tiempo expiración
     });
 
 
@@ -60,6 +61,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=DashBoard}/{action=Index}/{id?}");
+    pattern: "{controller=PolarisServer}/{action=Login}/{id?}");
 
 app.Run();

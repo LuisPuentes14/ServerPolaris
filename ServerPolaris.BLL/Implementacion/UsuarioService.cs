@@ -23,7 +23,7 @@ namespace ServerPolaris.BLL.Implementacion
         public async Task<List<UsuarioPerfils>> Lista()
         {
             List<UsuarioPerfils> query = await _UsuarioRepository.Consultar();
-          
+
             return query;
         }
 
@@ -101,6 +101,22 @@ namespace ServerPolaris.BLL.Implementacion
 
                 throw;
             }
+        }
+
+        public async Task<Usuario> ValidarUsuario(Usuario modelo)
+        {
+            try
+            {
+                Usuario usuario = new Usuario();
+
+                usuario = await _UsuarioRepository.ValidarUsuario(modelo);
+                return usuario;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
     }
 }

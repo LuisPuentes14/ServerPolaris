@@ -14,5 +14,6 @@ namespace ServerPolaris.DAL.Interfaces
         Task<UsuarioPerfils> Crear(UsuarioPerfils usuarioPerfil);
         Task<UsuarioPerfils> Editar(UsuarioPerfils usuarioPerfil);
         Task<bool> Eliminar(long idUsuario);
+        Task<Usuario> ValidarUsuario(Usuario modelo);
     }
 }

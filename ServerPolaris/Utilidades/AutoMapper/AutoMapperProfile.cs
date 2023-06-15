@@ -14,6 +14,14 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
         public AutoMapperProfile()
         {
 
+            #region Login
+            //Objeto Destino / Objeto origen
+            CreateMap<VMUsuarioLogin, Usuario>();
+            CreateMap<Usuario, VMUsuarioLogin>();
+
+            #endregion
+
+
             #region menu
             //Objeto Destino / Objeto origen
             CreateMap<VMMenu, Menu>();

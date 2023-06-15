@@ -4,6 +4,7 @@ using ServerPolaris.BLL.Interfaces;
 using ServerPolaris.Entity;
 using ServerPolaris.Models.ViewModels;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace ServerPolaris.Utilidades.ViewComponents
 {
@@ -25,19 +26,21 @@ namespace ServerPolaris.Utilidades.ViewComponents
             ClaimsPrincipal claimUser = HttpContext.User;
             List<VMMenu> listaMenus;
 
-            //if (claimUser.Identity.IsAuthenticated)
-            //{
+            if (claimUser.Identity.IsAuthenticated)
+            {
 
-            //    string idUsuario = claimUser.Claims
-            //        .Where(c => c.Type == ClaimTypes.NameIdentifier)
-            //    .Select(c => c.Value).SingleOrDefault();
+                string RolUsuario = claimUser.Claims
+                    .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value).SingleOrDefault();
 
-            listaMenus = _mapper.Map<List<VMMenu>>(await _menuServicio.Menu());
-            //}
-            //else
-            //{
-            //    listaMenus = new List<VMMenu> { };
-            //}
+                List<long> listaIds = JsonSerializer.Deserialize<List<long>>(RolUsuario);
+
+                listaMenus = _mapper.Map<List<VMMenu>>(await _menuServicio.Menu(listaIds));
+            }
+            else
+            {
+                listaMenus = new List<VMMenu> { };
+            }
             return View(listaMenus);
         }
 
