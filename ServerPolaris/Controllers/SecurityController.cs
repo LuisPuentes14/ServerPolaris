@@ -8,6 +8,7 @@ namespace ServerPolaris.Controllers
 {
     public class SecurityController : Controller
     {
+        [HttpPost]
         public IActionResult Index([FromBody] VMRequestPermisosModulo vMRequestPermisosModulo)
         {                     
 

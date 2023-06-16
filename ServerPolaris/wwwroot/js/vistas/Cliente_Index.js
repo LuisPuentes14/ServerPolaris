@@ -18,11 +18,11 @@ $(document).ready(function () {
         },
         "columns": [
             //searchable permite al datable a realizar la busqueda
-            { "data": "clienteId"},
-            { "data": "clienteName" },        
+            { "data": "clienteId" },
+            { "data": "clienteName" },
 
             {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
+                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2" style="display:none;"><i class="fas fa-pencil-alt"></i></button>' +
                     '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>',
                 "orderable": false,
                 "searchable": false,
@@ -30,7 +30,7 @@ $(document).ready(function () {
             }
         ],
         order: [[0, "desc"]],
-       // dom: "Bfrtip",
+        // dom: "Bfrtip",
         //buttons: [
         //    {
         //        text: 'Exportar Excel',
@@ -53,7 +53,7 @@ $(document).ready(function () {
 function mostrarModal(modelo = MODELO_BASE) {
     $("#txtId").val(modelo.clienteId)
     $("#txtNombre").val(modelo.clienteName)
-   
+
 
     $("#modalData").modal("show")
 }
@@ -81,8 +81,8 @@ $("#btnGuardar").click(function () {
 
     console.log(JSON.stringify(modelo))
 
-    
-  
+
+
 
     //$("#modalData").find("div.modal-content").LoadingOverlay("show");
 
@@ -90,7 +90,7 @@ $("#btnGuardar").click(function () {
 
         fetch("/Clientes/Crear", {
             method: "POST",
-            headers: {"Content-Type":"application/json;charset=utf-8"},
+            headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
         })
             .then(response => {
@@ -112,7 +112,7 @@ $("#btnGuardar").click(function () {
 
         fetch("/Clientes/Editar", {
             method: "PUT",
-            headers: { "Content-Type": "application/json;charset=utf-8"},
+            headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
         })
             .then(response => {
@@ -211,3 +211,85 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
     )
 
 })
+
+
+
+let modulosAsolocitarPermisos = [];
+
+
+let Modulos = [
+    {
+        NameModulo: "Clientes/Index",
+        clase: "",
+        isButton: false
+    },
+
+]
+
+Modulos.forEach(e => {
+    modulosAsolocitarPermisos.push(e.NameModulo)    
+})
+
+const request = {
+    Modulos: modulosAsolocitarPermisos
+}
+
+
+fetch("/Security/Index", {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=utf-8" },
+    body: JSON.stringify(request)
+})
+    .then(response => {
+        //$("#modalData").find("div.modal-content").LoadingOverlay("hide");
+        return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(responseJson => {
+
+        if (responseJson.estado) {  
+            
+            setPermisos(responseJson);     
+
+        } else {
+
+        }
+    })
+
+
+function setPermisos(response) {
+    var intervalo = setInterval(function () {
+        if (tablaData != undefined) {
+
+           
+            console.log(response.listaObjeto)          
+
+            let ModuloNotButton = getModuloNotButton(response)      
+
+
+           
+
+            clearInterval(intervalo);
+            console.log("ssss", tablaData)
+        }
+    }, 0);
+
+}
+
+
+function getModuloNotButton(response) {
+
+    let mod = Modulos.find(function (objeto) {
+        return objeto.isButton === false;
+    });
+    
+
+    let obj = response.listaObjeto.find(function (objeto) {
+        return objeto.nombreModulo == mod.NameModulo;
+    }); 
+
+    return obj;
+}
+
+
+
+
