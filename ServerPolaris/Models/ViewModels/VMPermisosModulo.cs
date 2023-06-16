@@ -7,7 +7,9 @@
         public bool? PerActualizar { get; set; } = false;
         public bool? PerEliminar { get; set; } = false;
         public string nombreModulo { get; set; } = "";
-        public List<VMPermisosModulo> othersModulos { get; set; } = new List<VMPermisosModulo>();       
+
+
+       // public List<VMPermisosModulo> othersModulos { get; set; } = new List<VMPermisosModulo>();       
 
     }
 }

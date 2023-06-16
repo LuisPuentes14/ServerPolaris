@@ -30,14 +30,18 @@ namespace ServerPolaris.Controllers
 
         public IActionResult Login()
         {
-            //ClaimsPrincipal c = HttpContext.User;
-            //if (c.Identity != null)
-            //{
-            //    if (c.Identity.IsAuthenticated)
-            //    {
-            //        return RedirectToAction("Index", "DashBoard");
-            //    }
-            //}
+            ClaimsPrincipal c = HttpContext.User;
+            if (c.Identity != null)
+            {
+
+
+                if (c.Identity.IsAuthenticated)
+                {
+                    var cookieValue = HttpContext.Request.Cookies["PolarisServerAutenticacion"];
+
+                    return RedirectToAction("Index", "DashBoard");
+                }
+            }
 
 
             return View();
@@ -92,7 +96,7 @@ namespace ServerPolaris.Controllers
                 new ClaimsPrincipal(claimsIdentity),
             properties);
 
-            var cookieValue = HttpContext.Request.Cookies["PolarisServerAutenticacion"];
+            
 
             return RedirectToAction("Index", "DashBoard");
 
