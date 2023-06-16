@@ -9,6 +9,8 @@ using ServerPolaris.Utilidades.Tools;
 using System.Security.Claims;
 using System.Text.Json;
 using ServerPolaris.BLL.Implementacion;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http;
 
 namespace ServerPolaris.Controllers
 {
@@ -68,12 +70,12 @@ namespace ServerPolaris.Controllers
             permisosperfil = permisosperfil.Where(p=> rolesId.Contains(p.PerfilId)).ToList();
 
 
-
             List<Claim> claims = new List<Claim>() {
                 new Claim(ClaimTypes.Name,usuario_encontrado.UsuNombre),
                 new Claim(ClaimTypes.NameIdentifier, usuario_encontrado.UsuEmail),
-                new Claim(ClaimTypes.Role,JsonSerializer.Serialize(rolesId))
-
+                new Claim(ClaimTypes.Role,JsonSerializer.Serialize(rolesId)),
+                new Claim("Permisos",JsonSerializer.Serialize(permisosperfil))
+               
             };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); //tipo de autenticación
@@ -88,12 +90,11 @@ namespace ServerPolaris.Controllers
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
-                properties);
+            properties);
+
+            var cookieValue = HttpContext.Request.Cookies["PolarisServerAutenticacion"];
 
             return RedirectToAction("Index", "DashBoard");
-
-
-
 
         }
 
