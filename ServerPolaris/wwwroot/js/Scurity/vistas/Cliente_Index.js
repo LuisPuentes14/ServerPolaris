@@ -3,6 +3,7 @@ let Modulos = [
     {
         NameModulo: "Clientes/Index",
         clase: "",
-        isButton: false,       
+        isButton: false,
+        isTable: true
     },
 ]

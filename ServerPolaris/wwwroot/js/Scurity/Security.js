@@ -39,6 +39,8 @@ fetch("/Security/Index", {
 
 function setPermisos(response) {
     setPermisosModuloNotButton(getModuloNotButton(response));
+    //setPermisosModuloButton(getModuloButton(response));
+
 }
 
 function getModuloButton(response) {
@@ -47,19 +49,47 @@ function getModuloButton(response) {
         return objeto.isButton === true;
     });
 
+    console.log(mod);
 
-    let obj = response.listaObjeto.find(function (objeto) {
-        return objeto.nombreModulo == mod.NameModulo;
-    });
+    //let obj = response.listaObjeto.find(function (objeto) {
+    //    return objeto.nombreModulo == mod.NameModulo;
+    //});
 
-    return obj;
+    return mod;
+}
+
+function setPermisosModuloButton(ModuloButton) {
+
+    console.log(ModuloButton)
+
+    ModuloButton.forEach(e => {
+        console.log(e)
+
+    })
+
+
+    //if (ModuloNotButton.perActualizar) {
+    //    botonesTabla += '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>';
+    //}
+
+    //if (ModuloNotButton.perInsertar) {
+    //    var elemento = document.getElementsByClassName('btn-agregar');
+    //    for (var i = 0; i < elemento.length; i++) {
+    //        elemento[i].style.display = 'block';
+    //    }
+    //}
+
+    //if (ModuloNotButton.perEliminar) {
+    //    botonesTabla += '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>';
+    //}
+
 }
 
 function getModuloNotButton(response) {
 
     let mod = Modulos.find(function (objeto) {
-        return objeto.isButton === false;
-    });
+        return objeto.isButton === false && objeto.isTable === true ;
+    });  
 
 
     let obj = response.listaObjeto.find(function (objeto) {
