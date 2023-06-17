@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-3">
-                    <button class="btn btn-success" id="btnNuevo"> Nuevo log</button>
+                <button class="btn btn-success btn-agregar" id="btnNuevo"> Nuevo log</button>
                 </div>
             </div>
             <hr />
@@ -121,6 +121,14 @@
     </div>
 
     @section Scripts{
+
+
+    @*Otorgar permisos*@
+    @*-----------------------------------------------------------*@
+    <script src="~/js/scurity/vistas/LogCliente_index.js"></script>
+    <script src="~/js/scurity/security.js"></script>
+    @*-----------------------------------------------------------*@
+
 
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>

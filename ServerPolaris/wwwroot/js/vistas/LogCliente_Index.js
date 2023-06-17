@@ -43,48 +43,51 @@ $(document).ready(function () {
 
 
 
+    var intervalo = setInterval(function () {
 
+        if (resposeSecurity) {
+            clearInterval(intervalo);
 
-    tablaData = $('#tbdata').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/LogCliente/Lista',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "logId" },
-            { "data": "clienteName" },
-            { "data": "tipoLogDescripcion" },
-            { "data": "logPathFile" },
+            tablaData = $('#tbdata').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": '/LogCliente/Lista',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //searchable permite al datable a realizar la busqueda
+                    { "data": "logId" },
+                    { "data": "clienteName" },
+                    { "data": "tipoLogDescripcion" },
+                    { "data": "logPathFile" },
 
-            {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>' +
-                    '<button class="btn btn-warning btn-view btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>',
-                "orderable": false,
-                "searchable": false,
-                "width": "80px"
-            }
-        ],
-        order: [[0, "desc"]],
-        // dom: "Bfrtip",
-        //buttons: [
-        //    {
-        //        text: 'Exportar Excel',
-        //        extend: 'excelHtml5',
-        //        title: '',
-        //        filename: 'Reporte Categorias',
-        //        exportOptions: {
-        //            columns: [1, 2]
-        //        }
-        //    }, 'pageLength'
-        //],
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+                    {
+                        "defaultContent": botonesTabla,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "80px"
+                    }
+                ],
+                order: [[0, "desc"]],
+                // dom: "Bfrtip",
+                //buttons: [
+                //    {
+                //        text: 'Exportar Excel',
+                //        extend: 'excelHtml5',
+                //        title: '',
+                //        filename: 'Reporte Categorias',
+                //        exportOptions: {
+                //            columns: [1, 2]
+                //        }
+                //    }, 'pageLength'
+                //],
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+        }
+    }, 0);
 
 })
 
@@ -270,6 +273,6 @@ $("#tbdata tbody").on("click", ".btn-view", function () {
 
     const data = tablaData.row(filaSeleccionada).data();
     console.log(data)
-    window.location.href = '/LogInfo/Index?idLog=' + data.logId +"&rutaLog="+data.logPathFile;
+    window.location.href = '/LogInfo/Index?idLog=' + data.logId + "&rutaLog=" + data.logPathFile;
 
 })

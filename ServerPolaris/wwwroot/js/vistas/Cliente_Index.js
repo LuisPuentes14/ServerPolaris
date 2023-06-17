@@ -1,51 +1,53 @@
 ﻿
+
 const MODELO_BASE = {
     clienteId: 0,
     clienteName: ""
 }
 
-
 let tablaData;
 
 $(document).ready(function () {
+  
+    var intervalo = setInterval(function () {      
 
-    tablaData = $('#tbdata').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/Clientes/Lista',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "clienteId" },
-            { "data": "clienteName" },
+        if (resposeSecurity) {
+            clearInterval(intervalo);
 
-            {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2" style="display:none;"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>',
-                "orderable": false,
-                "searchable": false,
-                "width": "80px"
-            }
-        ],
-        order: [[0, "desc"]],
-        // dom: "Bfrtip",
-        //buttons: [
-        //    {
-        //        text: 'Exportar Excel',
-        //        extend: 'excelHtml5',
-        //        title: '',
-        //        filename: 'Reporte Categorias',
-        //        exportOptions: {
-        //            columns: [1, 2]
-        //        }
-        //    }, 'pageLength'
-        //],
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+            // ---------------------------------------------//
+
+            tablaData = $('#tbdata').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": '/Clientes/Lista',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //searchable permite al datable a realizar la busqueda
+                    { "data": "clienteId" },
+                    { "data": "clienteName" },
+
+                    {                                              
+                        "defaultContent": botonesTabla,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "80px"
+                    }
+                ],
+                order: [[0, "desc"]],
+                
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+
+            // ---------------------------------------------//
+
+
+        }
+    }, 0);
+
 
 })
 
@@ -77,14 +79,10 @@ $("#btnGuardar").click(function () {
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["clienteId"] = parseInt($("#txtId").val())
-    modelo["clienteName"] = $("#txtNombre").val()
-
-    console.log(JSON.stringify(modelo))
+    modelo["clienteName"] = $("#txtNombre").val()    
 
 
-
-
-    //$("#modalData").find("div.modal-content").LoadingOverlay("show");
+    $("#modalData").find("div.modal-content").LoadingOverlay("show");
 
     if (modelo.clienteId == 0) {
 
@@ -214,81 +212,6 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
 
 
 
-let modulosAsolocitarPermisos = [];
-
-
-let Modulos = [
-    {
-        NameModulo: "Clientes/Index",
-        clase: "",
-        isButton: false
-    },
-
-]
-
-Modulos.forEach(e => {
-    modulosAsolocitarPermisos.push(e.NameModulo)    
-})
-
-const request = {
-    Modulos: modulosAsolocitarPermisos
-}
-
-
-fetch("/Security/Index", {
-    method: "POST",
-    headers: { "Content-Type": "application/json;charset=utf-8" },
-    body: JSON.stringify(request)
-})
-    .then(response => {
-        //$("#modalData").find("div.modal-content").LoadingOverlay("hide");
-        return response.ok ? response.json() : Promise.reject(response);
-    })
-    .then(responseJson => {
-
-        if (responseJson.estado) {  
-            
-            setPermisos(responseJson);     
-
-        } else {
-
-        }
-    })
-
-
-function setPermisos(response) {
-    var intervalo = setInterval(function () {
-        if (tablaData != undefined) {
-
-           
-            console.log(response.listaObjeto)          
-
-            let ModuloNotButton = getModuloNotButton(response)      
-
-
-           
-
-            clearInterval(intervalo);
-            console.log("ssss", tablaData)
-        }
-    }, 0);
-
-}
-
-
-function getModuloNotButton(response) {
-
-    let mod = Modulos.find(function (objeto) {
-        return objeto.isButton === false;
-    });
-    
-
-    let obj = response.listaObjeto.find(function (objeto) {
-        return objeto.nombreModulo == mod.NameModulo;
-    }); 
-
-    return obj;
-}
 
 
 
