@@ -2,8 +2,14 @@
 let Modulos = [
     {
         NameModulo: "Clientes/Index",
-        clase: "",
-        isButton: false,
-        isTable: true
+        class: "",
+        perEliminar: false,
+        perActualizar: false,
+        perInsertar: false,
+        perAcceder: false,
+        isButton: false,        
+        isTable: true,
+        belongsCRUD: true,
+        HTML: ''
     },
 ]
