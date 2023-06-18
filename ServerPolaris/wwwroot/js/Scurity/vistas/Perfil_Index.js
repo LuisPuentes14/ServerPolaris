@@ -3,7 +3,7 @@
 let Modulos = [
    
     new Module(
-        "Clientes/Index", //NameModulo
+        "Perfil/Index", //NameModulo
         "",               //class:
         false,            //perEliminar
         false,            //perActualizar

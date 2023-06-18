@@ -10,7 +10,7 @@ const MODELO_BASE = {
         descripcion: ""
     }],
     estadoId: 1,
-    isUpdatePassword : false
+    isUpdatePassword: false
 }
 
 let tablaData;
@@ -32,54 +32,58 @@ $(document).ready(function () {
             }
         })
 
+    var intervalo = setInterval(function () {
 
+        if (resposeSecurity) {
+            clearInterval(intervalo);
 
-    tablaData = $('#tbdata').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/Usuario/Lista',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "usuId" },
-            { "data": "usuLogin" },
-            { "data": "usuNombre" },
-            { "data": "usuEmail" },
-            {
-                "data": "perfils", render: function (data) {
+            tablaData = $('#tbdata').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": '/Usuario/Lista',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //searchable permite al datable a realizar la busqueda
+                    { "data": "usuId" },
+                    { "data": "usuLogin" },
+                    { "data": "usuNombre" },
+                    { "data": "usuEmail" },
+                    {
+                        "data": "perfils", render: function (data) {
 
-                    let roles = "";
-                    for (let i = 0; i < data.length; i++) {
-                        roles += "*" + data[i].descripcion + " "
+                            let roles = "";
+                            for (let i = 0; i < data.length; i++) {
+                                roles += "*" + data[i].descripcion + " "
+                            }
+
+                            return roles;
+                        }
+                    },
+                    {
+                        "data": "estadoId", render: function (data) {
+                            if (data == 1)
+                                return '<span class="badge badge-info">Activo</span>';
+                            else
+                                return '<span class="badge badge-danger">Desactivo</span>';
+                        }
+                    },
+
+                    {
+                        "defaultContent": botonesTabla,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "80px"
                     }
-
-                    return roles;
-                }
-            },
-            {
-                "data": "estadoId", render: function (data) {
-                    if (data == 1)
-                        return '<span class="badge badge-info">Activo</span>';
-                    else
-                        return '<span class="badge badge-danger">Desactivo</span>';
-                }
-            },
-
-            {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>',
-                "orderable": false,
-                "searchable": false,
-                "width": "80px"
-            }
-        ],
-        order: [[0, "desc"]],
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+                ],
+                order: [[0, "desc"]],
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+        }
+    }, 0);
 
 })
 
@@ -114,7 +118,8 @@ function mostrarModal(modelo = MODELO_BASE) {
 
 
 
-$("#btnNuevo").click(function () {
+
+$("#button_add").on("click", ".btn-add", function () {
 
     console.log($("#id_sc_field_groups").find("option"))
     let options = $("#id_sc_field_groups").find("option")
@@ -156,10 +161,10 @@ $("#btnGuardar").click(function () {
         return;
     }
 
-      
+
 
     if ($('#sectionPassword').css('display') === 'none') {
-       
+
         if ($("#txtPassword").val().trim() == "") {
             toastr.warning("", "Debe agregar una contraseña")
             $("#txtPassword").focus()
@@ -169,7 +174,7 @@ $("#btnGuardar").click(function () {
     }
 
     if ($('#exampleCheck1').prop('checked')) {
-       
+
         if ($("#txtPassword").val().trim() == "") {
             toastr.warning("", "Debe agregar una contraseña")
             $("#txtPassword").focus()
@@ -179,7 +184,7 @@ $("#btnGuardar").click(function () {
 
     }
 
-    
+
 
     let perfiles = $("#id_ds_field_groups").find("option");
 
@@ -253,7 +258,7 @@ $("#btnGuardar").click(function () {
             })
     } else {
 
-       
+
 
         fetch("/Usuario/Editar", {
             method: "PUT",

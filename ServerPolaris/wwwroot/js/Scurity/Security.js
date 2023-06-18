@@ -2,13 +2,13 @@
 // archivo de seguirdad p[ara otorgar permisos segun lo que tenga otorgados el usuario
 
 
-//*Bloquea los botones por clase cuando carga la pagina
-//__________________________________________________________________
-var elemento = document.getElementsByClassName('btn-agregar');
-for (var i = 0; i < elemento.length; i++) {
-    elemento[i].style.display = 'none';
-}
-//__________________________________________________________________
+////*Bloquea los botones por clase cuando carga la pagina
+////__________________________________________________________________
+//var elemento = document.getElementsByClassName('btn-agregar');
+//for (var i = 0; i < elemento.length; i++) {
+//    elemento[i].style.display = 'none';
+//}
+////__________________________________________________________________
 
 
 
@@ -48,7 +48,9 @@ fetch("/Security/Index", {
 
 
 function setPermisos(response) {
-  
+
+    console.log(response)
+
     Modulos.forEach(e => {
 
         let mod = response.listaObjeto.find(function (objeto) {
@@ -84,10 +86,28 @@ function setPermissionsDRUD(e) {
     }
 
     if (e.perInsertar) {
-        var elemento = document.getElementsByClassName('btn-agregar');
-        for (var i = 0; i < elemento.length; i++) {
-            elemento[i].style.display = 'block';
-        }
+        //var elemento = document.getElementsByClassName('btn-agregar');
+        //for (var i = 0; i < elemento.length; i++) {
+        //    elemento[i].style.display = 'block';
+        //}
+
+        const div = document.getElementById('button_add');
+
+        // Crea el elemento <div> con la clase "col-sm-3"
+        const newDiv = document.createElement('div');
+        newDiv.className = 'col-sm-3';
+
+        // Crea el elemento <button> con las clases y el identificador
+        const newBoton = document.createElement('button');
+        newBoton.className = 'btn btn-success btn-add';
+        newBoton.id = 'btnNuevo';
+        newBoton.textContent = 'Agregar';
+
+        // Agrega el botón al div
+        newDiv.appendChild(newBoton);
+
+        // Agrega el div al div principal
+        div.appendChild(newDiv);
     }
 
     if (e.perEliminar) {

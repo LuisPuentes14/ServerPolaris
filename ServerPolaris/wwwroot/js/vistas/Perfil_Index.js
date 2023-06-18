@@ -1,7 +1,7 @@
 ﻿
 const MODELO_BASE = {
     PerfilId: 0,
-    Descripcion: ""    
+    Descripcion: ""
 }
 
 let tablaData;
@@ -9,58 +9,64 @@ let tablaData;
 $(document).ready(function () {
 
 
-   
+    var intervalo = setInterval(function () {
 
-    tablaData = $('#tbdata').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/Perfil/Lista',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "perfilId" },
-            { "data": "descripcion" },          
-            {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm mr-2"><i class="fas fa-trash-alt"></i></button>' ,
-                "orderable": false,
-                "searchable": false,
-                "width": "80px"
-            }
-        ],
-        order: [[0, "desc"]],
-        // dom: "Bfrtip",
-        //buttons: [
-        //    {
-        //        text: 'Exportar Excel',
-        //        extend: 'excelHtml5',
-        //        title: '',
-        //        filename: 'Reporte Categorias',
-        //        exportOptions: {
-        //            columns: [1, 2]
-        //        }
-        //    }, 'pageLength'
-        //],
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+        if (resposeSecurity) {
+            clearInterval(intervalo);
+
+            tablaData = $('#tbdata').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": '/Perfil/Lista',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //searchable permite al datable a realizar la busqueda
+                    { "data": "perfilId" },
+                    { "data": "descripcion" },
+                    {
+                        "defaultContent": botonesTabla,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "80px"
+                    }
+                ],
+                order: [[0, "desc"]],
+                // dom: "Bfrtip",
+                //buttons: [
+                //    {
+                //        text: 'Exportar Excel',
+                //        extend: 'excelHtml5',
+                //        title: '',
+                //        filename: 'Reporte Categorias',
+                //        exportOptions: {
+                //            columns: [1, 2]
+                //        }
+                //    }, 'pageLength'
+                //],
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+
+        }
+    }, 0);
+
 
 })
 
 
 function mostrarModal(modelo = MODELO_BASE) {
     $("#txtId").val(modelo.PerfilId)
-    $("#txtNombre").val(modelo.Descripcion)   
+    $("#txtNombre").val(modelo.Descripcion)
 
     $("#modalData").modal("show")
 }
 
 
 
-$("#btnNuevo").click(function () {
+$("#button_add").on("click", ".btn-add", function () {
     mostrarModal()
 })
 
@@ -76,7 +82,7 @@ $("#btnGuardar").click(function () {
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["PerfilId"] = parseInt($("#txtId").val())
-    modelo["Descripcion"] = $("#txtNombre").val()  
+    modelo["Descripcion"] = $("#txtNombre").val()
 
     console.log(JSON.stringify(modelo))
 
@@ -147,7 +153,7 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["PerfilId"] = data.perfilId
-    modelo["Descripcion"] = data.descripcion  
+    modelo["Descripcion"] = data.descripcion
 
     mostrarModal(modelo);
 })

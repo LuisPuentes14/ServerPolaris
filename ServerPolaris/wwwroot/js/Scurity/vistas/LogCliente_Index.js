@@ -1,29 +1,28 @@
 ﻿
 let Modulos = [
-    {
-      
-        NameModulo: "LogCliente/Index",
-        class:"",
-        perEliminar: false,
-        perActualizar: false,
-        perInsertar: false,
-        perAcceder: false,
-        isButton: false,
-        isTable: true,
-        belongsCRUD: true,
-        HTML: ''
-    },
-    {
-       
-        NameModulo: "LogInfo/Index",
-        class: "",
-        perEliminar: false,
-        perActualizar: false,
-        perInsertar: false,
-        perAcceder: false,
-        isButton: true,
-        isTable: true,
-        belongsCRUD: false,
-        HTML:'<button class="btn btn-warning btn-view btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>'
-    },
+
+    new Module(
+        "LogCliente/Index", //NameModulo
+        "",                 //class
+        false,              //perEliminar
+        false,              //perActualizar
+        false,              //perInsertar
+        false,              //perAcceder
+        false,              //isButton   
+        true,               //isTable
+        true,               //belongsCRUD
+        ""                  //HTML
+    ), 
+    new Module(
+        "LogInfo/Index", //NameModulo
+        "",                 //class
+        false,              //perEliminar
+        false,              //perActualizar
+        false,              //perInsertar
+        false,              //perAcceder
+        true,              //isButton   
+        true,               //isTable
+        false,               //belongsCRUD
+        '<button class="btn btn-warning btn-view btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>'                 //HTML
+    )
 ]

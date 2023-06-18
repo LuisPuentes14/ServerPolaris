@@ -21,9 +21,7 @@ namespace ServerPolaris.Controllers
 
                 if (claimUser.Identity.IsAuthenticated)
                 {
-                    List<VMPermisosModulo> ListvMPermisosModulo = new List<VMPermisosModulo>();
-
-                   // vMPermisosModulo = Utilidades.Security.Security.getPermisos(claimUser, vMRequestPermisosModulo.urlModulo);
+                    List<VMPermisosModulo> ListvMPermisosModulo = new List<VMPermisosModulo>();                  
 
                     foreach (var otherModulos in vMRequestPermisosModulo.Modulos)
                     {

@@ -103,7 +103,7 @@ function mostrarModal(modelo = MODELO_BASE) {
 
 
 
-$("#btnNuevo").click(function () {
+$("#button_add").on("click", ".btn-add", function () {
     mostrarModal()
 })
 

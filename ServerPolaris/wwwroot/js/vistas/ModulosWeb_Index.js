@@ -5,8 +5,8 @@ const MODELO_BASE = {
     modIdHijo: null,
     modNombre: "",
     modUrl: "",
-    modDescripcion:"",
-    modIcono:"",
+    modDescripcion: "",
+    modIcono: "",
     idTipoModulo: 0,
     descripcionTipoModulo: ""
 
@@ -24,44 +24,51 @@ $(document).ready(function () {
 
 
     $("#txtTipoModulo").val("1")
-    $("#txtidPadre").val("0") 
+    $("#txtidPadre").val("0")
 
-    tablaData = $('#tbdata').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/ModuloWeb/Lista?tipoModulo=1',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "modId" },
-            { "data": "modIdPadre" },
-            { "data": "modNombre" },
-            { "data": "modUrl" },
-            { "data": "modDescripcion" },
-            {
-                "data": "modIcono", render: function(data) {
-                    return '<i class="'+data+'"></i>'
-                }
-            },
-            { "data": "descripcionTipoModulo" },
+    var intervalo = setInterval(function () {
 
-            {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm mr-2"><i class="fas fa-trash-alt"></i></button>' +
-                    '<button class="btn btn-secondary btn-botones btn-sm mr-2"><i class="fa fa-cubes" aria-hidden="true"></i></button>' +
-                    '<button class="btn btn-warning btn-submodulos btn-sm"><i class="fa fa-clone" aria-hidden="true"></i></button>',
-                "orderable": false,
-                "searchable": false,
-                "width": "80px"
-            }
-        ],
-       // order: [[0, "desc"]],
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+        if (resposeSecurity) {
+            clearInterval(intervalo);
+
+            tablaData = $('#tbdata').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": '/ModuloWeb/Lista?tipoModulo=1',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //searchable permite al datable a realizar la busqueda
+                    { "data": "modId" },
+                    { "data": "modIdPadre" },
+                    { "data": "modNombre" },
+                    { "data": "modUrl" },
+                    { "data": "modDescripcion" },
+                    {
+                        "data": "modIcono", render: function (data) {
+                            return '<i class="' + data + '"></i>'
+                        }
+                    },
+                    { "data": "descripcionTipoModulo" },
+
+                    {
+                        "defaultContent": botonesTabla +
+                            '<button class="btn btn-secondary btn-botones btn-sm mr-2"><i class="fa fa-cubes" aria-hidden="true"></i></button>' +
+                            '<button class="btn btn-warning btn-submodulos btn-sm"><i class="fa fa-clone" aria-hidden="true"></i></button>',
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "80px"
+                    }
+                ],
+                // order: [[0, "desc"]],
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+
+        }
+    }, 0);
 
 })
 
@@ -74,29 +81,14 @@ function mostrarModal(modelo = MODELO_BASE) {
     $("#txtUrl").val(modelo.modUrl)
     $("#txtDescripcion").val(modelo.modDescripcion)
     $("#txtIcono").val(modelo.modIcono)
-   
+
 
     $("#modalData").modal("show")
 }
 
 
 
-$("#btnNuevo").click(function () {
-
-    console.log($("#id_sc_field_groups").find("option"))
-    let options = $("#id_sc_field_groups").find("option")
-
-    for (let i = 0; i < options.length; i++) {
-        console.log(options[i])
-        options[i].style.color = ""
-        options[i].disabled = false;
-    }
-
-    $("#txtPassword").css('display', 'inline');
-    $("#labelPassword").css('display', 'inline');
-
-    $("#sectionPassword").css('display', 'none');
-
+$("#button_add").on("click", ".btn-add", function () {
     mostrarModal()
 })
 
@@ -127,8 +119,8 @@ $("#btnGuardar").click(function () {
         toastr.warning("", "Debe completar el Icono ")
         $("#txtIcono").focus()
         return;
-    }   
-  
+    }
+
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["modId"] = parseInt($("#txtId").val())
@@ -137,7 +129,7 @@ $("#btnGuardar").click(function () {
     modelo["modIdPadre"] = parseInt($("#txtidPadre").val())
     modelo["idTipoModulo"] = parseInt($("#txtTipoModulo").val())
     modelo["modDescripcion"] = $("#txtDescripcion").val()
-    modelo["modIcono"] = $("#txtIcono").val()   
+    modelo["modIcono"] = $("#txtIcono").val()
 
     console.log(modelo)
     console.log(JSON.stringify(modelo))
@@ -202,11 +194,11 @@ $("#tbdata tbody").on("click", ".btn-editar", function () {
         filaSeleccionada = $(this).closest("tr").prev();
     } else {
         filaSeleccionada = $(this).closest("tr");
-    }   
+    }
 
     const data = tablaData.row(filaSeleccionada).data();
 
-    console.log(data)    
+    console.log(data)
 
     mostrarModal(data);
 })

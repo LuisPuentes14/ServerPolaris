@@ -6,7 +6,7 @@ const MODELO_BASE = {
     dataBaseName: "",
     dataBaseUser: "",
     dataBasePassword: "",
-    clienteName:""
+    clienteName: ""
 }
 
 let tablaData;
@@ -28,67 +28,73 @@ $(document).ready(function () {
             }
         })
 
-    tablaData = $('#tbdata').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/DataBaseCliente/Lista',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "dataBaseId" },
-            { "data": "clienteName" },
-            { "data": "dataBaseInstance" },
-            { "data": "dataBaseName" },
-            { "data": "dataBaseUser" },
-            { "data": "dataBasePassword" },
+    var intervalo = setInterval(function () {
 
-            {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm mr-2"><i class="fas fa-trash-alt"></i></button>' + 
-                    '<button class="btn btn-warning btn-view btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>',
-                "orderable": false,
-                "searchable": false,
-                "width": "80px"
-            }
-        ],
-        order: [[0, "desc"]],
-        // dom: "Bfrtip",
-        //buttons: [
-        //    {
-        //        text: 'Exportar Excel',
-        //        extend: 'excelHtml5',
-        //        title: '',
-        //        filename: 'Reporte Categorias',
-        //        exportOptions: {
-        //            columns: [1, 2]
-        //        }
-        //    }, 'pageLength'
-        //],
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+        if (resposeSecurity) {
+            clearInterval(intervalo);
+
+            tablaData = $('#tbdata').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": '/DataBaseCliente/Lista',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //searchable permite al datable a realizar la busqueda
+                    { "data": "dataBaseId" },
+                    { "data": "clienteName" },
+                    { "data": "dataBaseInstance" },
+                    { "data": "dataBaseName" },
+                    { "data": "dataBaseUser" },
+                    { "data": "dataBasePassword" },
+
+                    {
+                        "defaultContent": botonesTabla,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "80px"
+                    }
+                ],
+                order: [[0, "desc"]],
+                // dom: "Bfrtip",
+                //buttons: [
+                //    {
+                //        text: 'Exportar Excel',
+                //        extend: 'excelHtml5',
+                //        title: '',
+                //        filename: 'Reporte Categorias',
+                //        exportOptions: {
+                //            columns: [1, 2]
+                //        }
+                //    }, 'pageLength'
+                //],
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+
+        }
+    }, 0);
 
 })
 
 
 function mostrarModal(modelo = MODELO_BASE) {
     $("#txtId").val(modelo.dataBaseId)
-    $("#cboCliente").val(modelo.clienteId == 0 ? $("#cboCliente option:first").val() : modelo.clienteId)    
+    $("#cboCliente").val(modelo.clienteId == 0 ? $("#cboCliente option:first").val() : modelo.clienteId)
     $("#txtInstancia").val(modelo.dataBaseInstance)
     $("#txtNombre").val(modelo.dataBaseName)
     $("#txtUsuario").val(modelo.dataBaseUser)
     $("#txtPassword").val(modelo.dataBasePassword)
-   /* $("#txtRutaLog").val(modelo.clienteName)*/
+    /* $("#txtRutaLog").val(modelo.clienteName)*/
 
     $("#modalData").modal("show")
 }
 
 
 
-$("#btnNuevo").click(function () {
+$("#button_add").on("click", ".btn-add", function () {
     mostrarModal()
 })
 
@@ -273,5 +279,5 @@ $("#tbdata tbody").on("click", ".btn-view", function () {
     const data = tablaData.row(filaSeleccionada).data();
 
     window.location.href = '/DataBaseClienteView/ViewDataBase?idDb=' + data.dataBaseId
-   
+
 })
