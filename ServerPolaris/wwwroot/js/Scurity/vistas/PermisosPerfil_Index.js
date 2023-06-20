@@ -11,6 +11,7 @@ let Modulos = [
         true,              //isButton   
         true,               //isTable
         false,               //belongsCRUD
-        '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fa fa-eye" aria-hidden="true"></i></button>' //HTML
+        '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fa fa-eye" aria-hidden="true"></i></button>', //HTML
+        ''
     )
 ]

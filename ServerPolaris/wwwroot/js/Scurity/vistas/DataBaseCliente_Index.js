@@ -11,7 +11,8 @@ let Modulos = [
          false,              //isButton   
          true,               //isTable
          true,               //belongsCRUD
-         ""                  //HTML
+         "",                  //HTML
+         ''
      ),
     new Module(
         "DataBaseClienteView/ViewDataBase", //NameModulo
@@ -23,6 +24,7 @@ let Modulos = [
         true,              //isButton   
         true,               //isTable
         false,               //belongsCRUD
-        '<button class="btn btn-warning btn-view btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>'                 //HTML
+        '<button class="btn btn-warning btn-view btn-sm"><i class="fa fa-cog" aria-hidden="true"></i></button>',                 //HTML
+        ''
     )
 ]

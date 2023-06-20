@@ -12,7 +12,8 @@ let Modulos = [
         false,            //isButton   
         true,             //isTable
         true,             //belongsCRUD
-        ""                //HTML
+        "",                //HTML
+        ''
     )
 
 ]

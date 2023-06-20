@@ -24,7 +24,7 @@
 
     function send() {
 
-        const url = "DataBaseClienteConuslta/Query?comando=" + document.getElementById("prompt").value;
+        const url = "/DataBaseClienteConuslta/Query?comando=" + document.getElementById("prompt").value;
 
         fetch(url)
             .then(data => data.text())

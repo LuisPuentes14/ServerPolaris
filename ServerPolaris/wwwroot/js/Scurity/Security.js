@@ -85,11 +85,7 @@ function setPermissionsDRUD(e) {
         botonesTabla += '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>';
     }
 
-    if (e.perInsertar) {
-        //var elemento = document.getElementsByClassName('btn-agregar');
-        //for (var i = 0; i < elemento.length; i++) {
-        //    elemento[i].style.display = 'block';
-        //}
+    if (e.perInsertar) {        
 
         const div = document.getElementById('button_add');
 
@@ -126,12 +122,10 @@ function setPermissionsButtonTable(e) {
 
 
 function setPermissionsButton(e) {
-
+   
     if (e.perAcceder) {
-        var elemento = document.getElementsByClassName(e.class);
-        for (var i = 0; i < elemento.length; i++) {
-            elemento[i].style.display = 'block';
-        }
+        var elemento = document.getElementById(e.divFather);
+        elemento.innerHTML = e.HTML
     }
 
 }

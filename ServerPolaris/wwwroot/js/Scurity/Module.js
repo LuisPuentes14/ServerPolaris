@@ -1,6 +1,6 @@
 ﻿class Module {
 
-    constructor(NameModulo, Class, perEliminar, perActualizar, perInsertar, perAcceder, isButton, isTable, belongsCRUD, HTML ) {
+    constructor(NameModulo, Class, perEliminar, perActualizar, perInsertar, perAcceder, isButton, isTable, belongsCRUD, HTML, divFather ) {
         this.NameModulo = NameModulo
         this.class = Class
         this.perEliminar = perEliminar
@@ -11,6 +11,7 @@
         this.isTable = isTable
         this.belongsCRUD = belongsCRUD
         this.HTML = HTML
+        this.divFather = divFather
     }
 
 }
