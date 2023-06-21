@@ -272,7 +272,7 @@ $("#tbdata tbody").on("click", ".btn-view", function () {
     }
 
     const data = tablaData.row(filaSeleccionada).data();
-    console.log(data)
-    window.location.href = '/LogInfo/Index?idLog=' + data.logId + "&rutaLog=" + data.logPathFile;
+    
+    window.location.href = '/LogInfo/Index?idLog=' + data.logId;
 
 })
