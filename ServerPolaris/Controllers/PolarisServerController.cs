@@ -8,23 +8,29 @@ using ServerPolaris.Models.ViewModels;
 using ServerPolaris.Utilidades.Tools;
 using System.Security.Claims;
 using System.Text.Json;
-using ServerPolaris.BLL.Implementacion;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http;
 
 namespace ServerPolaris.Controllers
 {
     public class PolarisServerController : Controller
-    {
+    {     
+
         private readonly IPermisosPerfilModuloService _PermisosPerfilModuloService;
         private readonly IUsuarioService _usuarioServicio;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;        
 
-        public PolarisServerController(IPermisosPerfilModuloService PermisosPerfilModuloService, IUsuarioService usuarioServicio, IMapper mapper)
+
+        public PolarisServerController(
+            IPermisosPerfilModuloService PermisosPerfilModuloService, 
+            IUsuarioService usuarioServicio,
+            IMapper mapper,
+            IConfiguration configuration)
         {
             _PermisosPerfilModuloService = PermisosPerfilModuloService;
             _usuarioServicio = usuarioServicio;
             _mapper = mapper;
+            _configuration = configuration;        
+
         }
 
 
@@ -33,8 +39,6 @@ namespace ServerPolaris.Controllers
             ClaimsPrincipal c = HttpContext.User;
             if (c.Identity != null)
             {
-
-
                 if (c.Identity.IsAuthenticated)
                 {
                     var cookieValue = HttpContext.Request.Cookies["PolarisServerAutenticacion"];
@@ -42,7 +46,6 @@ namespace ServerPolaris.Controllers
                     return RedirectToAction("Index", "DashBoard");
                 }
             }
-
 
             return View();
         }
@@ -84,22 +87,22 @@ namespace ServerPolaris.Controllers
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); //tipo de autenticación
 
+            var timeMinutes = _configuration.GetSection("SessionOptions:SessionTimeoutMinutes").Value;
+
             AuthenticationProperties properties = new AuthenticationProperties() //propiedades
             {
                 AllowRefresh = true, //permite el refrescado de la pagina
                 IsPersistent = true, // persiste la sesion y la saca del modelo   
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-            };
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(Convert.ToDouble(timeMinutes)),
+            };         
+
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
-            properties);
-
-            
+            properties);         
 
             return RedirectToAction("Index", "DashBoard");
-
         }
 
         public async Task<IActionResult> Salir()
