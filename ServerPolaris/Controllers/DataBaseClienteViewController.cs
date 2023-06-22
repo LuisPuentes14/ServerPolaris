@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
@@ -13,6 +14,7 @@ using System.Text.Json;
 
 namespace ServerPolaris.Controllers
 {
+    [Authorize]
     public class DataBaseClienteViewController : Controller
     {
         private readonly IMapper _mapper;
@@ -37,7 +39,7 @@ namespace ServerPolaris.Controllers
 
         public async Task<IActionResult> ValidateConexion(int idDb)
         {
-                      
+            
 
             return Ok();
         }
@@ -45,6 +47,16 @@ namespace ServerPolaris.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewDataBase(int idDb)
         {
+            VMPermisosModulo vMPermisosModulo =
+             ServerPolaris.Utilidades.Security.Security.getPermisos(HttpContext.User,
+             $"{ControllerContext.ActionDescriptor.ControllerName}/{ControllerContext.ActionDescriptor.ActionName}");
+
+            if (!vMPermisosModulo.PerAcceder)
+            {
+                return RedirectToAction("Code403","PolarisServer");
+            }
+
+
             //Se obtiene la informacion del id de la base de datos
             List<VMDataBase> vmDataBaseLista = _mapper.Map<List<VMDataBase>>(await _DataBaseService.Lista());
 

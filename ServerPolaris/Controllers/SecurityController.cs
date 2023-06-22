@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServerPolaris.AplicacionWeb.Utilidades.Response;
 using ServerPolaris.Models.ViewModels;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using System.Text.Json;
 
 namespace ServerPolaris.Controllers
 {
+    [Authorize]
     public class SecurityController : Controller
     {
         [HttpPost]
@@ -47,6 +49,9 @@ namespace ServerPolaris.Controllers
 
             return StatusCode(StatusCodes.Status200OK, gResponse);
         }
+
+    
+
 
     }
 }

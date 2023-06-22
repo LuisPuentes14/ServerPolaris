@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerPolaris.AplicacionWeb.Utilidades.Response;
 using ServerPolaris.BLL.Interfaces;
@@ -11,6 +12,7 @@ using System.Threading;
 
 namespace ServerPolaris.Controllers
 {
+    [Authorize]
     public class LogInfoController : Controller
     {
 
@@ -28,6 +30,14 @@ namespace ServerPolaris.Controllers
         [HttpGet]
         public async Task<IActionResult>  Index(int idLog, string rutaLog)
         {
+            VMPermisosModulo vMPermisosModulo =
+                ServerPolaris.Utilidades.Security.Security.getPermisos(HttpContext.User,
+                $"{ControllerContext.ActionDescriptor.ControllerName}/{ControllerContext.ActionDescriptor.ActionName}");
+
+            if (!vMPermisosModulo.PerAcceder)
+            {
+                return RedirectToAction("Code403","PolarisServer");
+            }
 
 
             List<VMLog> vmLogLista = _mapper.Map<List<VMLog>>(await _LogClienteServicio.Lista());
@@ -37,8 +47,7 @@ namespace ServerPolaris.Controllers
             ViewBag.Path = vmLog.LogPathFile;
             ViewBag.Cliente = vmLog.ClienteName;
             ViewBag.TypeLog = vmLog.TipoLogDescripcion;
-            //ViewData["id"] = idLog;
-            //ViewData["ruta"] = rutaLog;
+          
             return View();
         }
 

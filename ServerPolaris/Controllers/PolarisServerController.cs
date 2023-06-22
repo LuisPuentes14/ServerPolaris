@@ -111,6 +111,16 @@ namespace ServerPolaris.Controllers
             return RedirectToAction("Login", "PolarisServer");
         }
 
+        public IActionResult Code403()
+        {
+            return View();
+        }
+
+        public IActionResult Code404()
+        {
+            return View();
+        }
+
 
     }
 }

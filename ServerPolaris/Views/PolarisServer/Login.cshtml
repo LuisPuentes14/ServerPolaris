@@ -42,8 +42,19 @@
 
         </form>
     </div>
+    <script>
+
+        window.addEventListener('popstate', function (event) {
+           alert('ddd')
+                // Usuario ha cerrado sesión, redirigir a la página de inicio de sesión
+                window.location.href = '/login';
+           
+        });
+    </script>
 
 </body>
+
+
 
 </html>
 

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerPolaris.BLL.Interfaces;
 using ServerPolaris.Models.ViewModels;
 
 namespace ServerPolaris.Controllers
 {
+    [Authorize]
     public class TipoLogController : Controller
     {
         private readonly IMapper _mapper;

@@ -48,6 +48,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.Use(async (context, next) =>
+{
+    await next();
+
+    if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
+    {
+        // Redirige a una acción o muestra una vista personalizada para el error 404
+        context.Request.Path = "/PolarisServer/Code404";
+        await next();
+    }
+});
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

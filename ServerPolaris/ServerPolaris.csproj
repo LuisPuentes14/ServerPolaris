@@ -32,4 +32,8 @@
     <ProjectReference Include="..\ServerPolaris.IOC\ServerPolaris.IOC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Security\" />
+  </ItemGroup>
+
 </Project>
