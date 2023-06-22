@@ -53,6 +53,7 @@ namespace ServerPolaris.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(VMUsuarioLogin usuario)
         {
+            
             usuario.UsuPassword = Tools.getMD5SHA1(usuario.UsuPassword);
 
 
@@ -60,7 +61,12 @@ namespace ServerPolaris.Controllers
 
             if (usuario_encontrado == null)
             {
-                ViewData["Mensaje"] = "No se encontraron coincidencias";
+                ViewBag.Mensaje = "No se encontraron coincidencias.";
+                return View();
+            }
+
+            if (usuario_encontrado.EstadoId == 2) {
+                ViewBag.Mensaje = "Usuario bloqueado.";
                 return View();
             }
 
@@ -108,6 +114,7 @@ namespace ServerPolaris.Controllers
         public async Task<IActionResult> Salir()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //terminamos la sesion en la cual esta el usuario
+            HttpContext.Session.Remove("ServerPolarisSession");
             return RedirectToAction("Login", "PolarisServer");
         }
 

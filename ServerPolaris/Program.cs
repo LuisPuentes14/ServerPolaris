@@ -13,7 +13,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = "ServerPolarisSession";
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    //options.IdleTimeout = TimeSpan.FromMinutes(60);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -28,7 +28,7 @@ builder.Services.AddSingleton(new PolarisServerStringContext(builder.Configurati
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
     {
-        option.LoginPath = "/PolarisServer/Login";
+        option.LoginPath = "/PolarisServer/Salir";
         option.Cookie.Name = "PolarisServerAutenticacion";
        // option.ExpireTimeSpan = TimeSpan.FromMinutes(20); //tiempo expiración
     });

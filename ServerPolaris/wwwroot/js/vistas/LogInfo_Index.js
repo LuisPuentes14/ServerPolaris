@@ -71,7 +71,7 @@ function recuestLogs() {
     if (play) {
 
         var request = new XMLHttpRequest();
-        request.open("POST", 'http://127.0.0.1:9091/');
+        request.open("POST", 'http://186.154.93.81:6869/');
         request.send(JSON.stringify({
             numLine: numLine, path: ruta
         }));
