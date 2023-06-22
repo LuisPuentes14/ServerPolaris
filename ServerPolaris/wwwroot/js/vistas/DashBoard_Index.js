@@ -36,13 +36,13 @@ $(document).ready(function () {
                         label: "%",
                         lineTension: 0.3,
                         backgroundColor: "rgba(78, 115, 223, 0.05)",
-                        borderColor: "rgba(78, 115, 223, 1)",
+                        borderColor: "rgba(49,177,49)",
                         pointRadius: 3,
-                        pointBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointBorderColor: "rgba(78, 115, 223, 1)",
+                        pointBackgroundColor: "rgba(49,177,49)",
+                        pointBorderColor: "rgba(49,177,49)",
                         pointHoverRadius: 3,
-                        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-                        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                        pointHoverBackgroundColor: "rgba(49,177,49)",
+                        pointHoverBorderColor: "rgba(49,177,49)",
                         pointHitRadius: 10,
                         pointBorderWidth: 2,
                         data: utilizationCpu,
@@ -167,7 +167,7 @@ $(document).ready(function () {
                 cardDiv.appendChild(cardHeaderDiv);
 
                 var headerH6 = document.createElement("h6");
-                headerH6.classList.add("m-0", "font-weight-bold", "text-primary");
+                headerH6.classList.add("m-0", "font-weight-bold", "text-black");
                 headerH6.textContent = "Unidad de almacenamiento "+obj.drive;
                 cardHeaderDiv.appendChild(headerH6);
 
@@ -201,8 +201,8 @@ $(document).ready(function () {
                         labels: ["Espacio ocupado", "Espacio libre"],
                         datasets: [{
                             data: [espacioOcupado, obj.freeMB],
-                            backgroundColor: ['#4e73df', '#1cc88a'],
-                            hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                            backgroundColor: ['#ea1e1e', '#31B131'],
+                            hoverBackgroundColor: ['#ea1e1e', '#31B131'],
                             hoverBorderColor: "rgba(234, 236, 244, 1)",
                         }],
                     },
@@ -248,7 +248,7 @@ $(document).ready(function () {
                 miDiv.appendChild(cardBodyDiv);
 
                 var h6Element = document.createElement("h6");
-                h6Element.classList.add("m-0", "font-weight-bold", "text-primary");
+                h6Element.classList.add("m-0", "font-weight-bold", "text-black");
                 h6Element.textContent = "Nombre del servidor: " + responseJson.listaObjeto[i].machineName;
                 cardBodyDiv.appendChild(h6Element);
 
@@ -332,7 +332,7 @@ $(document).ready(function () {
                 cardDiv.appendChild(cardHeaderDiv);
 
                 var headerH6 = document.createElement("h6");
-                headerH6.classList.add("m-0", "font-weight-bold", "text-primary");
+                headerH6.classList.add("m-0", "font-weight-bold", "text-black");
                 headerH6.textContent = "Memoria Ram";
                 cardHeaderDiv.appendChild(headerH6);
 
@@ -351,7 +351,7 @@ $(document).ready(function () {
                 var hrElement = document.createElement("hr");
                 cardBodyDiv.appendChild(hrElement);
 
-                var textNode = document.createTextNode("Estado de momoria ram");
+                var textNode = document.createTextNode("Estado de memoria ram");
                 cardBodyDiv.appendChild(textNode);
 
                 //var codeElement = document.createElement("code");
@@ -369,8 +369,8 @@ $(document).ready(function () {
                         labels: ["Espacio ocupado", "Espacio libre"],
                         datasets: [{
                             data: [espacioOcupado, responseJson.listaObjeto[i].availableMemoryMB],
-                            backgroundColor: ['#4e73df', '#1cc88a'],
-                            hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                            backgroundColor: ['#ea1e1e', '#31B131'],
+                            hoverBackgroundColor: ['#ea1e1e', '#31B131'],
                             hoverBorderColor: "rgba(234, 236, 244, 1)",
                         }],
                     },

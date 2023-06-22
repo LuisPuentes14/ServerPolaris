@@ -4757,14 +4757,14 @@ input[type="button"].btn-block {
 }
 
 .page-link {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0.75rem;
-  margin-left: -1px;
-  line-height: 1.25;
-  color: #4e73df;
-  background-color: #fff;
-  border: 1px solid #dddfeb;
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #9f9f9f;
+    background-color: #fff;
+    border: 1px solid #dddfeb;
 }
 
 .page-link:hover {
@@ -4793,10 +4793,10 @@ input[type="button"].btn-block {
 }
 
 .page-item.active .page-link {
-  z-index: 3;
-  color: #fff;
-  background-color: #4e73df;
-  border-color: #4e73df;
+    z-index: 3;
+    color: #fff;
+    background-color: #162134;
+    border-color: #162134;
 }
 
 .page-item.disabled .page-link {
@@ -9942,9 +9942,9 @@ a:focus {
 }
 
 .bg-gradient-dark {
-  background-color: #5a5c69;
-  background-image: linear-gradient(180deg, #5a5c69 10%, #373840 100%);
-  background-size: cover;
+    background-color: #162134;
+    background-image: linear-gradient(180deg, #162134 10%, #373840 100%);
+    background-size: cover;
 }
 
 .bg-gray-100 {
