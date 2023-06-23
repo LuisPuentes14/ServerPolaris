@@ -1,8 +1,10 @@
 ﻿
 using AutoMapper;
+using ServerPolaris.BLL.Implementacion;
 using ServerPolaris.Entity;
 using ServerPolaris.Models.ViewModels;
 using System.Globalization;
+using System.Net.Sockets;
 
 namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 {
@@ -11,6 +13,68 @@ namespace SistemaVenta.AplicacionWeb.Utilidades.AutoMapper
 
         public AutoMapperProfile()
         {
+
+            #region Login
+            //Objeto Destino / Objeto origen
+            CreateMap<VMUsuarioLogin, Usuario>();
+            CreateMap<Usuario, VMUsuarioLogin>();
+
+            #endregion
+
+
+            #region menu
+            //Objeto Destino / Objeto origen
+            CreateMap<VMMenu, Menu>();
+            CreateMap<Menu, VMMenu>();
+
+            #endregion
+
+
+
+            #region permisos perfil
+            //Objeto Destino / Objeto origen
+            CreateMap<VMPermisosPerfilModulo, PermisosPerfilModulo>();
+            CreateMap<PermisosPerfilModulo, VMPermisosPerfilModulo>().ForMember(destino =>
+                   destino.nombreModulo,
+                   opt => opt.MapFrom(origen => origen.Mod.ModNombre)
+               ).ForMember(destino =>
+                   destino.nombrePerfil,
+                   opt => opt.MapFrom(origen => origen.Perfil.Descripcion)
+               ).ForMember(destino =>
+                   destino.UrlModulo,
+                   opt => opt.MapFrom(origen => origen.Mod.ModUrl)
+               ).ForMember(destino =>
+                   destino.tipoModulo,
+                   opt => opt.MapFrom(origen => origen.Mod.IdTipoModuloNavigation.Descripcion)
+               ); 
+
+            #endregion
+
+
+
+            #region tipo modulo
+            //Objeto Destino / Objeto origen
+            CreateMap<VMTipoModulo, TipoModulo>();
+            CreateMap<TipoModulo, VMTipoModulo>();
+              
+            #endregion
+
+            #region Modulos Web
+            //Objeto Destino / Objeto origen
+            CreateMap<VMModulosWeb, ModulosWeb>(); 
+            CreateMap<ModulosWeb, VMModulosWeb>().ForMember(destino =>
+                   destino.DescripcionTipoModulo,
+                   opt => opt.MapFrom(origen => origen.IdTipoModuloNavigation.Descripcion)
+               );
+            #endregion
+
+            #region Usuario
+            //Objeto Destino / Objeto origen
+            CreateMap<VMUsuario, UsuarioPerfils>();
+            CreateMap<UsuarioPerfils, VMUsuario>();
+            #endregion
+
+
 
             #region Perfil
             //Objeto Destino / Objeto origen

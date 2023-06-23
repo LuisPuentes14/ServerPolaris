@@ -1,4 +1,28 @@
-﻿// logs tiempo real
+﻿
+var path = document.getElementById('rutaLog').value;
+
+
+fetch("/LogInfo/getFilesPath?rutaLog="+path)
+    .then(response => {
+        return response.ok ? response.json() : Promise.reject(response);
+    })
+    .then(responseJson => {
+        if (responseJson.listaObjeto.length > 0) {
+
+            responseJson.listaObjeto.forEach((item) => {     
+                
+                var namefile = item.split('\\')          
+
+                $("#cboFiles").append(                    
+                    $("<option>").val(item).text(namefile[namefile.length-1])
+                )
+            })
+        }
+    })
+
+
+
+// logs tiempo real
 var play = true;
 var numLine = 0;
 let list = document.getElementById("list");
@@ -20,7 +44,6 @@ var count920500 = 0;
 var idterminal;
 var count = 0;
 var cc
-
 
 
 function remove() {
@@ -47,17 +70,8 @@ function off() {
 function recuestLogs() {
     if (play) {
 
-        //    let json = '{"numLine":"' + numLine + '", "path": "C:\\Users\\WPOSS\\Downloads\\Servicio\\Servicio\\logTransacciones\\PolarisCloud.log"}'
-        //     var request = new XMLHttpRequest();
-        //     request.open("POST", "http://127.0.0.1:9091/");
-        //     request.send('{"numLine":"' + numLine + '", "path": "C:\\Users\\WPOSS\\Downloads\\Servicio\\Servicio\\logTransacciones\\PolarisCloud.log"}');
-        //     var ruta = "http://127.0.0.1:9091/"
-        //   request.open("POST", ruta, true );
-        //     request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        // request.send(json);
-
         var request = new XMLHttpRequest();
-        request.open("POST", 'http://127.0.0.1:9091/');
+        request.open("POST", 'http://186.154.93.81:6968/');
         request.send(JSON.stringify({
             numLine: numLine, path: ruta
         }));
@@ -88,12 +102,27 @@ function recuestLogs() {
                         id = patron.exec(json[clave]);
                         if (id === null || id.length === 0) { id = "" }
                         else { id = id[0]; }
+
+                        var tid = document.getElementById('buscar').value;
+
+                        var tid2 = '<mark class="mark1">' + tid + '</mark>'
+                        var json2 = json[clave];
+
+                        var json3;
+                        if (tid != '') {
+                            json3 = json2.replaceAll(tid, tid2);
+                        } else {
+
+                            json3 = json2
+                        }
+                        
+
                         const p = document.createElement("p");
                         if (clave.substr(-1) % 2 === 0) {
-                            p.innerHTML = `<p class="white green c${count}">${json[clave]}</p>`;
+                            p.innerHTML = `<p class="white green c${count}">${json3}</p>`;
                         }
                         else {
-                            p.innerHTML = `<p class="white  c${count}">${json[clave]}</p>`;
+                            p.innerHTML = `<p class="white  c${count}">${json3}</p>`;
                         }
                         document.querySelector("#divu").appendChild(p);
 
@@ -137,3 +166,14 @@ function recuestLogs() {
 window.onload = function () {
     recuestLogs();
 };
+
+
+$("#button-addon2").click(function () {   
+
+    window.location.href = '/LogInfo/DonwloadFile?rutaLog=' + $("#cboFiles").val(); 
+    
+})
+
+
+
+

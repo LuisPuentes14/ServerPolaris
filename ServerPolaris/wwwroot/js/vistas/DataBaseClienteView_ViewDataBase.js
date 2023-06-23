@@ -92,6 +92,11 @@ $(document).ready(function () {
 })
 
 
+$("#div_btn_query").on("click", ".btn-query", function () {
+    window.location.href = "/DataBaseClienteConuslta/Index";
+})
+
+
 
 
 

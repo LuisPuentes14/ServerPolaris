@@ -31,12 +31,13 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/DashBoard/Index">
+                <div class="sidebar-brand-icon ">
+                    @*<i class="fas fa-laugh-wink"></i>*@
+                    <i class="fas fa-server"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">Polaris Server<sup>2.0.0</sup></div>
             </a>
@@ -47,7 +48,7 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("Index","DashBoard")">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fa fa-industry" aria-hidden="true"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
@@ -62,7 +63,7 @@
 
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            @*<li class="nav-item">
                 <a class="nav-link collapsed" href="@Url.Action("Index", "Clientes")">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Clientes</span>
@@ -80,7 +81,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
                         <a class="collapse-item" href="@Url.Action("Index", "LogCliente")">Clientes</a>
-                        @*<a class="collapse-item" href="cards.html">Cards</a>*@
+                       
                     </div>
                 </div>
             </li>
@@ -97,9 +98,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="@Url.Action("Index", "DataBaseCliente")">Clientes</a>
-                       @* <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>*@
+                       
                     </div>
                 </div>
             </li>
@@ -118,12 +117,12 @@
                         <a class="collapse-item" href="@Url.Action("Index", "Usuario")">Usuario</a>
                         <a class="collapse-item" href="@Url.Action("Index", "ModuloWeb")">Modulos Web</a>
                         <a class="collapse-item" href="@Url.Action("Index", "PermisosPerfil")">Permisos por perfil</a>
-                        @* <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>*@
+                        
                     </div>
                 </div>
-            </li>
+            </li>*@
+
+            @await Component.InvokeAsync("Menu")
 
             <!-- Divider -->
             @* <hr class="sidebar-divider">
@@ -194,7 +193,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
+                   @* <!-- Topbar Search -->
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
@@ -205,13 +204,14 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form>*@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
+                      
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
+                        @*<li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
@@ -232,10 +232,10 @@
                                     </div>
                                 </form>
                             </div>
-                        </li>
+                        </li>*@
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                       @* <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
@@ -283,10 +283,10 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
-                        </li>
+                        </li>*@
 
                         <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                        @*<li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
@@ -357,12 +357,12 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
-                        </li>
+                        </li>*@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
+                       @* <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
@@ -390,8 +390,8 @@
                                     Logout
                                 </a>
                             </div>
-                        </li>
-
+                        </li>*@
+                         @await Component.InvokeAsync("MenuUsuario")
                     </ul>
 
                 </nav>
@@ -412,7 +412,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; World Pos Solutions @DateTime.Now.Year</span>
                     </div>
                 </div>
             </footer>

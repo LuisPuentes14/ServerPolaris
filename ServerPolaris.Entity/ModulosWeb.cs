@@ -17,6 +17,10 @@ public partial class ModulosWeb
 
     public long? IdTipoModulo { get; set; }
 
+    public string? ModDescripcion { get; set; }
+
+    public string? ModIcono { get; set; }
+
     public virtual TipoModulo? IdTipoModuloNavigation { get; set; }
 
     public virtual ICollection<PermisosPerfilModulo> PermisosPerfilModulos { get; set; } = new List<PermisosPerfilModulo>();

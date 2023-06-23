@@ -1,0 +1,85 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <Link rel="stylesheet" href="~/css/Vistas/PolarisServer_Index.css">
+    <link href="~/vendor/toastr/toastr.min.css" rel="stylesheet">
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/vendor/loadingoverlay/loadingoverlay.min.js"></script>
+    <script src="~/vendor/toastr/toastr.min.js"></script>
+
+</head>
+
+<body>
+    <div id="boxLogin">
+        <div class="login-box">
+            <h2>Polaris Server</h2>
+            <h2>Login</h2>
+            @{
+                if (ViewBag.Mensaje != null)
+                {
+                    <script>
+                        toastr.error("", "@ViewBag.Mensaje");
+                    </script>
+                    ViewBag.Mensaje = null;
+                }
+            }
+            <form asp-action="Login" asp-controller="PolarisServer" method="post">
+                <div class="user-box">
+                    <input type="text" id="UsuLogin" name="UsuLogin" required="">
+                    <label>Username</label>
+                </div>
+                <div class="user-box">
+                    <input type="password" id="UsuPassword" name="UsuPassword" required="">
+                    <label>Password</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-3" id="btnSubmit" style="background:#0C131D">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Entrar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        $("#btnSubmit").click(function () {
+            let login = document.getElementById("UsuLogin").value
+            let pass = document.getElementById("UsuPassword").value
+
+            if (login != '' && pass != '') {
+                $("#boxLogin").find("div.login-box").LoadingOverlay("show");
+            }
+            
+           
+        })
+
+
+    </script>
+
+</body>
+
+
+
+
+
+</html>
+

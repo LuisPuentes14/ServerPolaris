@@ -14,11 +14,13 @@ namespace ServerPolaris.BLL.Implementacion
     {
 
         private readonly IGenericRepository<Perfil> _repositorio;
+        private readonly IPerfilRepository _PerfilRepository;
 
 
-        public PerfilService(IGenericRepository<Perfil> repositorio)
+        public PerfilService(IGenericRepository<Perfil> repositorio, IPerfilRepository perfilRepository)
         {
             _repositorio = repositorio;
+            _PerfilRepository = perfilRepository;
         }
 
         public async Task<List<Perfil>> Lista()
@@ -32,15 +34,15 @@ namespace ServerPolaris.BLL.Implementacion
             Perfil perfil_existe = await _repositorio.Obtener(p => p.Descripcion == entidad.Descripcion);
 
             if (perfil_existe != null)
-                throw new TaskCanceledException("El cliente ya existe.");
+                throw new TaskCanceledException("El perfil ya existe.");
 
             try
             {
 
-                Perfil perfil_creado = await _repositorio.Crear(entidad);
+                Perfil perfil_creado = await _PerfilRepository.Crear(entidad);
 
                 if (perfil_creado.PerfilId == 0)
-                    throw new TaskCanceledException("No se pudo crear el cliente");
+                    throw new TaskCanceledException("No se pudo crear el perfil");
 
                 IQueryable<Perfil> query = await _repositorio.Consultar(p => p.PerfilId == perfil_creado.PerfilId);
 
@@ -87,12 +89,12 @@ namespace ServerPolaris.BLL.Implementacion
         {
             try
             {
-                Perfil cliente_encontrado = await _repositorio.Obtener(p => p.PerfilId == idPerfil);
+                Perfil perfil_encontrado = await _repositorio.Obtener(p => p.PerfilId == idPerfil);
 
-                if (cliente_encontrado == null)
+                if (perfil_encontrado == null)
                     throw new TaskCanceledException("El producto no existe.");
 
-                bool respuesta = await _repositorio.Eliminar(cliente_encontrado);
+                bool respuesta = await _PerfilRepository.Eliminar(perfil_encontrado);
 
                 return true;
             }

@@ -3,3 +3,165 @@
 *@
 @{
 }
+
+
+@section Estilos{
+
+    <link rel="stylesheet" href="~/vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/buttons.dataTables.min.css">
+}
+
+<button class="btn btn-primary  btn-sm mr-2" id="" onclick="get()" style="display:none">prueba</button>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-second-primary">
+        <h6 class="m-0 font-weight-bold text-black">Lista de modulos</h6>
+    </div>
+    <div class="card-body">
+        <div class="row" id="button_add">
+           @* <div class="col-sm-3">
+                <button class="btn btn-success btn-agregar" id="btnNuevo"> Nuevo modulo web</button>
+                <br />
+                <br />
+                <button class="btn btn-primary btn-volver btn-sm mr-2" id="volver" style="display:none">Volver</button>
+            </div>*@
+
+            <br />
+            <br />
+            <button class="btn btn-primary btn-volver btn-sm mr-2" id="volver" style="display:none">Volver</button>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered" id="tbdata" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id modulo</th>
+                            <th>Id modulo principal</th>
+                            <th>Nombre</th>
+                            <th>Url</th>
+                            <th>Descripción</th>
+                            <th>Icono</th>
+                            <th>Tipo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr>
+                            <td>1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+
+                            @*  <td><span class="badge badge-info">Activo</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+
+                            @*<td><span class="badge badge-danger">No Activo</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modal-->
+<div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>Uusario</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="F1">
+                    <input type="hidden" value="0" id="txtId">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+
+                                    @*<label for="txtidPadre">idPadre</label>*@
+                                    <input type="hidden" class="form-control form-control-sm" id="txtidPadre">
+
+                                    @*<label for="txtTipoModulo">tipo modulo</label>*@
+                                    <input type="hidden" class="form-control form-control-sm" id="txtTipoModulo">
+
+                                    <label for="txtNombre">Nombre</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtNombre">
+
+                                    <label for="txtUrl">Url</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtUrl">
+
+                                    <label for="txtDescripcion">Descripcón</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtDescripcion">
+
+                                    <label for="txtIcono">Icono</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtIcono">
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="button" id="btnGuardar">Guardar</button>
+                <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    @*Otorgar permisos*@
+    @*-----------------------------------------------------------*@
+    <script src="~/js/scurity/module.js"></script>
+    <script src="~/js/scurity/vistas/ModuleWeb_index.js"></script>
+    <script src="~/js/scurity/security.js"></script>
+    @*-----------------------------------------------------------*@
+
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/vendor/datatables/extensiones/js/dataTables.responsive.min.js"></script>
+
+    <script src="~/vendor/datatables/extensiones/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/jszip.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/buttons.print.min.js"></script>
+
+    <script src="~/js/vistas/ModulosWeb_Index.js"></script>
+}

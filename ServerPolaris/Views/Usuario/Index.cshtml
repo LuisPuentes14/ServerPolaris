@@ -3,3 +3,214 @@
 *@
 @{
 }
+
+
+@section Estilos{
+
+    <link rel="stylesheet" href="~/vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/buttons.dataTables.min.css">
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-second-primary">
+        <h6 class="m-0 font-weight-bold text-black">Lista de Usuarios</h6>
+    </div>
+    <div class="card-body">
+        <div class="row" id="button_add">
+            @*<div class="col-sm-3">
+                <button class="btn btn-success btn-agregar" id="btnNuevo"> Nuevo usario</button>
+            </div>*@
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered" id="tbdata" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Usuario</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @* <tr>
+                            <td>1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            <td>Descripcion 1</td>
+                            @*  <td><span class="badge badge-info">Activo</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            <td>Descripcion 2</td>
+                            @*<td><span class="badge badge-danger">No Activo</span></td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modal-->
+<div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>Uusario</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="F1">
+                    <input type="hidden" value="0" id="txtId">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="txtUsuario">Usuario</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtUsuario">
+                                    <label for="txtNombre">Nombre</label>
+                                    <input type="text" class="form-control form-control-sm" id="txtNombre">
+                                    <label for="txtEmail">Correo</label>
+                                    <input type="email" class="form-control form-control-sm" id="txtEmail">
+                                    <br />
+                                    <div style="display: none;" class="mb-3 form-check" id="sectionPassword">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <label class="form-check-label" for="exampleCheck1">Actualizar contraseña</label>
+                                        <br />
+                                        
+                                    </div>
+
+                                    <label for="txtPassword" id="labelPassword">contraseña</label>
+                                    <input type="email" class="form-control form-control-sm" id="txtPassword">
+
+                                    <br />
+                                  
+                                    <div class="form-group col-sm-6">
+                                        <label for="cboestado">Estado</label>
+                                        <select class="form-control form-control-sm" id="cboestado">
+                                            <option value="1">Activo</option>
+                                            <option value="2">Desactivo</option>
+                                        </select>
+
+                                    </div>
+                                    <table style="display: inline-block">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span id="idAjaxSelect_groups" class="" >
+                                                        <select class="sc-js-input css_groups_obj scFormObjectOdd"
+                                                                style="" id="id_sc_field_groups" name="groups_orig" size="7" multiple=""
+                                                                ondblclick="nm_add_sel('groups_orig', 'groups_dest', null);"
+                                                                alt="{type: 'select', enterTab: false}" maxlength="7">
+                                                           @* <option value="1" disabled="disabled" style="color: #A0A0A0">Administrator</option>
+                                                            <option value="19">Seguridad</option>
+                                                            <option value="18">Supervisor red</option>
+                                                            <option value="20">Tecnico</option>*@
+                                                        </select>
+                                                    </span>
+                                                </td>
+                                                <td align="center">
+                                                    <div class="" id="groups_all_right">
+                                                        <a id="Bbpassfld_rightall"
+                                                           class="scButton_disabledSCImage " title="Move all fields to the right"
+                                                           style="vertical-align: middle; display:inline-block;"
+                                                           onclick="nm_add_all('groups_orig', 'groups_dest', null);    return false; return false;"><i class="fa fa-fast-forward" aria-hidden="true"></i></a>
+
+                                                    </div>
+                                                    <div class="">
+                                                        <a id="Bbpassfld_righ" class="scButton_disabledSCImage "
+                                                           title="Move the field to the right" style="vertical-align: middle; display:inline-block;"
+                                                           onclick="nm_add_sel('groups_orig', 'groups_dest', null);    return false;; return false;"><i class="fa fa-step-forward" aria-hidden="true"></i></a>
+
+                                                    </div>
+                                                    <div class="">
+                                                        <a id="Bbpassfld_left" class="scButton_disabledSCImage "
+                                                           title="Move the field to the left" style="vertical-align: middle; display:inline-block;"
+                                                           onclick="nm_del_sel('groups_dest', 'groups_orig', null);    return false;; return false;"><i class="fa fa-step-backward" aria-hidden="true"></i></a>
+
+                                                    </div>
+                                                    <div class="" id="groups_all_left">
+                                                        <a id="Bbpassfld_leftall"
+                                                           class="scButton_disabledSCImage " title="Move all fields to the left"
+                                                           style="vertical-align: middle; display:inline-block;"
+                                                           onclick="nm_del_all('groups_dest', 'groups_orig', null);    return false;; return false;"><i class="fa fa-fast-backward" aria-hidden="true"></i></a>
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <select class="sc-js-input css_groups_obj scFormObjectOdd" style="" name="groups_dest"
+                                                            size="7" multiple=""
+                                                            ondblclick="nm_del_sel('groups_dest', 'groups_orig', null);  "
+                                                            alt="{type: 'select', enterTab: false}" maxlength="7" id="id_ds_field_groups">
+                                                        @*<option value="1" selected="">Administrator</option>*@
+                                                    </select> <input type="hidden" name="groups" value="1">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="button" id="btnGuardar">Guardar</button>
+                <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    @*Otorgar permisos*@
+    @*-----------------------------------------------------------*@
+    <script src="~/js/scurity/module.js"></script>
+    <script src="~/js/scurity/vistas/Usuario_Index.js"></script>
+    <script src="~/js/scurity/security.js"></script>
+    @*-----------------------------------------------------------*@
+
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/vendor/datatables/extensiones/js/dataTables.responsive.min.js"></script>
+
+    <script src="~/vendor/datatables/extensiones/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/jszip.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/buttons.print.min.js"></script>
+
+    <script src="~/js/vistas/Usuario_Index.js"></script>
+
+}

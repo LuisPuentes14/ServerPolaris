@@ -4,9 +4,12 @@ using ServerPolaris.Entity;
 using ServerPolaris.BLL.Interfaces;
 using ServerPolaris.AplicacionWeb.Utilidades.Response;
 using ServerPolaris.Models.ViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PolarisServer.AplicacionWeb.Controllers
 {
+    [Authorize]
     public class ClientesController : Controller
     {
 
@@ -21,13 +24,22 @@ namespace PolarisServer.AplicacionWeb.Controllers
         }
 
         public IActionResult Index()
-        {
+        {            
+            VMPermisosModulo vMPermisosModulo =
+                ServerPolaris.Utilidades.Security.Security.getPermisos(HttpContext.User, 
+                $"{ControllerContext.ActionDescriptor.ControllerName}/{ControllerContext.ActionDescriptor.ActionName}");
+
+            if (!vMPermisosModulo.PerAcceder) {
+                return RedirectToAction("Code403","PolarisServer");
+            }
+
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Lista()
         {
+
             List<VMCliente> vmProductoLista = _mapper.Map<List<VMCliente>>(await _ClienteServicio.Lista());
 
             return StatusCode(StatusCodes.Status200OK, new { data = vmProductoLista });
