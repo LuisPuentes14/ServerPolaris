@@ -40,11 +40,11 @@
             }
             <form asp-action="Login" asp-controller="PolarisServer" method="post">
                 <div class="user-box">
-                    <input type="text" name="UsuLogin" required="">
+                    <input type="text" id="UsuLogin" name="UsuLogin" required="">
                     <label>Username</label>
                 </div>
                 <div class="user-box">
-                    <input type="password" name="UsuPassword" required="">
+                    <input type="password" id="UsuPassword" name="UsuPassword" required="">
                     <label>Password</label>
                 </div>
 
@@ -62,7 +62,14 @@
     <script>
 
         $("#btnSubmit").click(function () {
-            $("#boxLogin").find("div.login-box").LoadingOverlay("show");
+            let login = document.getElementById("UsuLogin").value
+            let pass = document.getElementById("UsuPassword").value
+
+            if (login != '' && pass != '') {
+                $("#boxLogin").find("div.login-box").LoadingOverlay("show");
+            }
+            
+           
         })
 
 
