@@ -10,7 +10,8 @@ namespace ServerPolaris.BLL.Interfaces
     public interface IPermisosPerfilModuloService
     {
 
-        Task<List<PermisosPerfilModulo>> Lista(long id);
+        Task<List<PermisosPerfilModulo>> ObtenerPermisosPerfilModulo(long id);
+        Task<List<PermisosPerfilModulo>> Lista();
         Task<bool> Editar(PermisosPerfilModulo permisosPerfilModulo);
     }
 }

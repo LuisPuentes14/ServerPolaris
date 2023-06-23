@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerPolaris.AplicacionWeb.Utilidades.Response;
 using ServerPolaris.BLL.Implementacion;
@@ -10,6 +11,7 @@ using System.Text.Json;
 
 namespace ServerPolaris.Controllers
 {
+    [Authorize]
     public class PermisosPerfilModuloController : Controller
     {
 
@@ -25,7 +27,16 @@ namespace ServerPolaris.Controllers
         }
 
         public async Task<IActionResult> Index(int id)
-        {           
+        {
+            VMPermisosModulo vMPermisosModulo =
+                 ServerPolaris.Utilidades.Security.Security.getPermisos(HttpContext.User,
+                 $"{ControllerContext.ActionDescriptor.ControllerName}/{ControllerContext.ActionDescriptor.ActionName}");
+
+            if (!vMPermisosModulo.PerAcceder)
+            {
+                return RedirectToAction("Code403","PolarisServer");
+            }
+
             List<VMPerfil> vmPerfilLista = _mapper.Map<List<VMPerfil>>(await _PerfilService.Lista());
 
             VMPerfil vMPerfil = vmPerfilLista.Where(d => d.PerfilId == id).FirstOrDefault();           
@@ -43,7 +54,7 @@ namespace ServerPolaris.Controllers
 
             VMPerfil perfil = JsonSerializer.Deserialize<VMPerfil>(ServerPolarisSession);
 
-            List<VMPermisosPerfilModulo> vMPermisos = _mapper.Map<List<VMPermisosPerfilModulo>>( await _PermisosPerfilModuloService.Lista(perfil.PerfilId));
+            List<VMPermisosPerfilModulo> vMPermisos = _mapper.Map<List<VMPermisosPerfilModulo>>( await _PermisosPerfilModuloService.ObtenerPermisosPerfilModulo(perfil.PerfilId));
 
             return StatusCode(StatusCodes.Status200OK, new { data = vMPermisos });
         }

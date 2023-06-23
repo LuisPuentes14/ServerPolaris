@@ -23,9 +23,16 @@ namespace ServerPolaris.BLL.Implementacion
         }
 
 
-        public async Task<List<PermisosPerfilModulo>> Lista(long id)
+        public async Task<List<PermisosPerfilModulo>> ObtenerPermisosPerfilModulo(long id)
         {
             IQueryable<PermisosPerfilModulo> query = await _repositorio.Consultar( p => p.PerfilId == id);
+            return query.Include(p => p.Mod).Include(p => p.Perfil).Include(p => p.Mod.IdTipoModuloNavigation).ToList();
+        }
+
+
+        public async Task<List<PermisosPerfilModulo>> Lista()
+        {
+            IQueryable<PermisosPerfilModulo> query = await _repositorio.Consultar();
             return query.Include(p => p.Mod).Include(p => p.Perfil).Include(p => p.Mod.IdTipoModuloNavigation).ToList();
         }
 

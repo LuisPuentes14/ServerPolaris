@@ -12,8 +12,8 @@
 }
 
 <div class="row">
-    <div class="col-sm-3">
-        <a class="btn btn-success" id="btnNuevo" href="@Url.Action("Index","DataBaseClienteConuslta")"> Ejecutar consulta</a>
+    <div class="col-sm-3" id="div_btn_query">
+       @* <a class="btn btn-success btn-query" id="btnNuevo" href="@Url.Action("Index","DataBaseClienteConuslta")"> Ejecutar consulta</a>*@
     </div>
 </div>
 
@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                       @* <tr>
                             <td>1</td>
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
@@ -49,7 +49,7 @@
                             <td>2</td>
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
-                        </tr>
+                        </tr>*@
                     </tbody>
                 </table>
             </div>
@@ -75,7 +75,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                       @* <tr>
                             <td>1</td>
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
@@ -87,7 +87,7 @@
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
-                        </tr>
+                        </tr>*@
                     </tbody>
                 </table>
             </div>
@@ -117,7 +117,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        @*<tr>
                             <td>1</td>
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
@@ -135,7 +135,7 @@
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
-                        </tr>
+                        </tr>*@
                     </tbody>
                 </table>
             </div>
@@ -147,6 +147,13 @@
 
 
 @section Scripts{
+
+    @*Otorgar permisos*@
+    @*-----------------------------------------------------------*@
+    <script src="~/js/scurity/module.js"></script>
+    <script src="~/js/scurity/vistas/DataBaseCustomerView_ViewDataBase.js"></script>
+    <script src="~/js/scurity/security.js"></script>
+    @*-----------------------------------------------------------*@
 
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>

@@ -3,10 +3,11 @@ using ServerPolaris.AplicacionWeb.Utilidades.Response;
 using ServerPolaris.BLL.Interfaces;
 using AutoMapper;
 using ServerPolaris.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ServerPolaris.AplicacionWeb.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class DashBoardController : Controller
     {   
         private readonly ICPUService _ICPUService;

@@ -1,51 +1,53 @@
 ﻿
+
 const MODELO_BASE = {
     clienteId: 0,
     clienteName: ""
 }
 
-
 let tablaData;
 
 $(document).ready(function () {
+  
+    var intervalo = setInterval(function () {      
 
-    tablaData = $('#tbdata').DataTable({
-        responsive: true,
-        "ajax": {
-            "url": '/Clientes/Lista',
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            //searchable permite al datable a realizar la busqueda
-            { "data": "clienteId"},
-            { "data": "clienteName" },        
+        if (resposeSecurity) {
+            clearInterval(intervalo);
 
-            {
-                "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
-                    '<button class="btn btn-danger btn-eliminar btn-sm"><i class="fas fa-trash-alt"></i></button>',
-                "orderable": false,
-                "searchable": false,
-                "width": "80px"
-            }
-        ],
-        order: [[0, "desc"]],
-       // dom: "Bfrtip",
-        //buttons: [
-        //    {
-        //        text: 'Exportar Excel',
-        //        extend: 'excelHtml5',
-        //        title: '',
-        //        filename: 'Reporte Categorias',
-        //        exportOptions: {
-        //            columns: [1, 2]
-        //        }
-        //    }, 'pageLength'
-        //],
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
-        },
-    });
+            // ---------------------------------------------//
+
+            tablaData = $('#tbdata').DataTable({
+                responsive: true,
+                "ajax": {
+                    "url": '/Clientes/Lista',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    //searchable permite al datable a realizar la busqueda
+                    { "data": "clienteId" },
+                    { "data": "clienteName" },
+
+                    {                                              
+                        "defaultContent": botonesTabla,
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "80px"
+                    }
+                ],
+                order: [[0, "desc"]],
+                
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+
+            // ---------------------------------------------//
+
+
+        }
+    }, 0);
+
 
 })
 
@@ -53,14 +55,14 @@ $(document).ready(function () {
 function mostrarModal(modelo = MODELO_BASE) {
     $("#txtId").val(modelo.clienteId)
     $("#txtNombre").val(modelo.clienteName)
-   
+
 
     $("#modalData").modal("show")
 }
 
 
 
-$("#btnNuevo").click(function () {
+$("#button_add").on("click", ".btn-add", function () {
     mostrarModal()
 })
 
@@ -77,20 +79,16 @@ $("#btnGuardar").click(function () {
 
     const modelo = structuredClone(MODELO_BASE)
     modelo["clienteId"] = parseInt($("#txtId").val())
-    modelo["clienteName"] = $("#txtNombre").val()
+    modelo["clienteName"] = $("#txtNombre").val()    
 
-    console.log(JSON.stringify(modelo))
 
-    
-  
-
-    //$("#modalData").find("div.modal-content").LoadingOverlay("show");
+    $("#modalData").find("div.modal-content").LoadingOverlay("show");
 
     if (modelo.clienteId == 0) {
 
         fetch("/Clientes/Crear", {
             method: "POST",
-            headers: {"Content-Type":"application/json;charset=utf-8"},
+            headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
         })
             .then(response => {
@@ -112,7 +110,7 @@ $("#btnGuardar").click(function () {
 
         fetch("/Clientes/Editar", {
             method: "PUT",
-            headers: { "Content-Type": "application/json;charset=utf-8"},
+            headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(modelo)
         })
             .then(response => {
@@ -211,3 +209,10 @@ $("#tbdata tbody").on("click", ".btn-eliminar", function () {
     )
 
 })
+
+
+
+
+
+
+

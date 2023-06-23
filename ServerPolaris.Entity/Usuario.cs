@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ServerPolaris.Entity;
+﻿namespace ServerPolaris.Entity;
 
 public partial class Usuario
 {
@@ -26,4 +23,5 @@ public partial class Usuario
     public virtual TipoEstadoUsuario? Estado { get; set; }
 
     public virtual ICollection<PerfilUsuario> PerfilUsuarios { get; set; } = new List<PerfilUsuario>();
+    
 }

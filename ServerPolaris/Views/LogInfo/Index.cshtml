@@ -7,14 +7,20 @@
     <link rel="stylesheet" href="~/css/all.min.css" />
 }
 
-<h1 style="text-align: center;">Logs de clientes</h1>
+@*<h1 style="text-align: center;">Logs de clientes</h1>*@
+<h3> @ViewBag.Cliente</h3>
+<h3> @ViewBag.TypeLog</h3>
 
-    <div class="container-lg pt-3">
+<div class="container-lg pt-3">
 
+    <div class="row">
+        <div class="col">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="buscar" placeholder="">
+                <label for="floatingInput">Buscar</label>
+            </div>
+        </div>
         <div class="col text-center">
-            <a name="descarga" title="Descargar" value="descarga" id="button-addon2">
-                <img img class="icono-l" src="../img/log/descargar03.png" />
-            </a>
             <a id="stop" title="Stop" onclick="off()" style="cursor:pointer;">
                 <img class="icono-l" src="../img/log/parada04.png" />
             </a>
@@ -26,18 +32,30 @@
                 <img img class="icono-l" src="../img/log/bote-de-basura01.png" />
             </a>
         </div>
-    </div>
-<div>
-    <input type="hidden" id="rutaLog" value="@ViewData["ruta"]" />
-</div>
+        <div class="col">
+            <div class="input-group input-group-lg">
+                <select class="" id="cboFiles">
+                </select>
 
-    <div class="body">
-        <div class="st-form-line">
-            <div id="divu">
-                <div id="list" class="marck"></div>
+                <a name="descarga" title="Descargar" value="descarga" id="button-addon2" style="cursor:pointer;">
+                    <img img class="icono-l mx-3" src="../img/log/descargar03.png" />
+                </a>
             </div>
         </div>
     </div>
+
+</div>
+<div>
+    <input type="hidden" id="rutaLog" value="@ViewBag.Path" />
+</div>
+
+<div class="body">
+    <div class="st-form-line">
+        <div id="divu">
+            <div id="list" class="marck"></div>
+        </div>
+    </div>
+</div>
 @section Scripts{
     <script src="~/js/vistas/LogInfo_Index.js"></script>
 }

@@ -7,9 +7,9 @@
 
 @section Estilos{
 
-    <link rel="stylesheet" href="vendor/datatables/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="vendor/datatables/extensiones/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="vendor/datatables/extensiones/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/buttons.dataTables.min.css">
 }
 
 <button class="btn btn-primary  btn-sm mr-2" id="" onclick="get()" style="display:none">prueba</button>
@@ -19,13 +19,17 @@
         <h6 class="m-0 font-weight-bold text-black">Lista de modulos</h6>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-sm-3">
-                <button class="btn btn-success" id="btnNuevo"> Nuevo modulo web</button>
+        <div class="row" id="button_add">
+           @* <div class="col-sm-3">
+                <button class="btn btn-success btn-agregar" id="btnNuevo"> Nuevo modulo web</button>
                 <br />
                 <br />
                 <button class="btn btn-primary btn-volver btn-sm mr-2" id="volver" style="display:none">Volver</button>
-            </div>
+            </div>*@
+
+            <br />
+            <br />
+            <button class="btn btn-primary btn-volver btn-sm mr-2" id="volver" style="display:none">Volver</button>
         </div>
         <hr />
         <div class="row">
@@ -44,7 +48,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        @*<tr>
                             <td>1</td>
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
@@ -53,7 +57,7 @@
                             <td>Descripcion 1</td>
                             <td>Descripcion 1</td>
 
-                            @*  <td><span class="badge badge-info">Activo</span></td>*@
+                            @*  <td><span class="badge badge-info">Activo</span></td>
                             <td>
                                 <button class="btn btn-primary btn-sm">
                                     <i class="fas fa-pencil-alt"></i>
@@ -72,7 +76,7 @@
                             <td>Descripcion 2</td>
                             <td>Descripcion 2</td>
 
-                            @*<td><span class="badge badge-danger">No Activo</span></td>*@
+                            @*<td><span class="badge badge-danger">No Activo</span></td>
                             <td>
                                 <button class="btn btn-primary btn-sm">
                                     <i class="fas fa-pencil-alt"></i>
@@ -81,7 +85,7 @@
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </td>
-                        </tr>
+                        </tr>*@
                     </tbody>
                 </table>
             </div>
@@ -141,6 +145,13 @@
 </div>
 
 @section Scripts{
+
+    @*Otorgar permisos*@
+    @*-----------------------------------------------------------*@
+    <script src="~/js/scurity/module.js"></script>
+    <script src="~/js/scurity/vistas/ModuleWeb_index.js"></script>
+    <script src="~/js/scurity/security.js"></script>
+    @*-----------------------------------------------------------*@
 
     <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>

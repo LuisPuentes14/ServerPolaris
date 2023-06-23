@@ -13,5 +13,6 @@ namespace ServerPolaris.BLL.Interfaces
         Task<UsuarioPerfils> Crear(UsuarioPerfils entidad);
         Task<UsuarioPerfils> Editar(UsuarioPerfils entidad);
         Task<bool> Eliminar(int idCliente);
+        Task<Usuario> ValidarUsuario(Usuario modelo);
     }
 }

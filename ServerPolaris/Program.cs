@@ -13,7 +13,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = "ServerPolarisSession";
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    //options.IdleTimeout = TimeSpan.FromMinutes(60);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -28,8 +28,9 @@ builder.Services.AddSingleton(new PolarisServerStringContext(builder.Configurati
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option =>
     {
-        option.LoginPath = "/Acceso/Login";
-        option.ExpireTimeSpan = TimeSpan.FromMinutes(20); //tiempo expiración
+        option.LoginPath = "/PolarisServer/Salir";
+        option.Cookie.Name = "PolarisServerAutenticacion";
+       // option.ExpireTimeSpan = TimeSpan.FromMinutes(20); //tiempo expiración
     });
 
 
@@ -47,6 +48,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.Use(async (context, next) =>
+{
+    await next();
+
+    if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
+    {
+        // Redirige a una acción o muestra una vista personalizada para el error 404
+        context.Request.Path = "/PolarisServer/Code404";
+        await next();
+    }
+});
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -60,6 +73,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=DashBoard}/{action=Index}/{id?}");
+    pattern: "{controller=PolarisServer}/{action=Login}/{id?}");
 
 app.Run();
