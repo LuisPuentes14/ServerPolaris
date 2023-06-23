@@ -57,12 +57,14 @@ namespace ServerPolaris.Controllers
             GenericResponse<string> gResponse = new GenericResponse<string>();
 
             string folder = string.Empty;
-            string[] part = rutaLog.Split('\\');
+            string[] part = rutaLog.Split('/');
 
             for (int i = 0; i < part.Length - 1; i++)
             {
-                folder += $"{part[i]}\\";
+                folder += $"{part[i]}/";
             }
+
+            folder = folder.Substring(0, folder.Length - 1); 
 
             try
             {               
